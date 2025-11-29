@@ -47,65 +47,311 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background */
+        /* ============================================
+           MAGNETELLIGENCE THEMED ANIMATIONS
+           Spin Arrays + Magnetic Fields + AI Network
+           ============================================ */
+
+        /* Subtle Background Gradient */
         .bg-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            overflow: hidden;
+            z-index: -3;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
         }
 
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 20% 20%, var(--accent-glow) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
-            animation: bgMove 20s ease-in-out infinite;
+        /* AI Neural Network Background */
+        .neural-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.6;
         }
 
-        @keyframes bgMove {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(2%, 2%) rotate(1deg); }
-            50% { transform: translate(0, 4%) rotate(0deg); }
-            75% { transform: translate(-2%, 2%) rotate(-1deg); }
+        .neural-network svg {
+            width: 100%;
+            height: 100%;
         }
 
-        /* Magnetic Field Lines Animation */
-        .field-lines {
+        /* Neural network nodes */
+        .nn-node {
+            fill: var(--accent);
+            filter: drop-shadow(0 0 6px var(--accent));
+        }
+
+        .nn-node-hidden {
+            fill: #8b5cf6;
+            filter: drop-shadow(0 0 4px #8b5cf6);
+        }
+
+        .nn-node-output {
+            fill: #10b981;
+            filter: drop-shadow(0 0 6px #10b981);
+        }
+
+        /* Neural network connections */
+        .nn-connection {
+            stroke: var(--accent);
+            stroke-width: 1;
+            opacity: 0.3;
+            stroke-dasharray: 5, 5;
+            animation: dataFlow 3s linear infinite;
+        }
+
+        .nn-connection-active {
+            stroke: #8b5cf6;
+            stroke-width: 1.5;
+            opacity: 0.5;
+            animation: dataFlow 2s linear infinite;
+        }
+
+        @keyframes dataFlow {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -20; }
+        }
+
+        /* Magnetic Dipole Field Lines */
+        .magnetic-field {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .field-line-curve {
+            position: absolute;
+            border: 2px solid transparent;
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            opacity: 0.25;
+            animation: fieldPulse 4s ease-in-out infinite;
+        }
+
+        /* North pole field lines */
+        .field-line-curve:nth-child(1) {
+            width: 200px; height: 100px;
+            top: 15%; left: 5%;
+            transform: rotate(-30deg);
+            animation-delay: 0s;
+        }
+        .field-line-curve:nth-child(2) {
+            width: 300px; height: 150px;
+            top: 10%; left: 3%;
+            transform: rotate(-25deg);
+            animation-delay: 0.5s;
+        }
+        .field-line-curve:nth-child(3) {
+            width: 400px; height: 200px;
+            top: 5%; left: 1%;
+            transform: rotate(-20deg);
+            animation-delay: 1s;
+        }
+
+        /* South pole field lines */
+        .field-line-curve:nth-child(4) {
+            width: 200px; height: 100px;
+            bottom: 15%; right: 5%;
+            transform: rotate(150deg);
+            animation-delay: 0.3s;
+        }
+        .field-line-curve:nth-child(5) {
+            width: 300px; height: 150px;
+            bottom: 10%; right: 3%;
+            transform: rotate(155deg);
+            animation-delay: 0.8s;
+        }
+        .field-line-curve:nth-child(6) {
+            width: 400px; height: 200px;
+            bottom: 5%; right: 1%;
+            transform: rotate(160deg);
+            animation-delay: 1.3s;
+        }
+
+        @keyframes fieldPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1) rotate(var(--rotation, 0deg)); }
+            50% { opacity: 0.4; transform: scale(1.05) rotate(var(--rotation, 0deg)); }
+        }
+
+        /* Spin Array Container */
+        .spin-array {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
             pointer-events: none;
         }
 
-        .field-line {
+        /* Individual Spin Arrows */
+        .spin {
             position: absolute;
-            width: 300px;
-            height: 300px;
-            border: 1px solid var(--accent);
-            border-radius: 50%;
-            animation: pulse 4s ease-in-out infinite;
+            width: 24px;
+            height: 24px;
+            opacity: 0.5;
         }
 
-        .field-line:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-        .field-line:nth-child(2) { top: 60%; right: 10%; animation-delay: 1s; width: 200px; height: 200px; }
-        .field-line:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; width: 250px; height: 250px; }
+        .spin::before {
+            content: '↑';
+            font-size: 20px;
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent);
+            display: block;
+            animation: spinAlign 3s ease-in-out infinite;
+        }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.1; }
-            50% { transform: scale(1.1); opacity: 0.2; }
+        /* Ferromagnetic aligned spins (ordered - low temp) */
+        .spin.up::before { 
+            content: '↑'; 
+            color: #06b6d4;
+            animation: spinAlignUp 4s ease-in-out infinite;
+        }
+
+        /* Paramagnetic random spins (disordered - high temp) */
+        .spin.random::before { 
+            animation: spinRandom 2s ease-in-out infinite; 
+            color: #f97316;
+        }
+
+        /* Spin positions - left side (ordered/cold) */
+        .spin:nth-child(1) { top: 20%; left: 8%; }
+        .spin:nth-child(2) { top: 20%; left: 12%; }
+        .spin:nth-child(3) { top: 28%; left: 8%; }
+        .spin:nth-child(4) { top: 28%; left: 12%; }
+        .spin:nth-child(5) { top: 36%; left: 8%; }
+        .spin:nth-child(6) { top: 36%; left: 12%; }
+        .spin:nth-child(7) { top: 44%; left: 8%; }
+        .spin:nth-child(8) { top: 44%; left: 12%; }
+
+        /* Spin positions - right side (disordered/hot) */
+        .spin:nth-child(9) { top: 20%; right: 8%; }
+        .spin:nth-child(10) { top: 20%; right: 12%; }
+        .spin:nth-child(11) { top: 28%; right: 8%; }
+        .spin:nth-child(12) { top: 28%; right: 12%; }
+        .spin:nth-child(13) { top: 36%; right: 8%; }
+        .spin:nth-child(14) { top: 36%; right: 12%; }
+        .spin:nth-child(15) { top: 44%; right: 8%; }
+        .spin:nth-child(16) { top: 44%; right: 12%; }
+
+        @keyframes spinAlignUp {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+
+        @keyframes spinRandom {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(45deg); }
+            50% { transform: rotate(-30deg); }
+            75% { transform: rotate(60deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* Temperature Labels */
+        .temp-label {
+            position: absolute;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            opacity: 0.6;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .temp-cold {
+            top: 48%; left: 7%;
+            color: #06b6d4;
+        }
+
+        .temp-hot {
+            top: 48%; right: 7%;
+            color: #f97316;
+        }
+
+        /* AI Data Flow Particles */
+        .ai-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6;
+            animation: aiFlow 6s linear infinite;
+            opacity: 0;
+        }
+
+        .ai-particle:nth-child(1) { left: 20%; animation-delay: 0s; }
+        .ai-particle:nth-child(2) { left: 35%; animation-delay: 1.5s; }
+        .ai-particle:nth-child(3) { left: 50%; animation-delay: 3s; }
+        .ai-particle:nth-child(4) { left: 65%; animation-delay: 4.5s; }
+
+        @keyframes aiFlow {
+            0% { 
+                top: 70%;
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% { 
+                top: 20%;
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        /* MCE Arrow (Entropy Change Indicator) */
+        .mce-indicator {
+            position: fixed;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0.4;
+            z-index: -1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .mce-indicator .delta-s {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .mce-arrow {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, #06b6d4, #8b5cf6, #f97316);
+            position: relative;
+        }
+
+        .mce-arrow::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: -10px;
+            color: #f97316;
+            font-size: 1.2rem;
         }
 
         /* Navigation */
@@ -1075,11 +1321,106 @@
     </style>
 </head>
 <body data-lang="en">
+    <!-- Background Gradient -->
     <div class="bg-animation"></div>
-    <div class="field-lines">
-        <div class="field-line"></div>
-        <div class="field-line"></div>
-        <div class="field-line"></div>
+
+    <!-- AI Neural Network SVG -->
+    <div class="neural-network">
+        <svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+            <!-- Input Layer Nodes -->
+            <circle class="nn-node" cx="150" cy="150" r="6"/>
+            <circle class="nn-node" cx="150" cy="250" r="6"/>
+            <circle class="nn-node" cx="150" cy="350" r="6"/>
+            <circle class="nn-node" cx="150" cy="450" r="6"/>
+            
+            <!-- Hidden Layer 1 -->
+            <circle class="nn-node-hidden" cx="350" cy="180" r="5"/>
+            <circle class="nn-node-hidden" cx="350" cy="280" r="5"/>
+            <circle class="nn-node-hidden" cx="350" cy="380" r="5"/>
+            
+            <!-- Hidden Layer 2 -->
+            <circle class="nn-node-hidden" cx="550" cy="200" r="5"/>
+            <circle class="nn-node-hidden" cx="550" cy="300" r="5"/>
+            <circle class="nn-node-hidden" cx="550" cy="400" r="5"/>
+            
+            <!-- Output Layer -->
+            <circle class="nn-node-output" cx="750" cy="250" r="7"/>
+            <circle class="nn-node-output" cx="750" cy="350" r="7"/>
+            
+            <!-- Connections Input to Hidden1 -->
+            <line class="nn-connection" x1="156" y1="150" x2="344" y2="180"/>
+            <line class="nn-connection" x1="156" y1="150" x2="344" y2="280"/>
+            <line class="nn-connection-active" x1="156" y1="250" x2="344" y2="180"/>
+            <line class="nn-connection" x1="156" y1="250" x2="344" y2="280"/>
+            <line class="nn-connection" x1="156" y1="250" x2="344" y2="380"/>
+            <line class="nn-connection" x1="156" y1="350" x2="344" y2="280"/>
+            <line class="nn-connection-active" x1="156" y1="350" x2="344" y2="380"/>
+            <line class="nn-connection" x1="156" y1="450" x2="344" y2="380"/>
+            
+            <!-- Connections Hidden1 to Hidden2 -->
+            <line class="nn-connection-active" x1="356" y1="180" x2="544" y2="200"/>
+            <line class="nn-connection" x1="356" y1="180" x2="544" y2="300"/>
+            <line class="nn-connection" x1="356" y1="280" x2="544" y2="200"/>
+            <line class="nn-connection-active" x1="356" y1="280" x2="544" y2="300"/>
+            <line class="nn-connection" x1="356" y1="280" x2="544" y2="400"/>
+            <line class="nn-connection" x1="356" y1="380" x2="544" y2="300"/>
+            <line class="nn-connection-active" x1="356" y1="380" x2="544" y2="400"/>
+            
+            <!-- Connections Hidden2 to Output -->
+            <line class="nn-connection" x1="556" y1="200" x2="743" y2="250"/>
+            <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="250"/>
+            <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="350"/>
+            <line class="nn-connection" x1="556" y1="400" x2="743" y2="350"/>
+            
+            <!-- Labels -->
+            <text x="130" y="500" fill="#06b6d4" font-size="10" opacity="0.5" font-family="JetBrains Mono">Features</text>
+            <text x="720" y="420" fill="#10b981" font-size="10" opacity="0.5" font-family="JetBrains Mono">ΔS, Tc</text>
+        </svg>
+    </div>
+
+    <!-- Magnetic Field Lines (Dipole Style) -->
+    <div class="magnetic-field">
+        <div class="field-line-curve"></div>
+        <div class="field-line-curve"></div>
+        <div class="field-line-curve"></div>
+        <div class="field-line-curve"></div>
+        <div class="field-line-curve"></div>
+        <div class="field-line-curve"></div>
+    </div>
+
+    <!-- Spin Array (Left: Ordered/Cold, Right: Disordered/Hot) -->
+    <div class="spin-array">
+        <!-- Ordered spins (ferromagnetic - low T) -->
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        
+        <!-- Disordered spins (paramagnetic - high T) -->
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        
+        <!-- Temperature labels -->
+        <span class="temp-label temp-cold">T &lt; Tc</span>
+        <span class="temp-label temp-hot">T &gt; Tc</span>
+    </div>
+
+    <!-- AI Data Flow Particles -->
+    <div class="particles">
+        <div class="ai-particle"></div>
+        <div class="ai-particle"></div>
+        <div class="ai-particle"></div>
+        <div class="ai-particle"></div>
     </div>
 
     <!-- Navigation -->
