@@ -49,10 +49,8 @@
 
         /* ============================================
            MAGNETELLIGENCE THEMED ANIMATIONS
-           Spin Arrays + Magnetic Fields + AI Network
            ============================================ */
 
-        /* Subtle Background Gradient */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -65,7 +63,6 @@
                 radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
         }
 
-        /* AI Neural Network Background */
         .neural-network {
             position: fixed;
             top: 0;
@@ -82,7 +79,6 @@
             height: 100%;
         }
 
-        /* Neural network nodes */
         .nn-node {
             fill: var(--accent);
             filter: drop-shadow(0 0 6px var(--accent));
@@ -98,7 +94,6 @@
             filter: drop-shadow(0 0 6px #10b981);
         }
 
-        /* Neural network connections */
         .nn-connection {
             stroke: var(--accent);
             stroke-width: 1;
@@ -119,7 +114,6 @@
             100% { stroke-dashoffset: -20; }
         }
 
-        /* Magnetic Dipole Field Lines */
         .magnetic-field {
             position: fixed;
             top: 0;
@@ -140,7 +134,6 @@
             animation: fieldPulse 4s ease-in-out infinite;
         }
 
-        /* North pole field lines */
         .field-line-curve:nth-child(1) {
             width: 200px; height: 100px;
             top: 15%; left: 5%;
@@ -160,7 +153,6 @@
             animation-delay: 1s;
         }
 
-        /* South pole field lines */
         .field-line-curve:nth-child(4) {
             width: 200px; height: 100px;
             bottom: 15%; right: 5%;
@@ -185,7 +177,6 @@
             50% { opacity: 0.4; transform: scale(1.05) rotate(var(--rotation, 0deg)); }
         }
 
-        /* Spin Array Container */
         .spin-array {
             position: fixed;
             top: 0;
@@ -196,7 +187,6 @@
             pointer-events: none;
         }
 
-        /* Individual Spin Arrows */
         .spin {
             position: absolute;
             width: 24px;
@@ -213,20 +203,17 @@
             animation: spinAlign 3s ease-in-out infinite;
         }
 
-        /* Ferromagnetic aligned spins (ordered - low temp) */
         .spin.up::before { 
             content: '↑'; 
             color: #06b6d4;
             animation: spinAlignUp 4s ease-in-out infinite;
         }
 
-        /* Paramagnetic random spins (disordered - high temp) */
         .spin.random::before { 
             animation: spinRandom 2s ease-in-out infinite; 
             color: #f97316;
         }
 
-        /* Spin positions - left side (ordered/cold) */
         .spin:nth-child(1) { top: 20%; left: 8%; }
         .spin:nth-child(2) { top: 20%; left: 12%; }
         .spin:nth-child(3) { top: 28%; left: 8%; }
@@ -236,7 +223,6 @@
         .spin:nth-child(7) { top: 44%; left: 8%; }
         .spin:nth-child(8) { top: 44%; left: 12%; }
 
-        /* Spin positions - right side (disordered/hot) */
         .spin:nth-child(9) { top: 20%; right: 8%; }
         .spin:nth-child(10) { top: 20%; right: 12%; }
         .spin:nth-child(11) { top: 28%; right: 8%; }
@@ -260,7 +246,6 @@
             100% { transform: rotate(0deg); }
         }
 
-        /* Temperature Labels */
         .temp-label {
             position: absolute;
             font-size: 0.7rem;
@@ -280,7 +265,6 @@
             color: #f97316;
         }
 
-        /* AI Data Flow Particles */
         .ai-particle {
             position: absolute;
             width: 4px;
@@ -318,7 +302,6 @@
             }
         }
 
-        /* MCE Arrow (Entropy Change Indicator) */
         .mce-indicator {
             position: fixed;
             bottom: 15%;
@@ -354,10 +337,12 @@
             font-size: 1.2rem;
         }
 
-        /* Navigation */
+        /* Navigation (NOT fixed anymore) */
         nav {
-            /* artık sabit değil */
             position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             padding: 0.75rem 2rem;
             background: rgba(15, 23, 42, 0.9);
@@ -370,7 +355,6 @@
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
             align-items: center;
         }
 
@@ -382,20 +366,9 @@
             color: var(--text);
         }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
         .logo-text {
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             letter-spacing: -0.02em;
         }
 
@@ -411,6 +384,7 @@
             gap: 2rem;
             list-style: none;
             align-items: center;
+            margin-left: auto; /* LOGO ile menü arasına boşluk */
         }
 
         .nav-links a {
@@ -486,45 +460,17 @@
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6rem 2rem 4rem;
+            padding: 5rem 2rem 4rem;
             position: relative;
         }
 
         .hero-content {
             max-width: 900px;
             text-align: center;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.875rem;
-            color: var(--accent-light);
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero-badge::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: blink 2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
         }
 
         .hero h1 {
@@ -607,7 +553,6 @@
             }
         }
 
-        /* Stats Section */
         .stats {
             padding: 4rem 2rem;
             background: var(--card-bg);
@@ -646,7 +591,6 @@
             font-size: 0.95rem;
         }
 
-        /* Section Styles */
         section {
             padding: 6rem 2rem;
             max-width: 1400px;
@@ -685,7 +629,6 @@
             margin: 0 auto;
         }
 
-        /* About Section */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -784,7 +727,7 @@
         .code-function { color: #60a5fa; }
         .code-number { color: #f472b6; }
 
-        /* Team Section */
+        /* Team */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -809,26 +752,19 @@
             box-shadow: 0 20px 40px rgba(6, 182, 212, 0.1);
         }
 
-        .team-avatar {
+        .team-card-pi {
+            border-color: var(--accent);
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+
+        .team-photo {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: var(--gradient-1);
+            object-fit: cover;
             margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            position: relative;
-        }
-
-        .team-avatar::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            opacity: 0.3;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .team-name {
@@ -876,7 +812,193 @@
             border-color: var(--accent);
         }
 
-        /* Publications Section */
+        /* News */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .news-date {
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .news-month {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .news-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Funding & partners */
+        .funding-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .funding-main {
+            display: flex;
+            justify-content: center;
+        }
+
+        .funding-card-main {
+            background: var(--gradient-2);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            max-width: 800px;
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+
+        .funding-logo {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .funding-info h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .funding-program {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .funding-details {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .funding-title {
+            font-style: italic;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .funding-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .partners-section {
+            text-align: center;
+        }
+
+        .partners-title {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .partner-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .partner-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .partner-host {
+            border-color: var(--accent);
+        }
+
+        .partner-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .partner-badge-collab {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .partner-badge-industry {
+            background: #10b981;
+            color: white;
+        }
+
+        .partner-logo {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .partner-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .partner-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Publications */
         .publications-list {
             display: flex;
             flex-direction: column;
@@ -949,7 +1071,7 @@
             color: var(--accent);
         }
 
-        /* Datasets Section */
+        /* Datasets */
         .datasets-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -1006,7 +1128,7 @@
             gap: 0.4rem;
         }
 
-        /* Tools Section */
+        /* Tools */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1090,7 +1212,157 @@
             color: var(--text-muted);
         }
 
-        /* Contact Section */
+        /* Presentations */
+        .presentations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .presentation-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .presentation-coming-soon {
+            opacity: 0.7;
+            border-style: dashed;
+        }
+
+        .presentation-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .presentation-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .presentation-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Collaboration */
+        .collab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .collab-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .collab-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .collab-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .collab-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .collab-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .collab-cta {
+            text-align: center;
+        }
+
+        .btn-coming-soon {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-disabled {
+            background: var(--secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            cursor: not-allowed;
+            opacity: 0.6;
+            padding: 0.875rem 1.75rem;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* OPEN POSITION SECTION */
+        .open-position-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            padding: 2.5rem;
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.15);
+        }
+
+        .open-position-tagline {
+            color: var(--accent-light);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .open-position-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .open-position-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .open-position-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .open-position-list {
+            margin: 0 0 1.5rem 1.2rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .open-position-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        .open-position-contact {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact */
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1159,7 +1431,6 @@
             filter: grayscale(1) invert(1) contrast(0.9);
         }
 
-        /* Footer */
         footer {
             background: var(--secondary);
             border-top: 1px solid var(--border);
@@ -1203,28 +1474,36 @@
             color: var(--accent);
         }
 
-        .funding-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: var(--card-bg);
-            padding: 0.75rem 1.25rem;
-            border-radius: 10px;
-            border: 1px solid var(--border);
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: contain;
         }
 
-        .funding-badge img {
-            height: 30px;
+        .footer-logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: contain;
         }
 
-        .funding-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+        /* Language toggle display handling */
+        .lang-en, .lang-tr {
+            display: none;
         }
 
-        .funding-text strong {
+        [data-lang="en"] .lang-en {
             display: block;
-            color: var(--text);
+        }
+
+        [data-lang="tr"] .lang-tr {
+            display: block;
+        }
+
+        [data-lang="en"] span.lang-en,
+        [data-lang="tr"] span.lang-tr {
+            display: inline;
         }
 
         /* Responsive */
@@ -1263,7 +1542,7 @@
             }
 
             .hero {
-                padding: 5.5rem 1.5rem 3rem;
+                padding: 4.5rem 1.5rem 3rem;
             }
 
             .hero-description {
@@ -1275,21 +1554,30 @@
                 gap: 1.5rem;
             }
 
-            .stat-value {
-                font-size: 2rem;
-            }
-
             section {
                 padding: 4rem 1.5rem;
             }
 
-            .pub-card {
+            .pub-card,
+            .news-card,
+            .presentation-card {
                 flex-direction: column;
             }
 
             .datasets-grid,
-            .tools-grid {
+            .tools-grid,
+            .partners-grid,
+            .collab-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .funding-card-main {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .funding-meta {
+                justify-content: center;
             }
 
             .footer-content {
@@ -1302,493 +1590,27 @@
                 justify-content: center;
             }
         }
-
-        /* Language Toggle Content */
-        .lang-en, .lang-tr {
-            display: none;
-        }
-
-        [data-lang="en"] .lang-en {
-            display: block;
-        }
-
-        [data-lang="tr"] .lang-tr {
-            display: block;
-        }
-
-        [data-lang="en"] span.lang-en,
-        [data-lang="tr"] span.lang-tr {
-            display: inline;
-        }
-
-        /* Logo Image - Large for Navigation */
-        .logo-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 12px;
-            object-fit: contain;
-        }
-
-        .logo-text {
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        /* Footer Logo - Small */
-        .footer-logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: contain;
-        }
-
-        /* Team Photo */
-        .team-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 1.5rem;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        /* Code Block Header */
-        .code-block-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .code-label {
-            font-size: 0.85rem;
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        .code-link {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .code-link:hover {
-            color: var(--accent);
-        }
-
-        .btn-coming-soon {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        /* Disabled Button */
-        .btn-disabled {
-            background: var(--secondary);
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            cursor: not-allowed;
-            opacity: 0.6;
-            padding: 0.875rem 1.75rem;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        /* News Section */
-        .news-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .news-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-            transition: all 0.3s ease;
-        }
-
-        .news-card:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
-        }
-
-        .news-date {
-            background: var(--gradient-1);
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 10px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .news-month {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .news-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .news-content p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Funding Section */
-        .funding-content {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        .funding-main {
-            display: flex;
-            justify-content: center;
-        }
-
-        .funding-card-main {
-            background: var(--gradient-2);
-            border: 2px solid var(--accent);
-            border-radius: 20px;
-            padding: 2.5rem;
-            display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-            max-width: 800px;
-            box-shadow: 0 10px 40px var(--accent-glow);
-        }
-
-        .funding-logo {
-            font-size: 3rem;
-            flex-shrink: 0;
-        }
-
-        .funding-info h4 {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .funding-program {
-            color: var(--accent);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .funding-details {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .funding-title {
-            font-style: italic;
-            color: var(--text);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .funding-meta {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Partners Section */
-        .partners-section {
-            text-align: center;
-        }
-
-        .partners-title {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            color: var(--text-muted);
-        }
-
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .partner-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .partner-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .partner-host {
-            border-color: var(--accent);
-        }
-
-        .partner-badge {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: var(--primary);
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-
-        .partner-badge-collab {
-            background: #8b5cf6;
-            color: white;
-        }
-
-        .partner-badge-industry {
-            background: #10b981;
-            color: white;
-        }
-
-        .partner-logo {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .partner-card h4 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .partner-card p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* Presentations Section */
-        .presentations-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .presentation-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .presentation-coming-soon {
-            opacity: 0.7;
-            border-style: dashed;
-        }
-
-        .presentation-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-
-        .presentation-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .presentation-meta {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Collaboration Section */
-        .collab-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .collab-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .collab-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .collab-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .collab-card h4 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .collab-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .collab-cta {
-            text-align: center;
-        }
-
-        /* Collaboration extra text */
-        .collab-extra {
-            margin-top: 0.75rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Team Card PI highlight */
-        .team-card-pi {
-            border-color: var(--accent);
-            box-shadow: 0 10px 40px var(--accent-glow);
-        }
-
-        /* Open Position Section */
-        .position-card {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
-            gap: 2rem;
-        }
-
-        .position-column-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: var(--accent-light);
-        }
-
-        .position-list {
-            list-style: none;
-            padding-left: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        .position-list li::before {
-            content: "•";
-            margin-right: 0.5rem;
-            color: var(--accent);
-        }
-
-        .position-meta {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-
-        .position-highlight {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--accent-light);
-        }
-
-        /* Responsive adjustments for new sections */
-        @media (max-width: 768px) {
-            .news-card,
-            .presentation-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .funding-card-main {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .funding-meta {
-                justify-content: center;
-            }
-
-            .partners-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .collab-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .position-card {
-                grid-template-columns: 1fr;
-                padding: 2rem;
-            }
-        }
     </style>
 </head>
 <body data-lang="en">
-    <!-- Background Gradient -->
+    <!-- Background layers -->
     <div class="bg-animation"></div>
 
-    <!-- AI Neural Network SVG -->
     <div class="neural-network">
         <svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
-            <!-- Input Layer Nodes -->
             <circle class="nn-node" cx="150" cy="150" r="6"/>
             <circle class="nn-node" cx="150" cy="250" r="6"/>
             <circle class="nn-node" cx="150" cy="350" r="6"/>
             <circle class="nn-node" cx="150" cy="450" r="6"/>
-            
-            <!-- Hidden Layer 1 -->
             <circle class="nn-node-hidden" cx="350" cy="180" r="5"/>
             <circle class="nn-node-hidden" cx="350" cy="280" r="5"/>
             <circle class="nn-node-hidden" cx="350" cy="380" r="5"/>
-            
-            <!-- Hidden Layer 2 -->
             <circle class="nn-node-hidden" cx="550" cy="200" r="5"/>
             <circle class="nn-node-hidden" cx="550" cy="300" r="5"/>
             <circle class="nn-node-hidden" cx="550" cy="400" r="5"/>
-            
-            <!-- Output Layer -->
             <circle class="nn-node-output" cx="750" cy="250" r="7"/>
             <circle class="nn-node-output" cx="750" cy="350" r="7"/>
-            
-            <!-- Connections Input to Hidden1 -->
+
             <line class="nn-connection" x1="156" y1="150" x2="344" y2="180"/>
             <line class="nn-connection" x1="156" y1="150" x2="344" y2="280"/>
             <line class="nn-connection-active" x1="156" y1="250" x2="344" y2="180"/>
@@ -1797,8 +1619,7 @@
             <line class="nn-connection" x1="156" y1="350" x2="344" y2="280"/>
             <line class="nn-connection-active" x1="156" y1="350" x2="344" y2="380"/>
             <line class="nn-connection" x1="156" y1="450" x2="344" y2="380"/>
-            
-            <!-- Connections Hidden1 to Hidden2 -->
+
             <line class="nn-connection-active" x1="356" y1="180" x2="544" y2="200"/>
             <line class="nn-connection" x1="356" y1="180" x2="544" y2="300"/>
             <line class="nn-connection" x1="356" y1="280" x2="544" y2="200"/>
@@ -1806,20 +1627,17 @@
             <line class="nn-connection" x1="356" y1="280" x2="544" y2="400"/>
             <line class="nn-connection" x1="356" y1="380" x2="544" y2="300"/>
             <line class="nn-connection-active" x1="356" y1="380" x2="544" y2="400"/>
-            
-            <!-- Connections Hidden2 to Output -->
+
             <line class="nn-connection" x1="556" y1="200" x2="743" y2="250"/>
             <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="250"/>
             <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="350"/>
             <line class="nn-connection" x1="556" y1="400" x2="743" y2="350"/>
-            
-            <!-- Labels -->
+
             <text x="130" y="500" fill="#06b6d4" font-size="10" opacity="0.5" font-family="JetBrains Mono">Features</text>
             <text x="720" y="420" fill="#10b981" font-size="10" opacity="0.5" font-family="JetBrains Mono">ΔS, Tc</text>
         </svg>
     </div>
 
-    <!-- Magnetic Field Lines (Dipole Style) -->
     <div class="magnetic-field">
         <div class="field-line-curve"></div>
         <div class="field-line-curve"></div>
@@ -1829,9 +1647,7 @@
         <div class="field-line-curve"></div>
     </div>
 
-    <!-- Spin Array (Left: Ordered/Cold, Right: Disordered/Hot) -->
     <div class="spin-array">
-        <!-- Ordered spins (ferromagnetic - low T) -->
         <div class="spin up"></div>
         <div class="spin up"></div>
         <div class="spin up"></div>
@@ -1840,8 +1656,7 @@
         <div class="spin up"></div>
         <div class="spin up"></div>
         <div class="spin up"></div>
-        
-        <!-- Disordered spins (paramagnetic - high T) -->
+
         <div class="spin random"></div>
         <div class="spin random"></div>
         <div class="spin random"></div>
@@ -1850,13 +1665,11 @@
         <div class="spin random"></div>
         <div class="spin random"></div>
         <div class="spin random"></div>
-        
-        <!-- Temperature labels -->
+
         <span class="temp-label temp-cold">T &lt; Tc</span>
         <span class="temp-label temp-hot">T &gt; Tc</span>
     </div>
 
-    <!-- AI Data Flow Particles -->
     <div class="particles">
         <div class="ai-particle"></div>
         <div class="ai-particle"></div>
@@ -1864,7 +1677,7 @@
         <div class="ai-particle"></div>
     </div>
 
-    <!-- Navigation -->
+    <!-- NAVBAR -->
     <nav>
         <div class="nav-container">
             <a href="#" class="logo">
@@ -1876,10 +1689,8 @@
                 <li><a href="#news"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></a></li>
                 <li><a href="#team"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
                 <li><a href="#funding"><span class="lang-en">Funding</span><span class="lang-tr">Finansman</span></a></li>
-                <li><a href="#publications"><span class="lang-en">Publications</span><span class="lang-tr">Yayınlar</span></a></li>
-                <li><a href="#presentations"><span class="lang-en">Presentations</span><span class="lang-tr">Sunumlar</span></a></li>
-                <li><a href="#datasets"><span class="lang-en">Datasets</span><span class="lang-tr">Veri Setleri</span></a></li>
-                <li><a href="#tools"><span class="lang-en">Tools</span><span class="lang-tr">Araçlar</span></a></li>
+                <!-- Research = Publications + Datasets + Tools + Presentations -->
+                <li><a href="#publications"><span class="lang-en">Research</span><span class="lang-tr">Araştırma</span></a></li>
                 <li><a href="#open-position"><span class="lang-en">Open Position</span><span class="lang-tr">Burslu Pozisyon</span></a></li>
                 <li><a href="#collaboration"><span class="lang-en">Collaborate</span><span class="lang-tr">İşbirliği</span></a></li>
                 <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
@@ -1898,7 +1709,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <h1>
@@ -1923,7 +1734,7 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
+    <!-- STATS -->
     <div class="stats">
         <div class="stats-container">
             <div class="stat-item">
@@ -1957,7 +1768,7 @@
         </div>
     </div>
 
-    <!-- About Section -->
+    <!-- ABOUT -->
     <section id="about">
         <div class="section-header">
             <span class="section-tag">
@@ -2046,19 +1857,16 @@
                         <span class="code-comment"># Magnetocaloric ML Pipeline (Pseudocode)</span><br><br>
                         <span class="code-keyword">import</span> lightgbm <span class="code-keyword">as</span> lgb<br>
                         <span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> <span class="code-function">cross_val_score</span><br><br>
-                        
                         <span class="code-comment"># Load HEA magnetocaloric dataset</span><br>
                         X, y = <span class="code-function">load_mce_data</span>(<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;target=<span class="code-string">'delta_S_ref'</span>,<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;normalize_field=<span class="code-keyword">True</span><br>
                         )<br><br>
-                        
                         <span class="code-comment"># Train with nested cross-validation</span><br>
                         model = lgb.<span class="code-function">LGBMRegressor</span>(<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;n_estimators=<span class="code-number">500</span>,<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;learning_rate=<span class="code-number">0.05</span><br>
                         )<br><br>
-                        
                         <span class="code-comment"># SHAP interpretation</span><br>
                         shap_values = <span class="code-function">explain_model</span>(model, X)
                     </div>
@@ -2067,7 +1875,7 @@
         </div>
     </section>
 
-    <!-- Team Section -->
+    <!-- TEAM -->
     <section id="team">
         <div class="section-header">
             <span class="section-tag">
@@ -2081,7 +1889,6 @@
         </div>
 
         <div class="team-grid">
-            <!-- Principal Investigator -->
             <div class="team-card team-card-pi">
                 <img src="kagan.jpg" alt="Kağan Şarlar" class="team-photo">
                 <h3 class="team-name">
@@ -2103,7 +1910,6 @@
                 </div>
             </div>
 
-            <!-- Researcher - Atakan Tekgül -->
             <div class="team-card">
                 <img src="atakan.png" alt="Atakan Tekgül" class="team-photo">
                 <h3 class="team-name">
@@ -2123,7 +1929,6 @@
                 </div>
             </div>
 
-            <!-- Researcher - M. Cüneyt Hacıismailoğlu -->
             <div class="team-card">
                 <img src="cuneyt.jpg" alt="M. Cüneyt Hacıismailoğlu" class="team-photo">
                 <h3 class="team-name">
@@ -2145,7 +1950,69 @@
         </div>
     </section>
 
-    <!-- News Section -->
+    <!-- OPEN POSITION -->
+    <section id="open-position">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Open Position</span>
+                <span class="lang-tr">Açık Pozisyon</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Funded MSc Position</span>
+                <span class="lang-tr">Burslu Yüksek Lisans Pozisyonu</span>
+            </h2>
+        </div>
+
+        <div class="open-position-card">
+            <div class="open-position-tagline">
+                <span class="lang-en">We are looking for a motivated MSc student to join the Magnetelligence project.</span>
+                <span class="lang-tr">Magnetelligence projesine katılacak motivasyonu yüksek bir YL öğrencisi arıyoruz.</span>
+            </div>
+
+            <div class="open-position-title">
+                <span class="lang-en">MSc in Physics / Materials Science (Magnetocaloric High-Entropy Alloys)</span>
+                <span class="lang-tr">Fizik / Malzeme Bilimi Yüksek Lisans (Magnetokalorik Yüksek Entropili Alaşımlar)</span>
+            </div>
+
+            <div class="open-position-meta">
+                <span>📍 KMÜ – Karaman</span>
+                <span>📅 2025–2027</span>
+                <span>
+                    💰
+                    <span class="lang-en">Scholarship funded by TÜBİTAK 3501 (125F375)</span>
+                    <span class="lang-tr">Burs: TÜBİTAK 3501 (125F375) kapsamında</span>
+                </span>
+            </div>
+
+            <ul class="open-position-list">
+                <li>
+                    <span class="lang-en">Research topics: magnetocaloric effect, high-entropy alloys, machine learning for materials.</span>
+                    <span class="lang-tr">Çalışma konuları: magnetokalorik etki, yüksek entropili alaşımlar, malzemeler için makine öğrenimi.</span>
+                </li>
+                <li>
+                    <span class="lang-en">Background: Physics, Materials Science, Metallurgical Engineering or related fields.</span>
+                    <span class="lang-tr">Altyapı: Fizik, Malzeme Bilimi, Metalurji Mühendisliği veya ilgili alanlar.</span>
+                </li>
+                <li>
+                    <span class="lang-en">Basic Python and data analysis skills are highly appreciated.</span>
+                    <span class="lang-tr">Temel Python ve veri analizi bilgisi tercih sebebidir.</span>
+                </li>
+                <li>
+                    <span class="lang-en">The student will be supported with a monthly scholarship and will actively contribute to experiments and ML modeling.</span>
+                    <span class="lang-tr">Öğrenci, aylık burs ile desteklenecek ve deneysel çalışmalar ile ML modelleme süreçlerine aktif olarak katılacaktır.</span>
+                </li>
+            </ul>
+
+            <p class="open-position-contact">
+                <span class="lang-en">For applications and further details, please contact:</span>
+                <span class="lang-tr">Başvuru ve detaylı bilgi için:</span>
+                <br>
+                <strong>kagansarlar@kmu.edu.tr</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- NEWS -->
     <section id="news">
         <div class="section-header">
             <span class="section-tag">
@@ -2159,29 +2026,6 @@
         </div>
 
         <div class="news-list">
-            <!-- MSc Scholarship News -->
-            <div class="news-card">
-                <div class="news-date">
-                    <span class="news-month">2025</span>
-                </div>
-                <div class="news-content">
-                    <h4>
-                        <span class="lang-en">MSc Scholarship Position Open</span>
-                        <span class="lang-tr">Yüksek Lisans Burslu Pozisyonu Açık</span>
-                    </h4>
-                    <p>
-                        <span class="lang-en">
-                            We are seeking an MSc student to work on AI-driven magnetocaloric materials design.
-                            The position is funded by TÜBİTAK 3501 Career Development Program (Project No: 125F375).
-                        </span>
-                        <span class="lang-tr">
-                            Yapay zekâ destekli magnetokalorik malzeme tasarımı üzerine çalışacak bir yüksek lisans öğrencisi arıyoruz.
-                            Pozisyon, TÜBİTAK 3501 Kariyer Geliştirme Programı (Proje No: 125F375) kapsamında bursludur.
-                        </span>
-                    </p>
-                </div>
-            </div>
-
             <div class="news-card">
                 <div class="news-date">
                     <span class="news-month">2025</span>
@@ -2216,7 +2060,7 @@
         </div>
     </section>
 
-    <!-- Funding Section -->
+    <!-- FUNDING -->
     <section id="funding">
         <div class="section-header">
             <span class="section-tag">
@@ -2230,7 +2074,6 @@
         </div>
 
         <div class="funding-content">
-            <!-- Main Funding -->
             <div class="funding-main">
                 <div class="funding-card-main">
                     <div class="funding-logo">🏛️</div>
@@ -2250,20 +2093,18 @@
                         </p>
                         <div class="funding-meta">
                             <span>📅 24 <span class="lang-en">months</span><span class="lang-tr">ay</span></span>
-                            <span>📍 2025-2027</span>
+                            <span>📍 2025–2027</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Partners Grid -->
             <div class="partners-section">
                 <h3 class="partners-title">
                     <span class="lang-en">Host Institution & Partners</span>
                     <span class="lang-tr">Ev Sahibi Kurum ve Ortaklar</span>
                 </h3>
                 <div class="partners-grid">
-                    <!-- Host Institution -->
                     <div class="partner-card partner-host">
                         <div class="partner-badge">
                             <span class="lang-en">Host Institution</span>
@@ -2277,7 +2118,6 @@
                         </p>
                     </div>
 
-                    <!-- Partner - BUÜ -->
                     <div class="partner-card">
                         <div class="partner-badge partner-badge-collab">
                             <span class="lang-en">Partner</span>
@@ -2291,7 +2131,6 @@
                         </p>
                     </div>
 
-                    <!-- Partner - Gürbağ -->
                     <div class="partner-card">
                         <div class="partner-badge partner-badge-industry">
                             <span class="lang-en">Industry Partner</span>
@@ -2309,7 +2148,7 @@
         </div>
     </section>
 
-    <!-- Publications Section -->
+    <!-- PUBLICATIONS (Research anchor) -->
     <section id="publications">
         <div class="section-header">
             <span class="section-tag">
@@ -2354,7 +2193,7 @@
         </div>
     </section>
 
-    <!-- Datasets Section -->
+    <!-- DATASETS -->
     <section id="datasets">
         <div class="section-header">
             <span class="section-tag">
@@ -2413,7 +2252,7 @@
         </div>
     </section>
 
-    <!-- Tools Section -->
+    <!-- TOOLS -->
     <section id="tools">
         <div class="section-header">
             <span class="section-tag">
@@ -2457,7 +2296,7 @@
         </div>
     </section>
 
-    <!-- Presentations Section -->
+    <!-- PRESENTATIONS -->
     <section id="presentations">
         <div class="section-header">
             <span class="section-tag">
@@ -2491,119 +2330,7 @@
         </div>
     </section>
 
-    <!-- Open Position Section -->
-    <section id="open-position">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Join the Lab</span>
-                <span class="lang-tr">Ekibe Katıl</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">MSc Scholarship Position</span>
-                <span class="lang-tr">Yüksek Lisans Burslu Pozisyonu</span>
-            </h2>
-            <p class="section-description">
-                <span class="lang-en">
-                    A TÜBİTAK-funded MSc position on AI-driven magnetocaloric materials design.
-                </span>
-                <span class="lang-tr">
-                    Yapay zekâ destekli magnetokalorik malzeme tasarımı alanında TÜBİTAK destekli bir yüksek lisans pozisyonu.
-                </span>
-            </p>
-        </div>
-
-        <div class="position-card">
-            <div>
-                <div class="position-column-title">
-                    <span class="lang-en">Project Scope</span>
-                    <span class="lang-tr">Proje Kapsamı</span>
-                </div>
-                <ul class="position-list">
-                    <li>
-                        <span class="lang-en">Machine-learning-guided design of high-entropy magnetocaloric alloys.</span>
-                        <span class="lang-tr">Yüksek entropili magnetokalorik alaşımların makine öğrenimi ile tasarımı.</span>
-                    </li>
-                    <li>
-                        <span class="lang-en">Data collection, cleaning, and feature engineering for ΔS and Tc prediction.</span>
-                        <span class="lang-tr">ΔS ve Tc tahmini için veri toplama, temizleme ve özellik mühendisliği.</span>
-                    </li>
-                    <li>
-                        <span class="lang-en">Model training, cross-validation and SHAP-based interpretability analysis.</span>
-                        <span class="lang-tr">Model eğitimi, çapraz doğrulama ve SHAP tabanlı yorumlanabilirlik analizi.</span>
-                    </li>
-                    <li>
-                        <span class="lang-en">Collaboration with experimental partners for validation.</span>
-                        <span class="lang-tr">Doğrulama için deneysel ortaklarla işbirliği.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div>
-                <div class="position-column-title">
-                    <span class="lang-en">Position Details</span>
-                    <span class="lang-tr">Pozisyon Detayları</span>
-                </div>
-                <div class="position-meta">
-                    <div>
-                        <span class="position-highlight">
-                            <span class="lang-en">Funding:</span>
-                            <span class="lang-tr">Destek:</span>
-                        </span>
-                        <span class="lang-en">
-                            TÜBİTAK 3501 MSc scholarship (Project No: 125F375).
-                        </span>
-                        <span class="lang-tr">
-                            TÜBİTAK 3501 yüksek lisans bursu (Proje No: 125F375).
-                        </span>
-                    </div>
-                    <div>
-                        <span class="position-highlight">
-                            <span class="lang-en">Duration:</span>
-                            <span class="lang-tr">Süre:</span>
-                        </span>
-                        <span class="lang-en">Aligned with the 24-month project timeline (2025–2027).</span>
-                        <span class="lang-tr">Projenin 24 aylık takvimi (2025–2027) ile uyumlu.</span>
-                    </div>
-                    <div>
-                        <span class="position-highlight">
-                            <span class="lang-en">Location:</span>
-                            <span class="lang-tr">Yer:</span>
-                        </span>
-                        <span class="lang-en">Karamanoğlu Mehmetbey University, Department of Physics.</span>
-                        <span class="lang-tr">Karamanoğlu Mehmetbey Üniversitesi, Fizik Bölümü.</span>
-                    </div>
-                    <div>
-                        <span class="position-highlight">
-                            <span class="lang-en">Requirements:</span>
-                            <span class="lang-tr">Gereklilikler:</span>
-                        </span>
-                        <span class="lang-en">
-                            BSc in Physics / Materials / related field; basic Python and interest in machine learning.
-                        </span>
-                        <span class="lang-tr">
-                            Fizik / Malzeme Bilimi / ilgili alanlarda lisans mezuniyeti; temel Python bilgisi ve makine öğrenimine ilgi.
-                        </span>
-                    </div>
-                    <div>
-                        <span class="position-highlight">
-                            <span class="lang-en">How to Apply?</span>
-                            <span class="lang-tr">Başvuru Nasıl Yapılır?</span>
-                        </span>
-                        <span class="lang-en">
-                            Please send your CV, transcript, and a short motivation e-mail to:
-                            kagansarlar@kmu.edu.tr
-                        </span>
-                        <span class="lang-tr">
-                            Özgeçmişinizi, not dökümünüzü ve kısa bir motivasyon yazınızı
-                            kagansarlar@kmu.edu.tr adresine e-posta ile gönderebilirsiniz.
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Collaboration Section -->
+    <!-- COLLABORATION -->
     <section id="collaboration">
         <div class="section-header">
             <span class="section-tag">
@@ -2624,25 +2351,8 @@
                     <span class="lang-tr">Lisansüstü Öğrenciler</span>
                 </h4>
                 <p>
-                    <span class="lang-en">
-                        We offer a TÜBİTAK-funded scholarship position for one MSc student within this project.
-                        The student will work on AI-driven design of magnetocaloric high-entropy alloys,
-                        including data preprocessing, model training, and interpretation.
-                    </span>
-                    <span class="lang-tr">
-                        Bu proje kapsamında bir yüksek lisans öğrencisi için TÜBİTAK destekli burslu pozisyon sunuyoruz.
-                        Öğrenci, veri ön işleme, model eğitimi ve sonuçların yorumlanması dâhil olmak üzere
-                        yapay zekâ destekli magnetokalorik yüksek entropili alaşım tasarımı üzerinde çalışacaktır.
-                    </span>
-                </p>
-                <p class="collab-extra">
-                    <span class="lang-en">
-                        Interested candidates can contact Assoc. Prof. Dr. Kağan ŞARLAR via e-mail: kagansarlar@kmu.edu.tr
-                    </span>
-                    <span class="lang-tr">
-                        İlgilenen adaylar Doç. Dr. Kağan ŞARLAR ile e-posta üzerinden iletişime geçebilir:
-                        kagansarlar@kmu.edu.tr
-                    </span>
+                    <span class="lang-en">We are looking for motivated MSc and PhD students interested in computational materials science and machine learning.</span>
+                    <span class="lang-tr">Hesaplamalı malzeme bilimi ve makine öğrenimi ile ilgilenen motivasyonlu yüksek lisans ve doktora öğrencileri arıyoruz.</span>
                 </p>
             </div>
 
@@ -2680,7 +2390,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- CONTACT -->
     <section id="contact">
         <div class="section-header">
             <span class="section-tag">
@@ -2739,7 +2449,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
@@ -2758,10 +2468,6 @@
                 <a href="#publications">
                     <span class="lang-en">Publications</span>
                     <span class="lang-tr">Yayınlar</span>
-                </a>
-                <a href="#open-position">
-                    <span class="lang-en">Open Position</span>
-                    <span class="lang-tr">Burslu Pozisyon</span>
                 </a>
                 <a href="#contact">
                     <span class="lang-en">Contact</span>
@@ -2785,7 +2491,6 @@
             });
         });
 
-        // Load saved language preference
         const savedLang = localStorage.getItem('preferred-lang');
         if (savedLang) {
             document.body.dataset.lang = savedLang;
@@ -2802,30 +2507,21 @@
             navLinks.classList.toggle('active');
         });
 
-        // Smooth scroll for anchor links
+        // Smooth scroll for anchor links (ignore href="#")
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return; // logo gibi linkler
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const target = document.querySelector(href);
                 if (target) {
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
-                    // Close mobile menu if open
                     navLinks.classList.remove('active');
                 }
             });
-        });
-
-        // Nav background on scroll (renk geçişi, sabit değil artık ama kalabilir)
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(15, 23, 42, 0.95)';
-            } else {
-                nav.style.background = 'rgba(15, 23, 42, 0.9)';
-            }
         });
     </script>
 </body>
