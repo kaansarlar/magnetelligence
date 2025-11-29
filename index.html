@@ -356,10 +356,8 @@
 
         /* Navigation */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            /* artık sabit değil */
+            position: relative;
             z-index: 1000;
             padding: 0.75rem 2rem;
             background: rgba(15, 23, 42, 0.9);
@@ -492,7 +490,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8rem 2rem 4rem;
+            padding: 6rem 2rem 4rem;
             position: relative;
         }
 
@@ -1265,7 +1263,7 @@
             }
 
             .hero {
-                padding: 7rem 1.5rem 3rem;
+                padding: 5.5rem 1.5rem 3rem;
             }
 
             .hero-description {
@@ -1668,10 +1666,67 @@
             text-align: center;
         }
 
+        /* Collaboration extra text */
+        .collab-extra {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
         /* Team Card PI highlight */
         .team-card-pi {
             border-color: var(--accent);
             box-shadow: 0 10px 40px var(--accent-glow);
+        }
+
+        /* Open Position Section */
+        .position-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+            gap: 2rem;
+        }
+
+        .position-column-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--accent-light);
+        }
+
+        .position-list {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .position-list li::before {
+            content: "•";
+            margin-right: 0.5rem;
+            color: var(--accent);
+        }
+
+        .position-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .position-highlight {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--accent-light);
         }
 
         /* Responsive adjustments for new sections */
@@ -1697,6 +1752,11 @@
 
             .collab-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .position-card {
+                grid-template-columns: 1fr;
+                padding: 2rem;
             }
         }
     </style>
@@ -1820,6 +1880,7 @@
                 <li><a href="#presentations"><span class="lang-en">Presentations</span><span class="lang-tr">Sunumlar</span></a></li>
                 <li><a href="#datasets"><span class="lang-en">Datasets</span><span class="lang-tr">Veri Setleri</span></a></li>
                 <li><a href="#tools"><span class="lang-en">Tools</span><span class="lang-tr">Araçlar</span></a></li>
+                <li><a href="#open-position"><span class="lang-en">Open Position</span><span class="lang-tr">Burslu Pozisyon</span></a></li>
                 <li><a href="#collaboration"><span class="lang-en">Collaborate</span><span class="lang-tr">İşbirliği</span></a></li>
                 <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
                 <li>
@@ -2098,6 +2159,29 @@
         </div>
 
         <div class="news-list">
+            <!-- MSc Scholarship News -->
+            <div class="news-card">
+                <div class="news-date">
+                    <span class="news-month">2025</span>
+                </div>
+                <div class="news-content">
+                    <h4>
+                        <span class="lang-en">MSc Scholarship Position Open</span>
+                        <span class="lang-tr">Yüksek Lisans Burslu Pozisyonu Açık</span>
+                    </h4>
+                    <p>
+                        <span class="lang-en">
+                            We are seeking an MSc student to work on AI-driven magnetocaloric materials design.
+                            The position is funded by TÜBİTAK 3501 Career Development Program (Project No: 125F375).
+                        </span>
+                        <span class="lang-tr">
+                            Yapay zekâ destekli magnetokalorik malzeme tasarımı üzerine çalışacak bir yüksek lisans öğrencisi arıyoruz.
+                            Pozisyon, TÜBİTAK 3501 Kariyer Geliştirme Programı (Proje No: 125F375) kapsamında bursludur.
+                        </span>
+                    </p>
+                </div>
+            </div>
+
             <div class="news-card">
                 <div class="news-date">
                     <span class="news-month">2025</span>
@@ -2148,7 +2232,7 @@
         <div class="funding-content">
             <!-- Main Funding -->
             <div class="funding-main">
-                <div class="funding-card funding-card-main">
+                <div class="funding-card-main">
                     <div class="funding-logo">🏛️</div>
                     <div class="funding-info">
                         <h4>TÜBİTAK 3501</h4>
@@ -2407,6 +2491,118 @@
         </div>
     </section>
 
+    <!-- Open Position Section -->
+    <section id="open-position">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Join the Lab</span>
+                <span class="lang-tr">Ekibe Katıl</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">MSc Scholarship Position</span>
+                <span class="lang-tr">Yüksek Lisans Burslu Pozisyonu</span>
+            </h2>
+            <p class="section-description">
+                <span class="lang-en">
+                    A TÜBİTAK-funded MSc position on AI-driven magnetocaloric materials design.
+                </span>
+                <span class="lang-tr">
+                    Yapay zekâ destekli magnetokalorik malzeme tasarımı alanında TÜBİTAK destekli bir yüksek lisans pozisyonu.
+                </span>
+            </p>
+        </div>
+
+        <div class="position-card">
+            <div>
+                <div class="position-column-title">
+                    <span class="lang-en">Project Scope</span>
+                    <span class="lang-tr">Proje Kapsamı</span>
+                </div>
+                <ul class="position-list">
+                    <li>
+                        <span class="lang-en">Machine-learning-guided design of high-entropy magnetocaloric alloys.</span>
+                        <span class="lang-tr">Yüksek entropili magnetokalorik alaşımların makine öğrenimi ile tasarımı.</span>
+                    </li>
+                    <li>
+                        <span class="lang-en">Data collection, cleaning, and feature engineering for ΔS and Tc prediction.</span>
+                        <span class="lang-tr">ΔS ve Tc tahmini için veri toplama, temizleme ve özellik mühendisliği.</span>
+                    </li>
+                    <li>
+                        <span class="lang-en">Model training, cross-validation and SHAP-based interpretability analysis.</span>
+                        <span class="lang-tr">Model eğitimi, çapraz doğrulama ve SHAP tabanlı yorumlanabilirlik analizi.</span>
+                    </li>
+                    <li>
+                        <span class="lang-en">Collaboration with experimental partners for validation.</span>
+                        <span class="lang-tr">Doğrulama için deneysel ortaklarla işbirliği.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="position-column-title">
+                    <span class="lang-en">Position Details</span>
+                    <span class="lang-tr">Pozisyon Detayları</span>
+                </div>
+                <div class="position-meta">
+                    <div>
+                        <span class="position-highlight">
+                            <span class="lang-en">Funding:</span>
+                            <span class="lang-tr">Destek:</span>
+                        </span>
+                        <span class="lang-en">
+                            TÜBİTAK 3501 MSc scholarship (Project No: 125F375).
+                        </span>
+                        <span class="lang-tr">
+                            TÜBİTAK 3501 yüksek lisans bursu (Proje No: 125F375).
+                        </span>
+                    </div>
+                    <div>
+                        <span class="position-highlight">
+                            <span class="lang-en">Duration:</span>
+                            <span class="lang-tr">Süre:</span>
+                        </span>
+                        <span class="lang-en">Aligned with the 24-month project timeline (2025–2027).</span>
+                        <span class="lang-tr">Projenin 24 aylık takvimi (2025–2027) ile uyumlu.</span>
+                    </div>
+                    <div>
+                        <span class="position-highlight">
+                            <span class="lang-en">Location:</span>
+                            <span class="lang-tr">Yer:</span>
+                        </span>
+                        <span class="lang-en">Karamanoğlu Mehmetbey University, Department of Physics.</span>
+                        <span class="lang-tr">Karamanoğlu Mehmetbey Üniversitesi, Fizik Bölümü.</span>
+                    </div>
+                    <div>
+                        <span class="position-highlight">
+                            <span class="lang-en">Requirements:</span>
+                            <span class="lang-tr">Gereklilikler:</span>
+                        </span>
+                        <span class="lang-en">
+                            BSc in Physics / Materials / related field; basic Python and interest in machine learning.
+                        </span>
+                        <span class="lang-tr">
+                            Fizik / Malzeme Bilimi / ilgili alanlarda lisans mezuniyeti; temel Python bilgisi ve makine öğrenimine ilgi.
+                        </span>
+                    </div>
+                    <div>
+                        <span class="position-highlight">
+                            <span class="lang-en">How to Apply?</span>
+                            <span class="lang-tr">Başvuru Nasıl Yapılır?</span>
+                        </span>
+                        <span class="lang-en">
+                            Please send your CV, transcript, and a short motivation e-mail to:
+                            kagansarlar@kmu.edu.tr
+                        </span>
+                        <span class="lang-tr">
+                            Özgeçmişinizi, not dökümünüzü ve kısa bir motivasyon yazınızı
+                            kagansarlar@kmu.edu.tr adresine e-posta ile gönderebilirsiniz.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Collaboration Section -->
     <section id="collaboration">
         <div class="section-header">
@@ -2428,8 +2624,25 @@
                     <span class="lang-tr">Lisansüstü Öğrenciler</span>
                 </h4>
                 <p>
-                    <span class="lang-en">We are looking for motivated MSc and PhD students interested in computational materials science and machine learning.</span>
-                    <span class="lang-tr">Hesaplamalı malzeme bilimi ve makine öğrenimi ile ilgilenen motivasyonlu yüksek lisans ve doktora öğrencileri arıyoruz.</span>
+                    <span class="lang-en">
+                        We offer a TÜBİTAK-funded scholarship position for one MSc student within this project.
+                        The student will work on AI-driven design of magnetocaloric high-entropy alloys,
+                        including data preprocessing, model training, and interpretation.
+                    </span>
+                    <span class="lang-tr">
+                        Bu proje kapsamında bir yüksek lisans öğrencisi için TÜBİTAK destekli burslu pozisyon sunuyoruz.
+                        Öğrenci, veri ön işleme, model eğitimi ve sonuçların yorumlanması dâhil olmak üzere
+                        yapay zekâ destekli magnetokalorik yüksek entropili alaşım tasarımı üzerinde çalışacaktır.
+                    </span>
+                </p>
+                <p class="collab-extra">
+                    <span class="lang-en">
+                        Interested candidates can contact Assoc. Prof. Dr. Kağan ŞARLAR via e-mail: kagansarlar@kmu.edu.tr
+                    </span>
+                    <span class="lang-tr">
+                        İlgilenen adaylar Doç. Dr. Kağan ŞARLAR ile e-posta üzerinden iletişime geçebilir:
+                        kagansarlar@kmu.edu.tr
+                    </span>
                 </p>
             </div>
 
@@ -2546,6 +2759,10 @@
                     <span class="lang-en">Publications</span>
                     <span class="lang-tr">Yayınlar</span>
                 </a>
+                <a href="#open-position">
+                    <span class="lang-en">Open Position</span>
+                    <span class="lang-tr">Burslu Pozisyon</span>
+                </a>
                 <a href="#contact">
                     <span class="lang-en">Contact</span>
                     <span class="lang-tr">İletişim</span>
@@ -2601,13 +2818,13 @@
             });
         });
 
-        // Nav background on scroll
+        // Nav background on scroll (renk geçişi, sabit değil artık ama kalabilir)
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
                 nav.style.background = 'rgba(15, 23, 42, 0.95)';
             } else {
-                nav.style.background = 'rgba(15, 23, 42, 0.8)';
+                nav.style.background = 'rgba(15, 23, 42, 0.9)';
             }
         });
     </script>
