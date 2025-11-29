@@ -1318,6 +1318,358 @@
         [data-lang="tr"] span.lang-tr {
             display: inline;
         }
+
+        /* Logo Image */
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        /* Code Block Header */
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-label {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .code-link {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .code-link:hover {
+            color: var(--accent);
+        }
+
+        .btn-coming-soon {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Disabled Button */
+        .btn-disabled {
+            background: var(--secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            cursor: not-allowed;
+            opacity: 0.6;
+            padding: 0.875rem 1.75rem;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* News Section */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .news-date {
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .news-month {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .news-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Funding Section */
+        .funding-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .funding-main {
+            display: flex;
+            justify-content: center;
+        }
+
+        .funding-card-main {
+            background: var(--gradient-2);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            max-width: 800px;
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+
+        .funding-logo {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .funding-info h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .funding-program {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .funding-details {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .funding-title {
+            font-style: italic;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .funding-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Partners Section */
+        .partners-section {
+            text-align: center;
+        }
+
+        .partners-title {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .partner-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .partner-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .partner-host {
+            border-color: var(--accent);
+        }
+
+        .partner-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .partner-badge-collab {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .partner-badge-industry {
+            background: #10b981;
+            color: white;
+        }
+
+        .partner-logo {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .partner-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .partner-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Presentations Section */
+        .presentations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .presentation-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .presentation-coming-soon {
+            opacity: 0.7;
+            border-style: dashed;
+        }
+
+        .presentation-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .presentation-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .presentation-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Collaboration Section */
+        .collab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .collab-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .collab-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .collab-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .collab-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .collab-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .collab-cta {
+            text-align: center;
+        }
+
+        /* Team Card PI highlight */
+        .team-card-pi {
+            border-color: var(--accent);
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+
+        /* Responsive adjustments for new sections */
+        @media (max-width: 768px) {
+            .news-card,
+            .presentation-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .funding-card-main {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .funding-meta {
+                justify-content: center;
+            }
+
+            .partners-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .collab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body data-lang="en">
@@ -1427,15 +1779,19 @@
     <nav>
         <div class="nav-container">
             <a href="#" class="logo">
-                <div class="logo-icon">🧲</div>
+                <img src="logo.png" alt="Magnetelligence Logo" class="logo-img">
                 <div class="logo-text">Magnet<span>elligence</span></div>
             </a>
             <ul class="nav-links">
                 <li><a href="#about"><span class="lang-en">About</span><span class="lang-tr">Hakkında</span></a></li>
+                <li><a href="#news"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></a></li>
                 <li><a href="#team"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
+                <li><a href="#funding"><span class="lang-en">Funding</span><span class="lang-tr">Finansman</span></a></li>
                 <li><a href="#publications"><span class="lang-en">Publications</span><span class="lang-tr">Yayınlar</span></a></li>
+                <li><a href="#presentations"><span class="lang-en">Presentations</span><span class="lang-tr">Sunumlar</span></a></li>
                 <li><a href="#datasets"><span class="lang-en">Datasets</span><span class="lang-tr">Veri Setleri</span></a></li>
                 <li><a href="#tools"><span class="lang-en">Tools</span><span class="lang-tr">Araçlar</span></a></li>
+                <li><a href="#collaboration"><span class="lang-en">Collaborate</span><span class="lang-tr">İşbirliği</span></a></li>
                 <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
                 <li>
                     <div class="lang-switch">
@@ -1455,10 +1811,6 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-badge">
-                <span class="lang-en">TÜBİTAK 3501 Career Development Program</span>
-                <span class="lang-tr">TÜBİTAK 3501 Kariyer Geliştirme Programı</span>
-            </div>
             <h1>
                 <span class="lang-en"><span>AI-Powered</span> Discovery of Magnetocaloric Materials</span>
                 <span class="lang-tr">Magnetokalorik Malzemelerin <span>Yapay Zeka</span> ile Keşfi</span>
@@ -1590,10 +1942,20 @@
 
             <div class="about-visual">
                 <div class="about-card">
+                    <div class="code-block-header">
+                        <span class="code-label">
+                            <span class="lang-en">📝 Conceptual Pipeline</span>
+                            <span class="lang-tr">📝 Kavramsal İş Akışı</span>
+                        </span>
+                        <a href="#" class="code-link btn-coming-soon">
+                            <span class="lang-en">View full notebook →</span>
+                            <span class="lang-tr">Tam notebook'u gör →</span>
+                        </a>
+                    </div>
                     <div class="code-block">
-                        <span class="code-comment"># Magnetocaloric ML Pipeline</span><br><br>
+                        <span class="code-comment"># Magnetocaloric ML Pipeline (Pseudocode)</span><br><br>
                         <span class="code-keyword">import</span> lightgbm <span class="code-keyword">as</span> lgb<br>
-                        <span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> <span class="code-function">nested_cv</span><br><br>
+                        <span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> <span class="code-function">cross_val_score</span><br><br>
                         
                         <span class="code-comment"># Load HEA magnetocaloric dataset</span><br>
                         X, y = <span class="code-function">load_mce_data</span>(<br>
@@ -1629,7 +1991,8 @@
         </div>
 
         <div class="team-grid">
-            <div class="team-card">
+            <!-- Principal Investigator -->
+            <div class="team-card team-card-pi">
                 <div class="team-avatar">👨‍🔬</div>
                 <h3 class="team-name">Doç. Dr. Kağan ŞARLAR</h3>
                 <p class="team-title">
@@ -1644,6 +2007,181 @@
                     <a href="https://orcid.org/0000-0002-8871-2357" target="_blank" class="team-link" title="ORCID">🆔</a>
                     <a href="mailto:kagansarlar@kmu.edu.tr" class="team-link" title="Email">✉️</a>
                     <a href="https://scholar.google.com" target="_blank" class="team-link" title="Google Scholar">📚</a>
+                </div>
+            </div>
+
+            <!-- Researcher - Atakan Tekgül -->
+            <div class="team-card">
+                <div class="team-avatar">👨‍🔬</div>
+                <h3 class="team-name">Doç. Dr. Atakan TEKGÜL</h3>
+                <p class="team-title">
+                    <span class="lang-en">Researcher</span>
+                    <span class="lang-tr">Araştırmacı</span>
+                </p>
+                <p class="team-affiliation">
+                    <span class="lang-en">Bursa Uludağ University</span>
+                    <span class="lang-tr">Bursa Uludağ Üniversitesi</span>
+                </p>
+                <div class="team-links">
+                    <a href="#" class="team-link" title="Email">✉️</a>
+                </div>
+            </div>
+
+            <!-- Researcher - M. Cüneyt Hacıismailoğlu -->
+            <div class="team-card">
+                <div class="team-avatar">👨‍🔬</div>
+                <h3 class="team-name">Dr. Öğr. Üyesi M. Cüneyt HACIISMAILOĞLU</h3>
+                <p class="team-title">
+                    <span class="lang-en">Researcher</span>
+                    <span class="lang-tr">Araştırmacı</span>
+                </p>
+                <p class="team-affiliation">
+                    <span class="lang-en">Bursa Uludağ University</span>
+                    <span class="lang-tr">Bursa Uludağ Üniversitesi</span>
+                </p>
+                <div class="team-links">
+                    <a href="#" class="team-link" title="Email">✉️</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Latest Updates</span>
+                <span class="lang-tr">Son Gelişmeler</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">News</span>
+                <span class="lang-tr">Haberler</span>
+            </h2>
+        </div>
+
+        <div class="news-list">
+            <div class="news-card">
+                <div class="news-date">
+                    <span class="news-month">2025</span>
+                </div>
+                <div class="news-content">
+                    <h4>
+                        <span class="lang-en">Project Officially Starts!</span>
+                        <span class="lang-tr">Proje Resmi Olarak Başladı!</span>
+                    </h4>
+                    <p>
+                        <span class="lang-en">TÜBİTAK 3501 Career Development Program project "AI-Assisted Design of High-Entropy Magnetocaloric Alloys" has been accepted and officially started.</span>
+                        <span class="lang-tr">TÜBİTAK 3501 Kariyer Geliştirme Programı projesi "Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı" kabul edildi ve resmi olarak başladı.</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="news-date">
+                    <span class="news-month">2025</span>
+                </div>
+                <div class="news-content">
+                    <h4>
+                        <span class="lang-en">Manuscript Submitted to JMMM</span>
+                        <span class="lang-tr">JMMM'e Makale Gönderildi</span>
+                    </h4>
+                    <p>
+                        <span class="lang-en">Our paper "Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target" has been submitted to Journal of Magnetism and Magnetic Materials.</span>
+                        <span class="lang-tr">"Alan-normalize edilmiş ΔSref hedefi kullanarak magnetokalorik yüksek entropili alaşımların makine öğrenimi ile taranması" başlıklı makalemiz Journal of Magnetism and Magnetic Materials'a gönderildi.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Funding Section -->
+    <section id="funding">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Support</span>
+                <span class="lang-tr">Destek</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Funding & Partners</span>
+                <span class="lang-tr">Finansman ve Ortaklar</span>
+            </h2>
+        </div>
+
+        <div class="funding-content">
+            <!-- Main Funding -->
+            <div class="funding-main">
+                <div class="funding-card funding-card-main">
+                    <div class="funding-logo">🏛️</div>
+                    <div class="funding-info">
+                        <h4>TÜBİTAK 3501</h4>
+                        <p class="funding-program">
+                            <span class="lang-en">Career Development Program</span>
+                            <span class="lang-tr">Kariyer Geliştirme Programı</span>
+                        </p>
+                        <p class="funding-details">
+                            <span class="lang-en">Project No: 125F375</span>
+                            <span class="lang-tr">Proje No: 125F375</span>
+                        </p>
+                        <p class="funding-title">
+                            <span class="lang-en">"AI-Assisted Design, Optimization, and Identification of High-Entropy Magnetocaloric Alloys"</span>
+                            <span class="lang-tr">"Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı, Optimizasyonu ve Potansiyel Kompozisyonların Belirlenmesi"</span>
+                        </p>
+                        <div class="funding-meta">
+                            <span>📅 24 <span class="lang-en">months</span><span class="lang-tr">ay</span></span>
+                            <span>📍 2025-2027</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partners Grid -->
+            <div class="partners-section">
+                <h3 class="partners-title">
+                    <span class="lang-en">Host Institution & Partners</span>
+                    <span class="lang-tr">Ev Sahibi Kurum ve Ortaklar</span>
+                </h3>
+                <div class="partners-grid">
+                    <!-- Host Institution -->
+                    <div class="partner-card partner-host">
+                        <div class="partner-badge">
+                            <span class="lang-en">Host Institution</span>
+                            <span class="lang-tr">Ev Sahibi Kurum</span>
+                        </div>
+                        <div class="partner-logo">🏛️</div>
+                        <h4>Karamanoğlu Mehmetbey Üniversitesi</h4>
+                        <p>
+                            <span class="lang-en">Department of Physics</span>
+                            <span class="lang-tr">Fizik Bölümü</span>
+                        </p>
+                    </div>
+
+                    <!-- Partner - BUÜ -->
+                    <div class="partner-card">
+                        <div class="partner-badge partner-badge-collab">
+                            <span class="lang-en">Partner</span>
+                            <span class="lang-tr">Ortak</span>
+                        </div>
+                        <div class="partner-logo">🎓</div>
+                        <h4>Bursa Uludağ Üniversitesi</h4>
+                        <p>
+                            <span class="lang-en">Academic Partner</span>
+                            <span class="lang-tr">Akademik Ortak</span>
+                        </p>
+                    </div>
+
+                    <!-- Partner - Gürbağ -->
+                    <div class="partner-card">
+                        <div class="partner-badge partner-badge-industry">
+                            <span class="lang-en">Industry Partner</span>
+                            <span class="lang-tr">Sanayi Ortağı</span>
+                        </div>
+                        <div class="partner-logo">🏭</div>
+                        <h4>Gürbağ Savunma ve Teknoloji</h4>
+                        <p>
+                            <span class="lang-en">Industry Collaboration</span>
+                            <span class="lang-tr">Sanayi İşbirliği</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1724,11 +2262,10 @@
                     <span>📅 2025</span>
                     <span>📄 CSV</span>
                 </div>
-                <a href="#" class="btn btn-secondary">
-                    <span class="lang-en">Download</span>
-                    <span class="lang-tr">İndir</span>
-                    ↓
-                </a>
+                <button class="btn btn-disabled" disabled>
+                    <span class="lang-en">Coming Soon</span>
+                    <span class="lang-tr">Yakında</span>
+                </button>
             </div>
 
             <div class="dataset-card">
@@ -1746,11 +2283,10 @@
                     <span>📅 2025</span>
                     <span>📄 CSV</span>
                 </div>
-                <a href="#" class="btn btn-secondary">
-                    <span class="lang-en">Download</span>
-                    <span class="lang-tr">İndir</span>
-                    ↓
-                </a>
+                <button class="btn btn-disabled" disabled>
+                    <span class="lang-en">Coming Soon</span>
+                    <span class="lang-tr">Yakında</span>
+                </button>
             </div>
         </div>
     </section>
@@ -1790,11 +2326,10 @@
                     <span class="tool-feature">NumPy</span>
                     <span class="tool-feature">Matplotlib</span>
                 </div>
-                <a href="#" class="btn btn-secondary">
-                    <span class="lang-en">View on GitHub</span>
-                    <span class="lang-tr">GitHub'da Gör</span>
-                    →
-                </a>
+                <button class="btn btn-disabled" disabled>
+                    <span class="lang-en">Coming Soon</span>
+                    <span class="lang-tr">Yakında</span>
+                </button>
             </div>
 
             <div class="tool-card">
@@ -1815,12 +2350,105 @@
                     <span class="tool-feature">SHAP</span>
                     <span class="tool-feature">Scikit-learn</span>
                 </div>
-                <a href="#" class="btn btn-secondary">
-                    <span class="lang-en">View on GitHub</span>
-                    <span class="lang-tr">GitHub'da Gör</span>
-                    →
-                </a>
+                <button class="btn btn-disabled" disabled>
+                    <span class="lang-en">Coming Soon</span>
+                    <span class="lang-tr">Yakında</span>
+                </button>
             </div>
+        </div>
+    </section>
+
+    <!-- Presentations Section -->
+    <section id="presentations">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Talks & Posters</span>
+                <span class="lang-tr">Sunumlar ve Posterler</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Presentations</span>
+                <span class="lang-tr">Sunumlar</span>
+            </h2>
+            <p class="section-description">
+                <span class="lang-en">Conference presentations and invited talks.</span>
+                <span class="lang-tr">Konferans sunumları ve davetli konuşmalar.</span>
+            </p>
+        </div>
+
+        <div class="presentations-list">
+            <div class="presentation-card presentation-coming-soon">
+                <div class="presentation-icon">📅</div>
+                <div class="presentation-content">
+                    <h4>
+                        <span class="lang-en">Presentations will be added as the project progresses</span>
+                        <span class="lang-tr">Proje ilerledikçe sunumlar eklenecektir</span>
+                    </h4>
+                    <p class="presentation-meta">
+                        <span class="lang-en">Stay tuned for upcoming conference presentations and talks.</span>
+                        <span class="lang-tr">Yaklaşan konferans sunumları ve konuşmalar için takipte kalın.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collaboration Section -->
+    <section id="collaboration">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Work With Us</span>
+                <span class="lang-tr">Bizimle Çalışın</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Collaboration Opportunities</span>
+                <span class="lang-tr">İşbirliği Fırsatları</span>
+            </h2>
+        </div>
+
+        <div class="collab-grid">
+            <div class="collab-card">
+                <div class="collab-icon">🎓</div>
+                <h4>
+                    <span class="lang-en">Graduate Students</span>
+                    <span class="lang-tr">Lisansüstü Öğrenciler</span>
+                </h4>
+                <p>
+                    <span class="lang-en">We are looking for motivated MSc and PhD students interested in computational materials science and machine learning.</span>
+                    <span class="lang-tr">Hesaplamalı malzeme bilimi ve makine öğrenimi ile ilgilenen motivasyonlu yüksek lisans ve doktora öğrencileri arıyoruz.</span>
+                </p>
+            </div>
+
+            <div class="collab-card">
+                <div class="collab-icon">🔬</div>
+                <h4>
+                    <span class="lang-en">Academic Collaboration</span>
+                    <span class="lang-tr">Akademik İşbirliği</span>
+                </h4>
+                <p>
+                    <span class="lang-en">Open to collaborations with research groups working on magnetocaloric materials, high-entropy alloys, or ML for materials.</span>
+                    <span class="lang-tr">Magnetokalorik malzemeler, yüksek entropili alaşımlar veya malzemeler için ML üzerinde çalışan araştırma gruplarıyla işbirliğine açığız.</span>
+                </p>
+            </div>
+
+            <div class="collab-card">
+                <div class="collab-icon">🏭</div>
+                <h4>
+                    <span class="lang-en">Industry Partners</span>
+                    <span class="lang-tr">Sanayi Ortakları</span>
+                </h4>
+                <p>
+                    <span class="lang-en">Seeking industry partners interested in sustainable cooling technologies and advanced magnetic materials.</span>
+                    <span class="lang-tr">Sürdürülebilir soğutma teknolojileri ve ileri manyetik malzemelerle ilgilenen sanayi ortakları arıyoruz.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="collab-cta">
+            <a href="#contact" class="btn btn-primary">
+                <span class="lang-en">Get in Touch</span>
+                <span class="lang-tr">İletişime Geçin</span>
+                →
+            </a>
         </div>
     </section>
 
