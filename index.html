@@ -1321,10 +1321,21 @@
 
         /* Logo Image */
         .logo-img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 8px;
             object-fit: contain;
+        }
+
+        /* Team Photo */
+        .team-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         /* Code Block Header */
@@ -1993,8 +2004,11 @@
         <div class="team-grid">
             <!-- Principal Investigator -->
             <div class="team-card team-card-pi">
-                <div class="team-avatar">👨‍🔬</div>
-                <h3 class="team-name">Doç. Dr. Kağan ŞARLAR</h3>
+                <img src="kagan.jpg" alt="Kağan Şarlar" class="team-photo">
+                <h3 class="team-name">
+                    <span class="lang-en">Assoc. Prof. Dr. Kağan ŞARLAR</span>
+                    <span class="lang-tr">Doç. Dr. Kağan ŞARLAR</span>
+                </h3>
                 <p class="team-title">
                     <span class="lang-en">Principal Investigator</span>
                     <span class="lang-tr">Proje Yürütücüsü</span>
@@ -2012,15 +2026,18 @@
 
             <!-- Researcher - Atakan Tekgül -->
             <div class="team-card">
-                <div class="team-avatar">👨‍🔬</div>
-                <h3 class="team-name">Doç. Dr. Atakan TEKGÜL</h3>
+                <img src="atakan.png" alt="Atakan Tekgül" class="team-photo">
+                <h3 class="team-name">
+                    <span class="lang-en">Assoc. Prof. Dr. Atakan TEKGÜL</span>
+                    <span class="lang-tr">Doç. Dr. Atakan TEKGÜL</span>
+                </h3>
                 <p class="team-title">
                     <span class="lang-en">Researcher</span>
                     <span class="lang-tr">Araştırmacı</span>
                 </p>
                 <p class="team-affiliation">
-                    <span class="lang-en">Bursa Uludağ University</span>
-                    <span class="lang-tr">Bursa Uludağ Üniversitesi</span>
+                    <span class="lang-en">Gürbağ Defense & Technology</span>
+                    <span class="lang-tr">Gürbağ Savunma ve Teknoloji</span>
                 </p>
                 <div class="team-links">
                     <a href="#" class="team-link" title="Email">✉️</a>
@@ -2029,8 +2046,11 @@
 
             <!-- Researcher - M. Cüneyt Hacıismailoğlu -->
             <div class="team-card">
-                <div class="team-avatar">👨‍🔬</div>
-                <h3 class="team-name">Dr. Öğr. Üyesi M. Cüneyt HACIISMAILOĞLU</h3>
+                <img src="cuneyt.jpg" alt="M. Cüneyt Hacıismailoğlu" class="team-photo">
+                <h3 class="team-name">
+                    <span class="lang-en">Asst. Prof. Dr. M. Cüneyt HACIISMAILOĞLU</span>
+                    <span class="lang-tr">Dr. Öğr. Üyesi M. Cüneyt HACIISMAILOĞLU</span>
+                </h3>
                 <p class="team-title">
                     <span class="lang-en">Researcher</span>
                     <span class="lang-tr">Araştırmacı</span>
@@ -2309,29 +2329,6 @@
         </div>
 
         <div class="tools-grid">
-            <div class="tool-card">
-                <div class="tool-header">
-                    <div class="tool-logo">🧲</div>
-                    <div>
-                        <h4 class="tool-name">MFSS</h4>
-                        <span class="tool-version">v1.0</span>
-                    </div>
-                </div>
-                <p class="tool-description">
-                    <span class="lang-en">Mean-Field Simulation Suite for calculating magnetocaloric properties based on mean-field theory.</span>
-                    <span class="lang-tr">Ortalama alan teorisine dayalı magnetokalorik özellikleri hesaplamak için Ortalama Alan Simülasyon Paketi.</span>
-                </p>
-                <div class="tool-features">
-                    <span class="tool-feature">Python</span>
-                    <span class="tool-feature">NumPy</span>
-                    <span class="tool-feature">Matplotlib</span>
-                </div>
-                <button class="btn btn-disabled" disabled>
-                    <span class="lang-en">Coming Soon</span>
-                    <span class="lang-tr">Yakında</span>
-                </button>
-            </div>
-
             <div class="tool-card">
                 <div class="tool-header">
                     <div class="tool-logo">🤖</div>
