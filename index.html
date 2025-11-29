@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnetelligence Lab | AI-Driven Magnetocaloric Materials Discovery</title>
+    <meta name="description" content="AI-Assisted Design of High-Entropy Magnetocaloric Alloys - TÜBİTAK 125F375 Project">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧲</text></svg>">
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #06b6d4;
+            --accent-light: #22d3ee;
+            --accent-glow: rgba(6, 182, 212, 0.3);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --gradient-1: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+            --gradient-2: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --border: rgba(148, 163, 184, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 20% 20%, var(--accent-glow) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(2%, 2%) rotate(1deg); }
+            50% { transform: translate(0, 4%) rotate(0deg); }
+            75% { transform: translate(-2%, 2%) rotate(-1deg); }
+        }
+
+        /* Magnetic Field Lines Animation */
+        .field-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .field-line {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .field-line:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .field-line:nth-child(2) { top: 60%; right: 10%; animation-delay: 1s; width: 200px; height: 200px; }
+        .field-line:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; width: 250px; height: 250px; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--secondary);
+            padding: 0.25rem;
+            border-radius: 8px;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 2px;
+            background: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--accent-light);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            border-color: var(--accent);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 2rem;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .about-features {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-card {
+            background: var(--gradient-2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+        }
+
+        .code-block {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .code-comment { color: #6b7280; }
+        .code-keyword { color: #c084fc; }
+        .code-string { color: #34d399; }
+        .code-function { color: #60a5fa; }
+        .code-number { color: #f472b6; }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            justify-items: center;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.1);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .team-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            opacity: 0.3;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-title {
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-affiliation {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .team-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .team-link:hover {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+
+        /* Publications Section */
+        .publications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .pub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .pub-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .pub-year {
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .pub-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .pub-authors {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pub-journal {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .pub-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .pub-link {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .pub-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Datasets Section */
+        .datasets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .dataset-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .dataset-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .dataset-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dataset-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .dataset-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dataset-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .dataset-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Tools Section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: var(--gradient-2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-logo {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .tool-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .tool-version {
+            font-size: 0.8rem;
+            color: var(--accent);
+            background: var(--card-bg);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .tool-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-feature {
+            background: var(--card-bg);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info > p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .contact-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .contact-text strong {
+            display: block;
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-map {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            height: 100%;
+            min-height: 350px;
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(1) invert(1) contrast(0.9);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .funding-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--card-bg);
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .funding-badge img {
+            height: 30px;
+        }
+
+        .funding-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .funding-text strong {
+            display: block;
+            color: var(--text);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .pub-card {
+                flex-direction: column;
+            }
+
+            .datasets-grid,
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Language Toggle Content */
+        .lang-en, .lang-tr {
+            display: none;
+        }
+
+        [data-lang="en"] .lang-en {
+            display: block;
+        }
+
+        [data-lang="tr"] .lang-tr {
+            display: block;
+        }
+
+        [data-lang="en"] span.lang-en,
+        [data-lang="tr"] span.lang-tr {
+            display: inline;
+        }
+    </style>
+</head>
+<body data-lang="en">
+    <div class="bg-animation"></div>
+    <div class="field-lines">
+        <div class="field-line"></div>
+        <div class="field-line"></div>
+        <div class="field-line"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">🧲</div>
+                <div class="logo-text">Magnet<span>elligence</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about"><span class="lang-en">About</span><span class="lang-tr">Hakkında</span></a></li>
+                <li><a href="#team"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
+                <li><a href="#publications"><span class="lang-en">Publications</span><span class="lang-tr">Yayınlar</span></a></li>
+                <li><a href="#datasets"><span class="lang-en">Datasets</span><span class="lang-tr">Veri Setleri</span></a></li>
+                <li><a href="#tools"><span class="lang-en">Tools</span><span class="lang-tr">Araçlar</span></a></li>
+                <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
+                <li>
+                    <div class="lang-switch">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="tr">TR</button>
+                    </div>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="lang-en">TÜBİTAK 3501 Career Development Program</span>
+                <span class="lang-tr">TÜBİTAK 3501 Kariyer Geliştirme Programı</span>
+            </div>
+            <h1>
+                <span class="lang-en"><span>AI-Powered</span> Discovery of Magnetocaloric Materials</span>
+                <span class="lang-tr">Magnetokalorik Malzemelerin <span>Yapay Zeka</span> ile Keşfi</span>
+            </h1>
+            <p class="hero-description">
+                <span class="lang-en">Accelerating the design of next-generation high-entropy magnetocaloric alloys through machine learning and physics-informed models.</span>
+                <span class="lang-tr">Makine öğrenimi ve fizik bilgisi destekli modeller ile yeni nesil yüksek entropili magnetokalorik alaşımların tasarımını hızlandırıyoruz.</span>
+            </p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-primary">
+                    <span class="lang-en">Explore Research</span>
+                    <span class="lang-tr">Araştırmayı İncele</span>
+                    →
+                </a>
+                <a href="#publications" class="btn btn-secondary">
+                    <span class="lang-en">View Publications</span>
+                    <span class="lang-tr">Yayınları Gör</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-value">24</div>
+                <div class="stat-label">
+                    <span class="lang-en">Months Duration</span>
+                    <span class="lang-tr">Ay Süre</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">
+                    <span class="lang-en">Alloy Compositions</span>
+                    <span class="lang-tr">Alaşım Kompozisyonu</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">4</div>
+                <div class="stat-label">
+                    <span class="lang-en">ML Algorithms</span>
+                    <span class="lang-tr">ML Algoritması</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">2</div>
+                <div class="stat-label">
+                    <span class="lang-en">Production Methods</span>
+                    <span class="lang-tr">Üretim Yöntemi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">About the Project</span>
+                <span class="lang-tr">Proje Hakkında</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Bridging AI and Materials Science</span>
+                <span class="lang-tr">Yapay Zeka ve Malzeme Bilimini Birleştiriyoruz</span>
+            </h2>
+            <p class="section-description">
+                <span class="lang-en">Combining machine learning with experimental validation to discover novel magnetocaloric materials for sustainable cooling technologies.</span>
+                <span class="lang-tr">Sürdürülebilir soğutma teknolojileri için yeni magnetokalorik malzemeleri keşfetmek amacıyla makine öğrenimini deneysel doğrulamayla birleştiriyoruz.</span>
+            </p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-text">
+                <h3>
+                    <span class="lang-en">Project Overview</span>
+                    <span class="lang-tr">Projeye Genel Bakış</span>
+                </h3>
+                <p class="lang-en">
+                    The Magnetelligence project (TÜBİTAK 125F375) focuses on the AI-assisted design, optimization, and identification of high-entropy magnetocaloric alloys. By leveraging advanced machine learning techniques including LightGBM, XGBoost, Gradient Boosting, and Random Forest algorithms, we aim to accelerate the discovery of materials with superior magnetocaloric properties.
+                </p>
+                <p class="lang-tr">
+                    Magnetelligence projesi (TÜBİTAK 125F375), yüksek entropili magnetokalorik alaşımların yapay zeka destekli tasarımı, optimizasyonu ve belirlenmesine odaklanmaktadır. LightGBM, XGBoost, Gradient Boosting ve Random Forest algoritmaları dahil ileri düzey makine öğrenimi tekniklerinden yararlanarak, üstün magnetokalorik özelliklere sahip malzemelerin keşfini hızlandırmayı hedefliyoruz.
+                </p>
+
+                <div class="about-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">🤖</div>
+                        <div class="feature-text">
+                            <h4>
+                                <span class="lang-en">Machine Learning Screening</span>
+                                <span class="lang-tr">Makine Öğrenimi Taraması</span>
+                            </h4>
+                            <p>
+                                <span class="lang-en">Field-normalized ΔSref target for accurate predictions</span>
+                                <span class="lang-tr">Doğru tahminler için alan-normalize edilmiş ΔSref hedefi</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔬</div>
+                        <div class="feature-text">
+                            <h4>
+                                <span class="lang-en">Experimental Validation</span>
+                                <span class="lang-tr">Deneysel Doğrulama</span>
+                            </h4>
+                            <p>
+                                <span class="lang-en">Arc melting and thermal evaporation synthesis</span>
+                                <span class="lang-tr">Ark ergitme ve termal buharlaştırma sentezi</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-text">
+                            <h4>
+                                <span class="lang-en">Interpretable Models</span>
+                                <span class="lang-tr">Yorumlanabilir Modeller</span>
+                            </h4>
+                            <p>
+                                <span class="lang-en">SHAP analysis for feature importance insights</span>
+                                <span class="lang-tr">Özellik önem analizi için SHAP</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual">
+                <div class="about-card">
+                    <div class="code-block">
+                        <span class="code-comment"># Magnetocaloric ML Pipeline</span><br><br>
+                        <span class="code-keyword">import</span> lightgbm <span class="code-keyword">as</span> lgb<br>
+                        <span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> <span class="code-function">nested_cv</span><br><br>
+                        
+                        <span class="code-comment"># Load HEA magnetocaloric dataset</span><br>
+                        X, y = <span class="code-function">load_mce_data</span>(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;target=<span class="code-string">'delta_S_ref'</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;normalize_field=<span class="code-keyword">True</span><br>
+                        )<br><br>
+                        
+                        <span class="code-comment"># Train with nested cross-validation</span><br>
+                        model = lgb.<span class="code-function">LGBMRegressor</span>(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;n_estimators=<span class="code-number">500</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;learning_rate=<span class="code-number">0.05</span><br>
+                        )<br><br>
+                        
+                        <span class="code-comment"># SHAP interpretation</span><br>
+                        shap_values = <span class="code-function">explain_model</span>(model, X)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Research Team</span>
+                <span class="lang-tr">Araştırma Ekibi</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Meet the Team</span>
+                <span class="lang-tr">Ekibimiz</span>
+            </h2>
+        </div>
+
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-avatar">👨‍🔬</div>
+                <h3 class="team-name">Doç. Dr. Kağan ŞARLAR</h3>
+                <p class="team-title">
+                    <span class="lang-en">Principal Investigator</span>
+                    <span class="lang-tr">Proje Yürütücüsü</span>
+                </p>
+                <p class="team-affiliation">
+                    <span class="lang-en">Department of Physics<br>Karamanoğlu Mehmetbey University</span>
+                    <span class="lang-tr">Fizik Bölümü<br>Karamanoğlu Mehmetbey Üniversitesi</span>
+                </p>
+                <div class="team-links">
+                    <a href="https://orcid.org/0000-0002-8871-2357" target="_blank" class="team-link" title="ORCID">🆔</a>
+                    <a href="mailto:kagansarlar@kmu.edu.tr" class="team-link" title="Email">✉️</a>
+                    <a href="https://scholar.google.com" target="_blank" class="team-link" title="Google Scholar">📚</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Publications</span>
+                <span class="lang-tr">Yayınlar</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Research Output</span>
+                <span class="lang-tr">Araştırma Çıktıları</span>
+            </h2>
+            <p class="section-description">
+                <span class="lang-en">Peer-reviewed publications and preprints from our research.</span>
+                <span class="lang-tr">Araştırmamızdan hakemli yayınlar ve ön baskılar.</span>
+            </p>
+        </div>
+
+        <div class="publications-list">
+            <div class="pub-card">
+                <div class="pub-year">2025</div>
+                <div class="pub-content">
+                    <h4>Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target</h4>
+                    <p class="pub-authors">K. Şarlar</p>
+                    <p class="pub-journal">Journal of Magnetism and Magnetic Materials (Under Review)</p>
+                    <div class="pub-links">
+                        <a href="#" class="pub-link">📄 Preprint</a>
+                        <a href="#" class="pub-link">💾 Data</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pub-card">
+                <div class="pub-year">2024</div>
+                <div class="pub-content">
+                    <h4>
+                        <span class="lang-en">[More publications will be added as the project progresses]</span>
+                        <span class="lang-tr">[Proje ilerledikçe daha fazla yayın eklenecektir]</span>
+                    </h4>
+                    <p class="pub-authors">—</p>
+                    <p class="pub-journal">—</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datasets Section -->
+    <section id="datasets">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Open Data</span>
+                <span class="lang-tr">Açık Veri</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Datasets</span>
+                <span class="lang-tr">Veri Setleri</span>
+            </h2>
+            <p class="section-description">
+                <span class="lang-en">Open-access datasets for reproducible research.</span>
+                <span class="lang-tr">Tekrarlanabilir araştırmalar için açık erişimli veri setleri.</span>
+            </p>
+        </div>
+
+        <div class="datasets-grid">
+            <div class="dataset-card">
+                <div class="dataset-icon">📊</div>
+                <h4>MCE-HEA Database</h4>
+                <p>
+                    <span class="lang-en">Comprehensive magnetocaloric properties dataset of high-entropy alloys including composition, Curie temperature, and magnetic entropy change.</span>
+                    <span class="lang-tr">Yüksek entropili alaşımların kompozisyon, Curie sıcaklığı ve manyetik entropi değişimi dahil kapsamlı magnetokalorik özellikler veri seti.</span>
+                </p>
+                <div class="dataset-meta">
+                    <span>📁 500+ <span class="lang-en">entries</span><span class="lang-tr">kayıt</span></span>
+                    <span>📅 2025</span>
+                    <span>📄 CSV</span>
+                </div>
+                <a href="#" class="btn btn-secondary">
+                    <span class="lang-en">Download</span>
+                    <span class="lang-tr">İndir</span>
+                    ↓
+                </a>
+            </div>
+
+            <div class="dataset-card">
+                <div class="dataset-icon">🧬</div>
+                <h4>
+                    <span class="lang-en">Feature Engineering Set</span>
+                    <span class="lang-tr">Özellik Mühendisliği Seti</span>
+                </h4>
+                <p>
+                    <span class="lang-en">Pre-calculated elemental and compositional features for ML model training, including valence electron concentration and atomic size mismatch.</span>
+                    <span class="lang-tr">ML model eğitimi için önceden hesaplanmış elementel ve kompozisyonel özellikler, valans elektron konsantrasyonu ve atomik boyut uyumsuzluğu dahil.</span>
+                </p>
+                <div class="dataset-meta">
+                    <span>📁 50+ <span class="lang-en">features</span><span class="lang-tr">özellik</span></span>
+                    <span>📅 2025</span>
+                    <span>📄 CSV</span>
+                </div>
+                <a href="#" class="btn btn-secondary">
+                    <span class="lang-en">Download</span>
+                    <span class="lang-tr">İndir</span>
+                    ↓
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Software</span>
+                <span class="lang-tr">Yazılım</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Tools & Code</span>
+                <span class="lang-tr">Araçlar ve Kodlar</span>
+            </h2>
+            <p class="section-description">
+                <span class="lang-en">Open-source tools developed during this project.</span>
+                <span class="lang-tr">Bu proje kapsamında geliştirilen açık kaynak araçlar.</span>
+            </p>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-logo">🧲</div>
+                    <div>
+                        <h4 class="tool-name">MFSS</h4>
+                        <span class="tool-version">v1.0</span>
+                    </div>
+                </div>
+                <p class="tool-description">
+                    <span class="lang-en">Mean-Field Simulation Suite for calculating magnetocaloric properties based on mean-field theory.</span>
+                    <span class="lang-tr">Ortalama alan teorisine dayalı magnetokalorik özellikleri hesaplamak için Ortalama Alan Simülasyon Paketi.</span>
+                </p>
+                <div class="tool-features">
+                    <span class="tool-feature">Python</span>
+                    <span class="tool-feature">NumPy</span>
+                    <span class="tool-feature">Matplotlib</span>
+                </div>
+                <a href="#" class="btn btn-secondary">
+                    <span class="lang-en">View on GitHub</span>
+                    <span class="lang-tr">GitHub'da Gör</span>
+                    →
+                </a>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-logo">🤖</div>
+                    <div>
+                        <h4 class="tool-name">MCE-ML</h4>
+                        <span class="tool-version">v1.0</span>
+                    </div>
+                </div>
+                <p class="tool-description">
+                    <span class="lang-en">Machine learning pipeline for magnetocaloric materials screening with nested cross-validation and SHAP analysis.</span>
+                    <span class="lang-tr">İç içe çapraz doğrulama ve SHAP analizi ile magnetokalorik malzeme taraması için makine öğrenimi hattı.</span>
+                </p>
+                <div class="tool-features">
+                    <span class="tool-feature">LightGBM</span>
+                    <span class="tool-feature">XGBoost</span>
+                    <span class="tool-feature">SHAP</span>
+                    <span class="tool-feature">Scikit-learn</span>
+                </div>
+                <a href="#" class="btn btn-secondary">
+                    <span class="lang-en">View on GitHub</span>
+                    <span class="lang-tr">GitHub'da Gör</span>
+                    →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Get in Touch</span>
+                <span class="lang-tr">İletişime Geçin</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Contact Us</span>
+                <span class="lang-tr">Bize Ulaşın</span>
+            </h2>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>
+                    <span class="lang-en">Collaborate With Us</span>
+                    <span class="lang-tr">Bizimle İşbirliği Yapın</span>
+                </h3>
+                <p>
+                    <span class="lang-en">Interested in collaboration or have questions about our research? We'd love to hear from you.</span>
+                    <span class="lang-tr">İşbirliği yapmak ister misiniz veya araştırmamız hakkında sorularınız mı var? Sizden haber almaktan memnuniyet duyarız.</span>
+                </p>
+
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-text">
+                            <strong>Email</strong>
+                            kagansarlar@kmu.edu.tr
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🏛️</div>
+                        <div class="contact-text">
+                            <strong>
+                                <span class="lang-en">Address</span>
+                                <span class="lang-tr">Adres</span>
+                            </strong>
+                            <span class="lang-en">Department of Physics, Karamanoğlu Mehmetbey University, 70100 Karaman, Turkey</span>
+                            <span class="lang-tr">Fizik Bölümü, Karamanoğlu Mehmetbey Üniversitesi, 70100 Karaman, Türkiye</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🆔</div>
+                        <div class="contact-text">
+                            <strong>ORCID</strong>
+                            0000-0002-8871-2357
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3145.8!2d33.215!3d37.175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDEwJzMwLjAiTiAzM8KwMTInNTQuMCJF!5e0!3m2!1sen!2str!4v1600000000000!5m2!1sen!2str" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-icon">🧲</div>
+                <div>
+                    <div class="logo-text">Magnet<span>elligence</span></div>
+                    <div class="footer-text">© 2025 Magnetelligence Lab</div>
+                </div>
+            </div>
+
+            <div class="funding-badge">
+                <div class="funding-text">
+                    <strong>TÜBİTAK 3501</strong>
+                    <span class="lang-en">Project No: 125F375</span>
+                    <span class="lang-tr">Proje No: 125F375</span>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a href="#about">
+                    <span class="lang-en">About</span>
+                    <span class="lang-tr">Hakkında</span>
+                </a>
+                <a href="#publications">
+                    <span class="lang-en">Publications</span>
+                    <span class="lang-tr">Yayınlar</span>
+                </a>
+                <a href="#contact">
+                    <span class="lang-en">Contact</span>
+                    <span class="lang-tr">İletişim</span>
+                </a>
+                <a href="https://github.com/kaansarlar/magnetelligence" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Switcher
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                document.body.dataset.lang = lang;
+                langBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                localStorage.setItem('preferred-lang', lang);
+            });
+        });
+
+        // Load saved language preference
+        const savedLang = localStorage.getItem('preferred-lang');
+        if (savedLang) {
+            document.body.dataset.lang = savedLang;
+            langBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === savedLang);
+            });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Nav background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(15, 23, 42, 0.95)';
+            } else {
+                nav.style.background = 'rgba(15, 23, 42, 0.8)';
+            }
+        });
+    </script>
+</body>
+</html>
