@@ -1333,14 +1333,28 @@
             letter-spacing: -0.02em;
         }
 
-        /* Hero Logo - Large */
-        .hero-logo {
-            width: 200px;
-            height: 200px;
+        /* Floating Logo - Fixed Bottom Right */
+        .floating-logo {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease;
-            filter: drop-shadow(0 0 30px var(--accent-glow));
+            z-index: 999;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .floating-logo:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 30px var(--accent));
+            border-color: var(--accent);
         }
 
         /* Footer Logo */
@@ -1846,7 +1860,6 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <img src="logo.png" alt="Magnetelligence" class="hero-logo">
             <h1>
                 <span class="lang-en"><span>AI-Powered</span> Discovery of Magnetocaloric Materials</span>
                 <span class="lang-tr">Magnetokalorik Malzemelerin <span>Yapay Zeka</span> ile Keşfi</span>
@@ -2532,6 +2545,11 @@
             </div>
         </div>
     </section>
+
+    <!-- Floating Logo -->
+    <a href="#" class="floating-logo-container">
+        <img src="logo.png" alt="Magnetelligence" class="floating-logo">
+    </a>
 
     <!-- Footer -->
     <footer>
