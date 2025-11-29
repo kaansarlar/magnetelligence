@@ -1319,18 +1319,28 @@
             display: inline;
         }
 
-        /* Logo Image - Large Banner Style */
+        /* Logo Image - Small for Navigation */
         .logo-img {
-            width: 70px;
-            height: 70px;
-            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             object-fit: contain;
         }
 
         .logo-text {
             font-weight: 700;
-            font-size: 1.6rem;
+            font-size: 1.25rem;
             letter-spacing: -0.02em;
+        }
+
+        /* Hero Logo - Large */
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+            filter: drop-shadow(0 0 30px var(--accent-glow));
         }
 
         /* Footer Logo */
@@ -1836,6 +1846,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
+            <img src="logo.png" alt="Magnetelligence" class="hero-logo">
             <h1>
                 <span class="lang-en"><span>AI-Powered</span> Discovery of Magnetocaloric Materials</span>
                 <span class="lang-tr">Magnetokalorik Malzemelerin <span>Yapay Zeka</span> ile Keşfi</span>
