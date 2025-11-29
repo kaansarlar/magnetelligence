@@ -639,6 +639,10 @@
             margin-bottom: 0.5rem;
         }
 
+        .stat-text {
+            font-size: 2rem;
+        }
+
         .stat-label {
             color: var(--text-muted);
             font-size: 0.95rem;
@@ -1333,36 +1337,13 @@
             letter-spacing: -0.02em;
         }
 
-        /* Floating Logo - Fixed Bottom Right */
-        .floating-logo {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            z-index: 999;
-            filter: drop-shadow(0 0 20px var(--accent-glow));
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border-radius: 12px;
-            background: rgba(15, 23, 42, 0.8);
-            padding: 10px;
-            border: 1px solid var(--border);
-        }
-
-        .floating-logo:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 30px var(--accent));
-            border-color: var(--accent);
-        }
-
-        /* Footer Logo */
+        /* Footer Logo - Large */
         .footer-logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
             object-fit: contain;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
         }
 
         /* Team Photo */
@@ -1900,10 +1881,10 @@
                 </div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">4</div>
+                <div class="stat-value stat-text">ML</div>
                 <div class="stat-label">
-                    <span class="lang-en">ML Algorithms</span>
-                    <span class="lang-tr">ML Algoritması</span>
+                    <span class="lang-en">Driven Design</span>
+                    <span class="lang-tr">Destekli Tasarım</span>
                 </div>
             </div>
             <div class="stat-item">
@@ -2545,11 +2526,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Floating Logo -->
-    <a href="#" class="floating-logo-container">
-        <img src="logo.png" alt="Magnetelligence" class="floating-logo">
-    </a>
 
     <!-- Footer -->
     <footer>
