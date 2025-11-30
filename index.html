@@ -336,12 +336,9 @@
             font-size: 1.2rem;
         }
 
-        /* Navigation */
+        /* Navigation (banner NOT sticky) */
         nav {
-            position: sticky;
-            top: 0;
-            left: 0;
-            right: 0;
+            position: relative;
             z-index: 1000;
             padding: 0.75rem 2rem;
             background: rgba(15, 23, 42, 0.9);
@@ -593,8 +590,8 @@
         }
 
         .stat-label {
-            color: var(--text-muted);
             font-size: 0.95rem;
+            color: var(--text-muted);
         }
 
         section {
@@ -1708,13 +1705,11 @@
             <ul class="nav-links">
                 <li><a href="#about"><span class="lang-en">About</span><span class="lang-tr">Hakkında</span></a></li>
                 <li><a href="#news"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></a></li>
+                <!-- Research sekmesi: Publications + Datasets + Tools + Presentations bölümlerini temsil ediyor -->
+                <li><a href="#publications"><span class="lang-en">Research</span><span class="lang-tr">Araştırma</span></a></li>
                 <li><a href="#team"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
                 <li><a href="#funding"><span class="lang-en">Funding</span><span class="lang-tr">Finansman</span></a></li>
-                <li><a href="#publications"><span class="lang-en">Publications</span><span class="lang-tr">Yayınlar</span></a></li>
-                <li><a href="#datasets"><span class="lang-en">Datasets</span><span class="lang-tr">Veri Setleri</span></a></li>
-                <li><a href="#tools"><span class="lang-en">Tools</span><span class="lang-tr">Araçlar</span></a></li>
                 <li><a href="#open-position"><span class="lang-en">Open Position</span><span class="lang-tr">Açık Pozisyon</span></a></li>
-                <li><a href="#presentations"><span class="lang-en">Presentations</span><span class="lang-tr">Sunumlar</span></a></li>
                 <li><a href="#collaboration"><span class="lang-en">Collaborate</span><span class="lang-tr">İşbirliği</span></a></li>
                 <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
                 <li>
@@ -1749,8 +1744,8 @@
                     →
                 </a>
                 <a href="#publications" class="btn btn-secondary">
-                    <span class="lang-en">View Publications</span>
-                    <span class="lang-tr">Yayınları Gör</span>
+                    <span class="lang-en">View Research Output</span>
+                    <span class="lang-tr">Araştırma Çıktılarını Gör</span>
                 </a>
             </div>
         </div>
@@ -2115,15 +2110,16 @@
         </div>
     </section>
 
+    <!-- Research sekmesi buradan itibaren: Publications + Datasets + Tools + Presentations -->
     <section id="publications">
         <div class="section-header">
             <span class="section-tag">
-                <span class="lang-en">Publications</span>
-                <span class="lang-tr">Yayınlar</span>
+                <span class="lang-en">Research</span>
+                <span class="lang-tr">Araştırma</span>
             </span>
             <h2 class="section-title">
-                <span class="lang-en">Research Output</span>
-                <span class="lang-tr">Araştırma Çıktıları</span>
+                <span class="lang-en">Publications</span>
+                <span class="lang-tr">Yayınlar</span>
             </h2>
             <p class="section-description">
                 <span class="lang-en">Peer-reviewed publications and preprints from our research.</span>
@@ -2497,8 +2493,8 @@
                     <span class="lang-tr">Hakkında</span>
                 </a>
                 <a href="#publications">
-                    <span class="lang-en">Publications</span>
-                    <span class="lang-tr">Yayınlar</span>
+                    <span class="lang-en">Research</span>
+                    <span class="lang-tr">Araştırma</span>
                 </a>
                 <a href="#contact">
                     <span class="lang-en">Contact</span>
@@ -2548,15 +2544,6 @@
                     navLinks.classList.remove('active');
                 }
             });
-        });
-
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(15, 23, 42, 0.95)';
-            } else {
-                nav.style.background = 'rgba(15, 23, 42, 0.9)';
-            }
         });
     </script>
 </body>
