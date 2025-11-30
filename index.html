@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magnetelligence Lab | AI-Driven Magnetocaloric Materials Discovery</title>
     <meta name="description" content="AI-Assisted Design of High-Entropy Magnetocaloric Alloys - TÜBİTAK 125F375 Project">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧲</text></svg>">
-    
+
     <style>
         :root {
             --primary: #0f172a;
@@ -58,7 +58,7 @@
             width: 100%;
             height: 100%;
             z-index: -3;
-            background: 
+            background:
                 radial-gradient(ellipse at 20% 30%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
         }
@@ -152,7 +152,6 @@
             transform: rotate(-20deg);
             animation-delay: 1s;
         }
-
         .field-line-curve:nth-child(4) {
             width: 200px; height: 100px;
             bottom: 15%; right: 5%;
@@ -203,14 +202,14 @@
             animation: spinAlign 3s ease-in-out infinite;
         }
 
-        .spin.up::before { 
-            content: '↑'; 
+        .spin.up::before {
+            content: '↑';
             color: #06b6d4;
             animation: spinAlignUp 4s ease-in-out infinite;
         }
 
-        .spin.random::before { 
-            animation: spinRandom 2s ease-in-out infinite; 
+        .spin.random::before {
+            animation: spinRandom 2s ease-in-out infinite;
             color: #f97316;
         }
 
@@ -282,7 +281,7 @@
         .ai-particle:nth-child(4) { left: 65%; animation-delay: 4.5s; }
 
         @keyframes aiFlow {
-            0% { 
+            0% {
                 top: 70%;
                 opacity: 0;
                 transform: scale(0.5);
@@ -295,7 +294,7 @@
                 opacity: 1;
                 transform: scale(1);
             }
-            100% { 
+            100% {
                 top: 20%;
                 opacity: 0;
                 transform: scale(0.5);
@@ -337,9 +336,9 @@
             font-size: 1.2rem;
         }
 
-        /* Navigation (NOT fixed anymore) */
+        /* Navigation */
         nav {
-            position: relative;
+            position: sticky;
             top: 0;
             left: 0;
             right: 0;
@@ -355,6 +354,7 @@
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
@@ -364,6 +364,13 @@
             gap: 1rem;
             text-decoration: none;
             color: var(--text);
+        }
+
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: contain;
         }
 
         .logo-text {
@@ -384,7 +391,7 @@
             gap: 2rem;
             list-style: none;
             align-items: center;
-            margin-left: auto; /* LOGO ile menü arasına boşluk */
+            margin-left: 2.5rem;
         }
 
         .nav-links a {
@@ -458,13 +465,12 @@
             transition: all 0.3s ease;
         }
 
-        /* Hero Section */
         .hero {
-            min-height: 90vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5rem 2rem 4rem;
+            padding: 8rem 2rem 4rem;
             position: relative;
         }
 
@@ -727,7 +733,38 @@
         .code-function { color: #60a5fa; }
         .code-number { color: #f472b6; }
 
-        /* Team */
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-label {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .code-link {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .code-link:hover {
+            color: var(--accent);
+        }
+
+        .btn-coming-soon {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -812,7 +849,6 @@
             border-color: var(--accent);
         }
 
-        /* News */
         .news-list {
             display: flex;
             flex-direction: column;
@@ -859,7 +895,6 @@
             font-size: 0.95rem;
         }
 
-        /* Funding & partners */
         .funding-content {
             display: flex;
             flex-direction: column;
@@ -922,6 +957,7 @@
             gap: 1.5rem;
             font-size: 0.85rem;
             color: var(--text-muted);
+            flex-wrap: wrap;
         }
 
         .partners-section {
@@ -998,7 +1034,6 @@
             font-size: 0.85rem;
         }
 
-        /* Publications */
         .publications-list {
             display: flex;
             flex-direction: column;
@@ -1071,7 +1106,6 @@
             color: var(--accent);
         }
 
-        /* Datasets */
         .datasets-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -1120,15 +1154,22 @@
             margin-bottom: 1.5rem;
             font-size: 0.85rem;
             color: var(--text-muted);
+            flex-wrap: wrap;
         }
 
-        .dataset-meta span {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+        .btn-disabled {
+            background: var(--secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            cursor: not-allowed;
+            opacity: 0.6;
+            padding: 0.875rem 1.75rem;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
         }
 
-        /* Tools */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1212,7 +1253,68 @@
             color: var(--text-muted);
         }
 
-        /* Presentations */
+        /* Open Position Section */
+        .open-position-grid {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .open-position-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .open-position-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .open-position-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .open-position-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+        }
+
+        .open-position-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .open-position-body p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .open-position-list {
+            margin-left: 1.2rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .open-position-list li {
+            margin-bottom: 0.35rem;
+        }
+
         .presentations-list {
             display: flex;
             flex-direction: column;
@@ -1249,7 +1351,6 @@
             font-size: 0.9rem;
         }
 
-        /* Collaboration */
         .collab-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1290,79 +1391,6 @@
             text-align: center;
         }
 
-        .btn-coming-soon {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .btn-disabled {
-            background: var(--secondary);
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            cursor: not-allowed;
-            opacity: 0.6;
-            padding: 0.875rem 1.75rem;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        /* OPEN POSITION SECTION */
-        .open-position-card {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            border-radius: 20px;
-            border: 1px solid var(--accent);
-            padding: 2.5rem;
-            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.15);
-        }
-
-        .open-position-tagline {
-            color: var(--accent-light);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .open-position-title {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-        }
-
-        .open-position-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .open-position-meta span {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .open-position-list {
-            margin: 0 0 1.5rem 1.2rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .open-position-list li {
-            margin-bottom: 0.4rem;
-        }
-
-        .open-position-contact {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        /* Contact */
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1453,6 +1481,13 @@
             gap: 0.75rem;
         }
 
+        .footer-logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
         .footer-text {
             color: var(--text-muted);
             font-size: 0.9rem;
@@ -1474,21 +1509,6 @@
             color: var(--accent);
         }
 
-        .logo-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 12px;
-            object-fit: contain;
-        }
-
-        .footer-logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: contain;
-        }
-
-        /* Language toggle display handling */
         .lang-en, .lang-tr {
             display: none;
         }
@@ -1506,7 +1526,6 @@
             display: inline;
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
             .about-content,
             .contact-content {
@@ -1531,6 +1550,7 @@
                 padding: 1.5rem;
                 gap: 1rem;
                 border-bottom: 1px solid var(--border);
+                margin-left: 0;
             }
 
             .nav-links.active {
@@ -1542,7 +1562,7 @@
             }
 
             .hero {
-                padding: 4.5rem 1.5rem 3rem;
+                padding: 7rem 1.5rem 3rem;
             }
 
             .hero-description {
@@ -1566,8 +1586,8 @@
 
             .datasets-grid,
             .tools-grid,
-            .partners-grid,
-            .collab-grid {
+            .collab-grid,
+            .partners-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1593,7 +1613,6 @@
     </style>
 </head>
 <body data-lang="en">
-    <!-- Background layers -->
     <div class="bg-animation"></div>
 
     <div class="neural-network">
@@ -1602,12 +1621,15 @@
             <circle class="nn-node" cx="150" cy="250" r="6"/>
             <circle class="nn-node" cx="150" cy="350" r="6"/>
             <circle class="nn-node" cx="150" cy="450" r="6"/>
+
             <circle class="nn-node-hidden" cx="350" cy="180" r="5"/>
             <circle class="nn-node-hidden" cx="350" cy="280" r="5"/>
             <circle class="nn-node-hidden" cx="350" cy="380" r="5"/>
+
             <circle class="nn-node-hidden" cx="550" cy="200" r="5"/>
             <circle class="nn-node-hidden" cx="550" cy="300" r="5"/>
             <circle class="nn-node-hidden" cx="550" cy="400" r="5"/>
+
             <circle class="nn-node-output" cx="750" cy="250" r="7"/>
             <circle class="nn-node-output" cx="750" cy="350" r="7"/>
 
@@ -1677,7 +1699,6 @@
         <div class="ai-particle"></div>
     </div>
 
-    <!-- NAVBAR -->
     <nav>
         <div class="nav-container">
             <a href="#" class="logo">
@@ -1689,9 +1710,11 @@
                 <li><a href="#news"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></a></li>
                 <li><a href="#team"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
                 <li><a href="#funding"><span class="lang-en">Funding</span><span class="lang-tr">Finansman</span></a></li>
-                <!-- Research = Publications + Datasets + Tools + Presentations -->
-                <li><a href="#publications"><span class="lang-en">Research</span><span class="lang-tr">Araştırma</span></a></li>
-                <li><a href="#open-position"><span class="lang-en">Open Position</span><span class="lang-tr">Burslu Pozisyon</span></a></li>
+                <li><a href="#publications"><span class="lang-en">Publications</span><span class="lang-tr">Yayınlar</span></a></li>
+                <li><a href="#datasets"><span class="lang-en">Datasets</span><span class="lang-tr">Veri Setleri</span></a></li>
+                <li><a href="#tools"><span class="lang-en">Tools</span><span class="lang-tr">Araçlar</span></a></li>
+                <li><a href="#open-position"><span class="lang-en">Open Position</span><span class="lang-tr">Açık Pozisyon</span></a></li>
+                <li><a href="#presentations"><span class="lang-en">Presentations</span><span class="lang-tr">Sunumlar</span></a></li>
                 <li><a href="#collaboration"><span class="lang-en">Collaborate</span><span class="lang-tr">İşbirliği</span></a></li>
                 <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
                 <li>
@@ -1709,7 +1732,6 @@
         </div>
     </nav>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <h1>
@@ -1734,7 +1756,6 @@
         </div>
     </section>
 
-    <!-- STATS -->
     <div class="stats">
         <div class="stats-container">
             <div class="stat-item">
@@ -1768,7 +1789,6 @@
         </div>
     </div>
 
-    <!-- ABOUT -->
     <section id="about">
         <div class="section-header">
             <span class="section-tag">
@@ -1857,16 +1877,19 @@
                         <span class="code-comment"># Magnetocaloric ML Pipeline (Pseudocode)</span><br><br>
                         <span class="code-keyword">import</span> lightgbm <span class="code-keyword">as</span> lgb<br>
                         <span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> <span class="code-function">cross_val_score</span><br><br>
+
                         <span class="code-comment"># Load HEA magnetocaloric dataset</span><br>
                         X, y = <span class="code-function">load_mce_data</span>(<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;target=<span class="code-string">'delta_S_ref'</span>,<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;normalize_field=<span class="code-keyword">True</span><br>
                         )<br><br>
+
                         <span class="code-comment"># Train with nested cross-validation</span><br>
                         model = lgb.<span class="code-function">LGBMRegressor</span>(<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;n_estimators=<span class="code-number">500</span>,<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;learning_rate=<span class="code-number">0.05</span><br>
                         )<br><br>
+
                         <span class="code-comment"># SHAP interpretation</span><br>
                         shap_values = <span class="code-function">explain_model</span>(model, X)
                     </div>
@@ -1875,7 +1898,6 @@
         </div>
     </section>
 
-    <!-- TEAM -->
     <section id="team">
         <div class="section-header">
             <span class="section-tag">
@@ -1950,69 +1972,6 @@
         </div>
     </section>
 
-    <!-- OPEN POSITION -->
-    <section id="open-position">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Open Position</span>
-                <span class="lang-tr">Açık Pozisyon</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Funded MSc Position</span>
-                <span class="lang-tr">Burslu Yüksek Lisans Pozisyonu</span>
-            </h2>
-        </div>
-
-        <div class="open-position-card">
-            <div class="open-position-tagline">
-                <span class="lang-en">We are looking for a motivated MSc student to join the Magnetelligence project.</span>
-                <span class="lang-tr">Magnetelligence projesine katılacak motivasyonu yüksek bir YL öğrencisi arıyoruz.</span>
-            </div>
-
-            <div class="open-position-title">
-                <span class="lang-en">MSc in Physics / Materials Science (Magnetocaloric High-Entropy Alloys)</span>
-                <span class="lang-tr">Fizik / Malzeme Bilimi Yüksek Lisans (Magnetokalorik Yüksek Entropili Alaşımlar)</span>
-            </div>
-
-            <div class="open-position-meta">
-                <span>📍 KMÜ – Karaman</span>
-                <span>📅 2025–2027</span>
-                <span>
-                    💰
-                    <span class="lang-en">Scholarship funded by TÜBİTAK 3501 (125F375)</span>
-                    <span class="lang-tr">Burs: TÜBİTAK 3501 (125F375) kapsamında</span>
-                </span>
-            </div>
-
-            <ul class="open-position-list">
-                <li>
-                    <span class="lang-en">Research topics: magnetocaloric effect, high-entropy alloys, machine learning for materials.</span>
-                    <span class="lang-tr">Çalışma konuları: magnetokalorik etki, yüksek entropili alaşımlar, malzemeler için makine öğrenimi.</span>
-                </li>
-                <li>
-                    <span class="lang-en">Background: Physics, Materials Science, Metallurgical Engineering or related fields.</span>
-                    <span class="lang-tr">Altyapı: Fizik, Malzeme Bilimi, Metalurji Mühendisliği veya ilgili alanlar.</span>
-                </li>
-                <li>
-                    <span class="lang-en">Basic Python and data analysis skills are highly appreciated.</span>
-                    <span class="lang-tr">Temel Python ve veri analizi bilgisi tercih sebebidir.</span>
-                </li>
-                <li>
-                    <span class="lang-en">The student will be supported with a monthly scholarship and will actively contribute to experiments and ML modeling.</span>
-                    <span class="lang-tr">Öğrenci, aylık burs ile desteklenecek ve deneysel çalışmalar ile ML modelleme süreçlerine aktif olarak katılacaktır.</span>
-                </li>
-            </ul>
-
-            <p class="open-position-contact">
-                <span class="lang-en">For applications and further details, please contact:</span>
-                <span class="lang-tr">Başvuru ve detaylı bilgi için:</span>
-                <br>
-                <strong>kagansarlar@kmu.edu.tr</strong>
-            </p>
-        </div>
-    </section>
-
-    <!-- NEWS -->
     <section id="news">
         <div class="section-header">
             <span class="section-tag">
@@ -2032,12 +1991,16 @@
                 </div>
                 <div class="news-content">
                     <h4>
-                        <span class="lang-en">Project Officially Starts!</span>
-                        <span class="lang-tr">Proje Resmi Olarak Başladı!</span>
+                        <span class="lang-en">Project Accepted!</span>
+                        <span class="lang-tr">Proje Kabul Edildi!</span>
                     </h4>
                     <p>
-                        <span class="lang-en">TÜBİTAK 3501 Career Development Program project "AI-Assisted Design of High-Entropy Magnetocaloric Alloys" has been accepted and officially started.</span>
-                        <span class="lang-tr">TÜBİTAK 3501 Kariyer Geliştirme Programı projesi "Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı" kabul edildi ve resmi olarak başladı.</span>
+                        <span class="lang-en">
+                            The TÜBİTAK 3501 Career Development Program project "AI-Assisted Design of High-Entropy Magnetocaloric Alloys" was accepted on 4 November 2025. The funded project and MSc scholarship period will run between 2026–2028.
+                        </span>
+                        <span class="lang-tr">
+                            TÜBİTAK 3501 Kariyer Geliştirme Programı kapsamında yürütülecek "Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı" projesi 4 Kasım 2025 tarihinde kabul edilmiştir. Proje ve yüksek lisans burs dönemi 2026–2028 yılları arasında yürütülecektir.
+                        </span>
                     </p>
                 </div>
             </div>
@@ -2060,7 +2023,6 @@
         </div>
     </section>
 
-    <!-- FUNDING -->
     <section id="funding">
         <div class="section-header">
             <span class="section-tag">
@@ -2093,7 +2055,12 @@
                         </p>
                         <div class="funding-meta">
                             <span>📅 24 <span class="lang-en">months</span><span class="lang-tr">ay</span></span>
-                            <span>📍 2025–2027</span>
+                            <span>📍 2026–2028</span>
+                            <span>
+                                📜
+                                <span class="lang-en">Accepted on 4 November 2025</span>
+                                <span class="lang-tr">Kabul tarihi: 4 Kasım 2025</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -2148,7 +2115,6 @@
         </div>
     </section>
 
-    <!-- PUBLICATIONS (Research anchor) -->
     <section id="publications">
         <div class="section-header">
             <span class="section-tag">
@@ -2193,7 +2159,6 @@
         </div>
     </section>
 
-    <!-- DATASETS -->
     <section id="datasets">
         <div class="section-header">
             <span class="section-tag">
@@ -2223,7 +2188,7 @@
                     <span>📅 2025</span>
                     <span>📄 CSV</span>
                 </div>
-                <button class="btn btn-disabled" disabled>
+                <button class="btn-disabled" disabled>
                     <span class="lang-en">Coming Soon</span>
                     <span class="lang-tr">Yakında</span>
                 </button>
@@ -2244,7 +2209,7 @@
                     <span>📅 2025</span>
                     <span>📄 CSV</span>
                 </div>
-                <button class="btn btn-disabled" disabled>
+                <button class="btn-disabled" disabled>
                     <span class="lang-en">Coming Soon</span>
                     <span class="lang-tr">Yakında</span>
                 </button>
@@ -2252,7 +2217,6 @@
         </div>
     </section>
 
-    <!-- TOOLS -->
     <section id="tools">
         <div class="section-header">
             <span class="section-tag">
@@ -2288,7 +2252,7 @@
                     <span class="tool-feature">SHAP</span>
                     <span class="tool-feature">Scikit-learn</span>
                 </div>
-                <button class="btn btn-disabled" disabled>
+                <button class="btn-disabled" disabled>
                     <span class="lang-en">Coming Soon</span>
                     <span class="lang-tr">Yakında</span>
                 </button>
@@ -2296,7 +2260,77 @@
         </div>
     </section>
 
-    <!-- PRESENTATIONS -->
+    <section id="open-position">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Open Position</span>
+                <span class="lang-tr">Açık Pozisyon</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">MSc Scholarship Position (2026–2028)</span>
+                <span class="lang-tr">Yüksek Lisans Burslu Pozisyonu (2026–2028)</span>
+            </h2>
+        </div>
+
+        <div class="open-position-grid">
+            <div class="open-position-card">
+                <div class="open-position-header">
+                    <div class="open-position-title">
+                        <span class="lang-en">MSc in Physics / Solid State Physics / Materials Science (Magnetocaloric High-Entropy Alloys)</span>
+                        <span class="lang-tr">Fizik / Katıhal Fiziği / Malzeme Bilimi Yüksek Lisans (Magnetokalorik Yüksek Entropili Alaşımlar)</span>
+                    </div>
+                    <div class="open-position-badge">
+                        <span class="lang-en">Fully Funded MSc</span>
+                        <span class="lang-tr">Burslu Yüksek Lisans</span>
+                    </div>
+                </div>
+
+                <div class="open-position-meta">
+                    <span>📍 KMÜ – Karaman</span>
+                    <span>📅 2026–2028</span>
+                    <span>
+                        💰
+                        <span class="lang-en">Scholarship funded by TÜBİTAK 3501 (125F375)</span>
+                        <span class="lang-tr">Burs: TÜBİTAK 3501 (125F375) kapsamında</span>
+                    </span>
+                </div>
+
+                <div class="open-position-body">
+                    <p class="lang-en">
+                        We are looking for a motivated MSc student to work on AI-guided design and experimental characterization of magnetocaloric high-entropy alloys within the TÜBİTAK 3501 project. The MSc scholarship is planned for the 2026–2028 period, following the project acceptance on 4 November 2025.
+                    </p>
+                    <p class="lang-tr">
+                        TÜBİTAK 3501 projesi kapsamında, magnetokalorik yüksek entropili alaşımların yapay zekâ destekli tasarımı ve deneysel karakterizasyonu üzerine çalışacak motive bir yüksek lisans öğrencisi arıyoruz. Proje 4 Kasım 2025 tarihinde kabul edilmiş olup, yüksek lisans burs dönemi 2026–2028 yıllarını kapsamaktadır.
+                    </p>
+
+                    <h4>
+                        <span class="lang-en">Expected Background</span>
+                        <span class="lang-tr">Beklenen Ön Koşullar</span>
+                    </h4>
+                    <ul class="open-position-list">
+                        <li class="lang-en">BSc degree (or last-year student) in Physics, Solid State Physics, Materials Science or related fields.</li>
+                        <li class="lang-tr">Fizik, Katıhal Fiziği, Malzeme Bilimi veya ilgili alanlarda lisans mezunu (veya son sınıf öğrencisi) olmak.</li>
+                        <li class="lang-en">Basic programming skills (preferably Python) and interest in machine learning.</li>
+                        <li class="lang-tr">Temel programlama bilgisi (tercihen Python) ve makine öğrenimine ilgi.</li>
+                        <li class="lang-en">Interest in magnetism, magnetic materials, or energy-efficient cooling technologies.</li>
+                        <li class="lang-tr">Manyetizma, manyetik malzemeler veya enerji verimli soğutma teknolojilerine ilgi duymak.</li>
+                    </ul>
+
+                    <h4>
+                        <span class="lang-en">How to Apply</span>
+                        <span class="lang-tr">Başvuru Şekli</span>
+                    </h4>
+                    <p class="lang-en">
+                        Please send your CV, transcript, and a short motivation letter to <strong>kagansarlar@kmu.edu.tr</strong> with the subject line “MSc Magnetocaloric HEA – Application”. Informal inquiries are welcome.
+                    </p>
+                    <p class="lang-tr">
+                        Özgeçmişinizi, not dökümünüzü ve kısa bir motivasyon mektubunu konu kısmına “Yüksek Lisans Magnetokalorik HEA – Başvuru” yazarak <strong>kagansarlar@kmu.edu.tr</strong> adresine gönderiniz. Sorularınız için gayriresmî iletişime de açıktız.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="presentations">
         <div class="section-header">
             <span class="section-tag">
@@ -2330,7 +2364,6 @@
         </div>
     </section>
 
-    <!-- COLLABORATION -->
     <section id="collaboration">
         <div class="section-header">
             <span class="section-tag">
@@ -2390,7 +2423,6 @@
         </div>
     </section>
 
-    <!-- CONTACT -->
     <section id="contact">
         <div class="section-header">
             <span class="section-tag">
@@ -2449,7 +2481,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
@@ -2479,7 +2510,6 @@
     </footer>
 
     <script>
-        // Language Switcher
         const langBtns = document.querySelectorAll('.lang-btn');
         langBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -2499,22 +2529,18 @@
             });
         }
 
-        // Mobile Menu Toggle
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const navLinks = document.querySelector('.nav-links');
-        
+
         mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
 
-        // Smooth scroll for anchor links (ignore href="#")
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#') return; // logo gibi linkler
-                e.preventDefault();
-                const target = document.querySelector(href);
+                const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
+                    e.preventDefault();
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
@@ -2522,6 +2548,15 @@
                     navLinks.classList.remove('active');
                 }
             });
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(15, 23, 42, 0.95)';
+            } else {
+                nav.style.background = 'rgba(15, 23, 42, 0.9)';
+            }
         });
     </script>
 </body>
