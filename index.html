@@ -1108,6 +1108,21 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
         }
+        .pub-doi {
+                font-size: 0.85rem;
+                color: var(--text-muted);
+                margin-top: 0.25rem;
+        }
+
+        .pub-doi a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .pub-doi a:hover {
+            text-decoration: underline;
+        }
+
 
         .dataset-card {
             background: var(--card-bg);
@@ -2132,18 +2147,34 @@
         </div>
 
         <div class="publications-list">
-            <div class="pub-card">
-                <div class="pub-year">2025</div>
-                <div class="pub-content">
-                    <h4>Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target</h4>
-                    <p class="pub-authors">K. Şarlar</p>
-                    <p class="pub-journal">Journal of Magnetism and Magnetic Materials (Under Review)</p>
-                    <div class="pub-links">
-                        <a href="#" class="pub-link">📄 Preprint</a>
-                        <a href="#" class="pub-link">💾 Data</a>
-                    </div>
-                </div>
-            </div>
+           <div class="pub-card">
+    <div class="pub-year">2025</div>
+    <div class="pub-content">
+        <h4>Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target</h4>
+        <p class="pub-authors">K. Şarlar</p>
+        <p class="pub-journal">
+            <span class="lang-en">Journal of Magnetism and Magnetic Materials (Under Review)</span>
+            <span class="lang-tr">Journal of Magnetism and Magnetic Materials (Hakem Sürecinde)</span>
+        </p>
+        <p class="pub-doi">
+            DOI:
+            <a href="http://dx.doi.org/10.2139/ssrn.5610154" target="_blank" rel="noopener noreferrer">
+                10.2139/ssrn.5610154
+            </a>
+        </p>
+        <div class="pub-links">
+            <a href="http://dx.doi.org/10.2139/ssrn.5610154" class="pub-link" target="_blank" rel="noopener noreferrer">
+                📄 <span class="lang-en">Preprint (SSRN)</span>
+                <span class="lang-tr">Ön Baskı (SSRN)</span>
+            </a>
+            <a href="#" class="pub-link">
+                💾 <span class="lang-en">Data</span>
+                <span class="lang-tr">Veri Seti</span>
+            </a>
+        </div>
+    </div>
+</div>
+
 
             <div class="pub-card">
                 <div class="pub-year">2026</div>
