@@ -1553,7 +1553,6 @@
             padding: 0 2rem 4rem;
             max-width: 1400px;
             margin: 0 auto;
-            transition: all 0.35s ease;
         }
 
         .film-wrapper {
@@ -1564,7 +1563,6 @@
             border: 1px solid var(--border);
             background: #000;
             box-shadow: 0 10px 40px rgba(6, 182, 212, 0.08);
-            transition: all 0.35s ease;
         }
 
         .film-wrapper video {
@@ -1573,29 +1571,35 @@
             background: #000;
         }
 
-        body.intro-floating #lab-film {
+        .floating-film-player {
             position: fixed;
             top: 20px;
             right: 20px;
             width: min(360px, 32vw);
             max-width: 360px;
             z-index: 3000;
-            padding: 0;
-            margin: 0;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
         }
 
-        body.intro-floating #lab-film .section-header {
-            display: none;
+        .floating-film-player.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
-        body.intro-floating #lab-film .film-wrapper {
+        .floating-film-player .film-wrapper {
             max-width: 100%;
             margin: 0;
             border-radius: 16px;
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
         }
 
-        body.intro-floating #lab-film video {
+        .floating-film-player video {
             border-radius: 16px;
         }
 
@@ -1642,7 +1646,7 @@
                 font-size: 1.1rem;
             }
 
-            body.intro-floating #lab-film {
+            .floating-film-player {
                 width: 220px;
                 top: 12px;
                 right: 12px;
@@ -1840,6 +1844,14 @@
         </div>
     </section>
 
+    <div id="floatingFilmPlayer" class="floating-film-player" aria-hidden="true">
+        <div class="film-wrapper">
+            <video id="introFilmFloating" muted playsinline preload="auto" controls>
+                <source src="Magnetelligence_alt_yazılı_1.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
     <section id="lab-film" class="lab-film">
         <div class="section-header">
             <span class="section-tag">
@@ -1853,7 +1865,7 @@
         </div>
 
         <div class="film-wrapper">
-            <video id="introFilm" autoplay muted playsinline preload="auto" controls>
+            <video id="introFilmMain" muted playsinline preload="metadata" controls>
                 <source src="Magnetelligence_alt_yazılı_1.mp4" type="video/mp4">
             </video>
         </div>
@@ -2738,32 +2750,53 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            const video = document.getElementById("introFilm");
+            const floatingPlayer = document.getElementById("floatingFilmPlayer");
+            const floatingVideo = document.getElementById("introFilmFloating");
+            const mainVideo = document.getElementById("introFilmMain");
             const filmSection = document.getElementById("lab-film");
 
-            if (!video || !filmSection) return;
+            if (!floatingPlayer || !floatingVideo || !mainVideo || !filmSection) return;
 
             const introFinished = sessionStorage.getItem("introFilmFinished") === "true";
+            const introHandedOff = sessionStorage.getItem("introFilmHandedOff") === "true";
 
-            if (!introFinished) {
-                document.body.classList.add("intro-floating");
-                video.play().catch(() => {});
+            function showFloating() {
+                floatingPlayer.classList.add("active");
+                floatingPlayer.setAttribute("aria-hidden", "false");
+            }
+
+            function hideFloating() {
+                floatingPlayer.classList.remove("active");
+                floatingPlayer.setAttribute("aria-hidden", "true");
+            }
+
+            if (!introFinished && !introHandedOff) {
+                showFloating();
+                floatingVideo.play().catch(() => {});
             } else {
-                document.body.classList.remove("intro-floating");
-                video.pause();
-                video.currentTime = 0;
+                hideFloating();
+                floatingVideo.pause();
+                floatingVideo.currentTime = 0;
             }
 
             const observer = new IntersectionObserver((entries) => {
                 const entry = entries[0];
                 const finished = sessionStorage.getItem("introFilmFinished") === "true";
+                const handedOff = sessionStorage.getItem("introFilmHandedOff") === "true";
 
-                if (finished) return;
+                if (finished || handedOff) return;
 
                 if (entry.isIntersecting) {
-                    document.body.classList.remove("intro-floating");
-                } else {
-                    document.body.classList.add("intro-floating");
+                    const currentTime = floatingVideo.currentTime || 0;
+                    floatingVideo.pause();
+                    hideFloating();
+
+                    try {
+                        mainVideo.currentTime = currentTime;
+                    } catch (e) {}
+
+                    mainVideo.play().catch(() => {});
+                    sessionStorage.setItem("introFilmHandedOff", "true");
                 }
             }, {
                 threshold: 0.35
@@ -2771,11 +2804,17 @@
 
             observer.observe(filmSection);
 
-            video.addEventListener("ended", function () {
+            floatingVideo.addEventListener("ended", function () {
                 sessionStorage.setItem("introFilmFinished", "true");
-                document.body.classList.remove("intro-floating");
-                video.pause();
-                video.currentTime = 0;
+                hideFloating();
+                floatingVideo.pause();
+                floatingVideo.currentTime = 0;
+                mainVideo.pause();
+                mainVideo.currentTime = 0;
+            }, { once: true });
+
+            mainVideo.addEventListener("ended", function () {
+                sessionStorage.setItem("introFilmFinished", "true");
             }, { once: true });
         });
     </script>
