@@ -2758,7 +2758,6 @@
             if (!floatingPlayer || !floatingVideo || !mainVideo || !filmSection) return;
 
             const introFinished = sessionStorage.getItem("introFilmFinished") === "true";
-            const introHandedOff = sessionStorage.getItem("introFilmHandedOff") === "true";
 
             function showFloating() {
                 floatingPlayer.classList.add("active");
@@ -2770,7 +2769,7 @@
                 floatingPlayer.setAttribute("aria-hidden", "true");
             }
 
-            if (!introFinished && !introHandedOff) {
+            if (!introFinished) {
                 showFloating();
                 floatingVideo.play().catch(() => {});
             } else {
@@ -2779,31 +2778,6 @@
                 floatingVideo.currentTime = 0;
             }
 
-            const observer = new IntersectionObserver((entries) => {
-                const entry = entries[0];
-                const finished = sessionStorage.getItem("introFilmFinished") === "true";
-                const handedOff = sessionStorage.getItem("introFilmHandedOff") === "true";
-
-                if (finished || handedOff) return;
-
-                if (entry.isIntersecting) {
-                    const currentTime = floatingVideo.currentTime || 0;
-                    floatingVideo.pause();
-                    hideFloating();
-
-                    try {
-                        mainVideo.currentTime = currentTime;
-                    } catch (e) {}
-
-                    mainVideo.play().catch(() => {});
-                    sessionStorage.setItem("introFilmHandedOff", "true");
-                }
-            }, {
-                threshold: 0.35
-            });
-
-            observer.observe(filmSection);
-
             floatingVideo.addEventListener("ended", function () {
                 sessionStorage.setItem("introFilmFinished", "true");
                 hideFloating();
@@ -2811,6 +2785,13 @@
                 floatingVideo.currentTime = 0;
                 mainVideo.pause();
                 mainVideo.currentTime = 0;
+
+                requestAnimationFrame(() => {
+                    filmSection.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                });
             }, { once: true });
 
             mainVideo.addEventListener("ended", function () {
