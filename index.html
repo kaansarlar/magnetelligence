@@ -1117,10 +1117,11 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
         }
+
         .pub-doi {
-                font-size: 0.85rem;
-                color: var(--text-muted);
-                margin-top: 0.25rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
         }
 
         .pub-doi a {
@@ -1131,7 +1132,6 @@
         .pub-doi a:hover {
             text-decoration: underline;
         }
-
 
         .dataset-card {
             background: var(--card-bg);
@@ -1207,133 +1207,56 @@
             transition: all 0.3s ease;
         }
 
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.08);
+        }
+
         .tool-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: var(--gradient-1);
         }
 
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
-        }
-
-        .tool-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .tool-icon {
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
 
-        .tool-logo {
-            width: 50px;
-            height: 50px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .tool-name {
+        .tool-card h4 {
             font-size: 1.25rem;
-            font-weight: 600;
+            margin-bottom: 0.75rem;
         }
 
-        .tool-version {
-            font-size: 0.8rem;
-            color: var(--accent);
-            background: var(--card-bg);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-        }
-
-        .tool-description {
+        .tool-card p {
             color: var(--text-muted);
             font-size: 0.95rem;
             margin-bottom: 1.5rem;
         }
 
         .tool-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            list-style: none;
             margin-bottom: 1.5rem;
         }
 
-        .tool-feature {
-            background: var(--card-bg);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
+        .tool-features li {
             color: var(--text-muted);
-        }
-
-        /* Open Position Section */
-        .open-position-grid {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .open-position-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .open-position-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .open-position-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .open-position-badge {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            background: var(--accent);
-            color: var(--primary);
-            padding: 0.3rem 0.7rem;
-            border-radius: 999px;
-        }
-
-        .open-position-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
             font-size: 0.9rem;
-            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
         }
 
-        .open-position-body p {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .open-position-list {
-            margin-left: 1.2rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .open-position-list li {
-            margin-bottom: 0.35rem;
+        .tool-features li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
         }
 
         .presentations-list {
@@ -1346,20 +1269,31 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             display: flex;
             gap: 1.5rem;
-            align-items: center;
+            align-items: flex-start;
+            transition: all 0.3s ease;
         }
 
-        .presentation-coming-soon {
-            opacity: 0.7;
-            border-style: dashed;
+        .presentation-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
         }
 
-        .presentation-icon {
-            font-size: 2rem;
+        .presentation-date {
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            text-align: center;
             flex-shrink: 0;
+            min-width: 80px;
+        }
+
+        .presentation-month {
+            font-weight: 700;
+            font-size: 1rem;
         }
 
         .presentation-content h4 {
@@ -1367,49 +1301,175 @@
             margin-bottom: 0.5rem;
         }
 
-        .presentation-meta {
+        .presentation-content p {
             color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .presentation-event {
+            color: var(--accent);
             font-size: 0.9rem;
         }
 
-        .collab-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .collab-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
+        .presentation-note {
+            margin-top: 2rem;
             text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .collab-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .collab-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .collab-card h4 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .collab-card p {
             color: var(--text-muted);
             font-size: 0.95rem;
         }
 
-        .collab-cta {
+        .lab-film {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .film-wrapper {
+            max-width: 980px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1rem;
+            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.08);
+        }
+
+        .film-wrapper video {
+            width: 100%;
+            display: block;
+            border-radius: 14px;
+            background: #000;
+        }
+
+        .film-note {
+            max-width: 980px;
+            margin: 1rem auto 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
             text-align: center;
+        }
+
+        .open-position-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(139, 92, 246, 0.08));
+            border: 2px solid var(--accent);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.12);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .position-badge {
+            display: inline-block;
+            background: var(--gradient-1);
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .position-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .position-title h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .position-subtitle {
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .position-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .meta-chip {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 0.5rem 0.9rem;
+            font-size: 0.9rem;
+        }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 2rem;
+        }
+
+        .position-section {
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.5rem;
+        }
+
+        .position-section h4 {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+        }
+
+        .position-section p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 0.98rem;
+        }
+
+        .position-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .position-list li {
+            color: var(--text-muted);
+            padding-left: 1.6rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .position-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0.2rem;
+            color: var(--accent);
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .position-highlight {
+            margin-top: 1rem;
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px dashed rgba(34, 211, 238, 0.35);
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .position-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
         }
 
         .contact-content {
@@ -1418,72 +1478,71 @@
             gap: 4rem;
         }
 
-        .contact-info h3 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-info > p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
+        .contact-info {
+            display: grid;
             gap: 1.5rem;
         }
 
         .contact-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 1rem;
         }
 
         .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-1);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
+            flex-shrink: 0;
         }
 
-        .contact-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .contact-text strong {
-            display: block;
-            color: var(--text);
+        .contact-details h4 {
             font-size: 1rem;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.25rem;
         }
 
-        .contact-map {
+        .contact-details p,
+        .contact-details a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .contact-details a:hover {
+            color: var(--accent);
+        }
+
+        .contact-form {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 20px;
-            overflow: hidden;
-            height: 100%;
-            min-height: 350px;
+            padding: 2rem;
         }
 
-        .contact-map iframe {
+        .contact-form h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form .btn {
             width: 100%;
-            height: 100%;
-            border: none;
-            filter: grayscale(1) invert(1) contrast(0.9);
+            justify-content: center;
         }
 
-        footer {
-            background: var(--secondary);
-            border-top: 1px solid var(--border);
+        .footer {
             padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.95);
         }
 
         .footer-content {
@@ -1549,7 +1608,8 @@
 
         @media (max-width: 1024px) {
             .about-content,
-            .contact-content {
+            .contact-content,
+            .position-grid {
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
@@ -1595,7 +1655,8 @@
                 gap: 1.5rem;
             }
 
-            section {
+            section,
+            .lab-film {
                 padding: 4rem 1.5rem;
             }
 
@@ -1607,8 +1668,8 @@
 
             .datasets-grid,
             .tools-grid,
-            .collab-grid,
-            .partners-grid {
+            .partners-grid,
+            .team-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1630,70 +1691,55 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
-        }
-        .icon-img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-}
 
+            .open-position-card {
+                padding: 2rem 1.25rem;
+            }
+
+            .position-title h3 {
+                font-size: 1.55rem;
+            }
+        }
+
+        .icon-img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body data-lang="en">
     <div class="bg-animation"></div>
 
     <div class="neural-network">
-        <svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
-            <circle class="nn-node" cx="150" cy="150" r="6"/>
-            <circle class="nn-node" cx="150" cy="250" r="6"/>
-            <circle class="nn-node" cx="150" cy="350" r="6"/>
-            <circle class="nn-node" cx="150" cy="450" r="6"/>
-
-            <circle class="nn-node-hidden" cx="350" cy="180" r="5"/>
-            <circle class="nn-node-hidden" cx="350" cy="280" r="5"/>
-            <circle class="nn-node-hidden" cx="350" cy="380" r="5"/>
-
-            <circle class="nn-node-hidden" cx="550" cy="200" r="5"/>
-            <circle class="nn-node-hidden" cx="550" cy="300" r="5"/>
-            <circle class="nn-node-hidden" cx="550" cy="400" r="5"/>
-
-            <circle class="nn-node-output" cx="750" cy="250" r="7"/>
-            <circle class="nn-node-output" cx="750" cy="350" r="7"/>
-
-            <line class="nn-connection" x1="156" y1="150" x2="344" y2="180"/>
-            <line class="nn-connection" x1="156" y1="150" x2="344" y2="280"/>
-            <line class="nn-connection-active" x1="156" y1="250" x2="344" y2="180"/>
-            <line class="nn-connection" x1="156" y1="250" x2="344" y2="280"/>
-            <line class="nn-connection" x1="156" y1="250" x2="344" y2="380"/>
-            <line class="nn-connection" x1="156" y1="350" x2="344" y2="280"/>
-            <line class="nn-connection-active" x1="156" y1="350" x2="344" y2="380"/>
-            <line class="nn-connection" x1="156" y1="450" x2="344" y2="380"/>
-
-            <line class="nn-connection-active" x1="356" y1="180" x2="544" y2="200"/>
-            <line class="nn-connection" x1="356" y1="180" x2="544" y2="300"/>
-            <line class="nn-connection" x1="356" y1="280" x2="544" y2="200"/>
-            <line class="nn-connection-active" x1="356" y1="280" x2="544" y2="300"/>
-            <line class="nn-connection" x1="356" y1="280" x2="544" y2="400"/>
-            <line class="nn-connection" x1="356" y1="380" x2="544" y2="300"/>
-            <line class="nn-connection-active" x1="356" y1="380" x2="544" y2="400"/>
-
-            <line class="nn-connection" x1="556" y1="200" x2="743" y2="250"/>
-            <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="250"/>
-            <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="350"/>
-            <line class="nn-connection" x1="556" y1="400" x2="743" y2="350"/>
-
-            <text x="130" y="500" fill="#06b6d4" font-size="10" opacity="0.5" font-family="JetBrains Mono">Features</text>
-            <text x="720" y="420" fill="#10b981" font-size="10" opacity="0.5" font-family="JetBrains Mono">ΔS, Tc</text>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line class="nn-connection" x1="10" y1="20" x2="30" y2="15" />
+            <line class="nn-connection" x1="10" y1="20" x2="30" y2="35" />
+            <line class="nn-connection" x1="10" y1="40" x2="30" y2="15" />
+            <line class="nn-connection" x1="10" y1="40" x2="30" y2="35" />
+            <line class="nn-connection" x1="10" y1="60" x2="30" y2="35" />
+            <line class="nn-connection-active" x1="30" y1="15" x2="50" y2="25" />
+            <line class="nn-connection-active" x1="30" y1="35" x2="50" y2="25" />
+            <line class="nn-connection" x1="50" y1="25" x2="70" y2="20" />
+            <line class="nn-connection" x1="50" y1="25" x2="70" y2="40" />
+            <circle class="nn-node" cx="10" cy="20" r="1.2" />
+            <circle class="nn-node" cx="10" cy="40" r="1.2" />
+            <circle class="nn-node" cx="10" cy="60" r="1.2" />
+            <circle class="nn-node-hidden" cx="30" cy="15" r="1.2" />
+            <circle class="nn-node-hidden" cx="30" cy="35" r="1.2" />
+            <circle class="nn-node-hidden" cx="50" cy="25" r="1.2" />
+            <circle class="nn-node-output" cx="70" cy="20" r="1.2" />
+            <circle class="nn-node-output" cx="70" cy="40" r="1.2" />
         </svg>
     </div>
 
     <div class="magnetic-field">
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
+        <div class="field-line-curve" style="--rotation:-30deg;"></div>
+        <div class="field-line-curve" style="--rotation:-25deg;"></div>
+        <div class="field-line-curve" style="--rotation:-20deg;"></div>
+        <div class="field-line-curve" style="--rotation:150deg;"></div>
+        <div class="field-line-curve" style="--rotation:155deg;"></div>
+        <div class="field-line-curve" style="--rotation:160deg;"></div>
     </div>
 
     <div class="spin-array">
@@ -1703,39 +1749,39 @@
         <div class="spin up"></div>
         <div class="spin up"></div>
         <div class="spin up"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
+        <div class="spin random"></div>
         <div class="spin up"></div>
         <div class="spin up"></div>
-
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-
-        <span class="temp-label temp-cold">T &lt; Tc</span>
-        <span class="temp-label temp-hot">T &gt; Tc</span>
+        <div class="spin up"></div>
+        <div class="spin up"></div>
+        <div class="temp-label temp-cold">T &lt; Tc</div>
+        <div class="temp-label temp-hot">T ≈ Tc</div>
     </div>
 
-    <div class="particles">
-        <div class="ai-particle"></div>
-        <div class="ai-particle"></div>
-        <div class="ai-particle"></div>
-        <div class="ai-particle"></div>
+    <div class="ai-particle"></div>
+    <div class="ai-particle"></div>
+    <div class="ai-particle"></div>
+    <div class="ai-particle"></div>
+
+    <div class="mce-indicator">
+        <span class="delta-s">ΔS<sub>M</sub></span>
+        <div class="mce-arrow"></div>
+        <span class="delta-s">T<sub>C</sub></span>
     </div>
 
     <nav>
         <div class="nav-container">
             <a href="#" class="logo">
                 <img src="logo.png" alt="Magnetelligence Logo" class="logo-img">
-                <div class="logo-text">Magnet<span>elligence</span></div>
+                <div class="logo-text">MAGNET<span>ELLIGENCE</span></div>
             </a>
             <ul class="nav-links">
                 <li><a href="#about"><span class="lang-en">About</span><span class="lang-tr">Hakkında</span></a></li>
-                <li><a href="#news"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></a></li>
-                <!-- Research sekmesi: Publications + Datasets + Tools + Presentations bölümlerini temsil ediyor -->
                 <li><a href="#publications"><span class="lang-en">Research</span><span class="lang-tr">Araştırma</span></a></li>
                 <li><a href="#team"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
                 <li><a href="#funding"><span class="lang-en">Funding</span><span class="lang-tr">Finansman</span></a></li>
@@ -1777,8 +1823,41 @@
                     <span class="lang-en">View Research Output</span>
                     <span class="lang-tr">Araştırma Çıktılarını Gör</span>
                 </a>
+                <a href="#lab-film" class="btn btn-secondary">
+                    <span class="lang-en">Watch Lab Film</span>
+                    <span class="lang-tr">Laboratuvar Filmini İzle</span>
+                </a>
             </div>
         </div>
+    </section>
+
+    <section id="lab-film" class="lab-film">
+        <div class="section-header">
+            <span class="section-tag">
+                <span class="lang-en">Lab Film</span>
+                <span class="lang-tr">Laboratuvar Filmi</span>
+            </span>
+            <h2 class="section-title">
+                <span class="lang-en">Why Join Magnetelligence Lab?</span>
+                <span class="lang-tr">Neden Magnetelligence Lab?</span>
+            </h2>
+            <p class="section-description">
+                <span class="lang-en">A short film introducing our research vision, interdisciplinary culture, and opportunities for students.</span>
+                <span class="lang-tr">Araştırma vizyonumuzu, disiplinler arası kültürümüzü ve öğrenciler için sunduğumuz fırsatları tanıtan kısa film.</span>
+            </p>
+        </div>
+
+        <div class="film-wrapper">
+            <video controls preload="metadata" playsinline>
+                <source src="Magnetelligence_alt_yazılı_1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <p class="film-note">
+            <span class="lang-en">Place the video file in the same folder as this HTML file. For safer deployment, you may rename it to an ASCII-only filename such as magnetelligence-lab-film.mp4 and update the source path accordingly.</span>
+            <span class="lang-tr">Video dosyasını bu HTML dosyasıyla aynı klasöre koyun. Daha sorunsuz yayınlama için dosya adını magnetelligence-lab-film.mp4 gibi Türkçe karakter içermeyen bir ada çevirip source yolunu güncelleyebilirsiniz.</span>
+        </p>
     </section>
 
     <div class="stats">
@@ -1798,17 +1877,17 @@
                 </div>
             </div>
             <div class="stat-item">
-                <div class="stat-value stat-text">ML</div>
+                <div class="stat-value">AI</div>
                 <div class="stat-label">
-                    <span class="lang-en">Driven Design</span>
-                    <span class="lang-tr">Destekli Tasarım</span>
+                    <span class="lang-en">Model-Driven Design</span>
+                    <span class="lang-tr">Model Tabanlı Tasarım</span>
                 </div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">2</div>
+                <div class="stat-value">KMU</div>
                 <div class="stat-label">
-                    <span class="lang-en">Production Methods</span>
-                    <span class="lang-tr">Üretim Yöntemi</span>
+                    <span class="lang-en">Host Institution</span>
+                    <span class="lang-tr">Ev Sahibi Kurum</span>
                 </div>
             </div>
         </div>
@@ -1817,8 +1896,8 @@
     <section id="about">
         <div class="section-header">
             <span class="section-tag">
-                <span class="lang-en">About the Project</span>
-                <span class="lang-tr">Proje Hakkında</span>
+                <span class="lang-en">Project</span>
+                <span class="lang-tr">Proje</span>
             </span>
             <h2 class="section-title">
                 <span class="lang-en">Bridging AI and Materials Science</span>
@@ -1852,21 +1931,21 @@
                                 <span class="lang-tr">Makine Öğrenimi Taraması</span>
                             </h4>
                             <p>
-                                <span class="lang-en">Field-normalized ΔSref target for accurate predictions</span>
-                                <span class="lang-tr">Doğru tahminler için alan-normalize edilmiş ΔSref hedefi</span>
+                                <span class="lang-en">Predictive models for rapid candidate identification</span>
+                                <span class="lang-tr">Hızlı aday belirleme için öngörücü modeller</span>
                             </p>
                         </div>
                     </div>
                     <div class="feature-item">
-                        <div class="feature-icon">🔬</div>
+                        <div class="feature-icon">🧪</div>
                         <div class="feature-text">
                             <h4>
                                 <span class="lang-en">Experimental Validation</span>
                                 <span class="lang-tr">Deneysel Doğrulama</span>
                             </h4>
                             <p>
-                                <span class="lang-en">Arc melting and thermal evaporation synthesis</span>
-                                <span class="lang-tr">Ark ergitme ve termal buharlaştırma sentezi</span>
+                                <span class="lang-en">Closing the loop between AI and real materials</span>
+                                <span class="lang-tr">Yapay zeka ile gerçek malzemeler arasındaki döngüyü kapatma</span>
                             </p>
                         </div>
                     </div>
@@ -1874,12 +1953,12 @@
                         <div class="feature-icon">📊</div>
                         <div class="feature-text">
                             <h4>
-                                <span class="lang-en">Interpretable Models</span>
-                                <span class="lang-tr">Yorumlanabilir Modeller</span>
+                                <span class="lang-en">Open Science Assets</span>
+                                <span class="lang-tr">Açık Bilim Varlıkları</span>
                             </h4>
                             <p>
-                                <span class="lang-en">SHAP analysis for feature importance insights</span>
-                                <span class="lang-tr">Özellik önem analizi için SHAP</span>
+                                <span class="lang-en">Datasets, code, and reproducible workflows</span>
+                                <span class="lang-tr">Veri setleri, kodlar ve yeniden üretilebilir iş akışları</span>
                             </p>
                         </div>
                     </div>
@@ -1889,34 +1968,25 @@
             <div class="about-visual">
                 <div class="about-card">
                     <div class="code-block-header">
-                        <span class="code-label">
-                            <span class="lang-en">📝 Conceptual Pipeline</span>
-                            <span class="lang-tr">📝 Kavramsal İş Akışı</span>
-                        </span>
-                        <a href="#" class="code-link btn-coming-soon">
-                            <span class="lang-en">View full notebook →</span>
-                            <span class="lang-tr">Tam notebook'u gör →</span>
-                        </a>
+                        <span class="code-label">research_pipeline.py</span>
+                        <a href="https://github.com/kaansarlar/magnetelligence" target="_blank" class="code-link">GitHub →</a>
                     </div>
                     <div class="code-block">
-                        <span class="code-comment"># Magnetocaloric ML Pipeline (Pseudocode)</span><br><br>
-                        <span class="code-keyword">import</span> lightgbm <span class="code-keyword">as</span> lgb<br>
-                        <span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> <span class="code-function">cross_val_score</span><br><br>
+                        <span class="code-comment"># Magnetelligence AI workflow</span><br>
+                        <span class="code-keyword">from</span> matminer <span class="code-keyword">import</span> featurize<br>
+                        <span class="code-keyword">from</span> lightgbm <span class="code-keyword">import</span> LGBMRegressor<br><br>
 
-                        <span class="code-comment"># Load HEA magnetocaloric dataset</span><br>
-                        X, y = <span class="code-function">load_mce_data</span>(<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;target=<span class="code-string">'delta_S_ref'</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;normalize_field=<span class="code-keyword">True</span><br>
+                        dataset = <span class="code-function">load_magnetocaloric_data</span>()<br>
+                        features = <span class="code-function">extract_descriptors</span>(dataset)<br>
+                        model = <span class="code-function">LGBMRegressor</span>()<br>
+                        model.<span class="code-function">fit</span>(features, dataset.target)<br><br>
+
+                        candidates = <span class="code-function">screen_new_alloys</span>(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;composition_space=<span class="code-string">"HEA"</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;constraints=<span class="code-string">"physics-informed"</span><br>
                         )<br><br>
 
-                        <span class="code-comment"># Train with nested cross-validation</span><br>
-                        model = lgb.<span class="code-function">LGBMRegressor</span>(<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;n_estimators=<span class="code-number">500</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;learning_rate=<span class="code-number">0.05</span><br>
-                        )<br><br>
-
-                        <span class="code-comment"># SHAP interpretation</span><br>
-                        shap_values = <span class="code-function">explain_model</span>(model, X)
+                        <span class="code-comment"># Output: promising magnetocaloric candidates</span>
                     </div>
                 </div>
             </div>
@@ -1926,188 +1996,52 @@
     <section id="team">
         <div class="section-header">
             <span class="section-tag">
-                <span class="lang-en">Research Team</span>
-                <span class="lang-tr">Araştırma Ekibi</span>
+                <span class="lang-en">Team</span>
+                <span class="lang-tr">Ekip</span>
             </span>
             <h2 class="section-title">
-                <span class="lang-en">Meet the Team</span>
-                <span class="lang-tr">Ekibimiz</span>
+                <span class="lang-en">Meet the Research Team</span>
+                <span class="lang-tr">Araştırma Ekibiyle Tanışın</span>
             </h2>
+            <p class="section-description">
+                <span class="lang-en">A multidisciplinary team spanning physics, materials science, and artificial intelligence.</span>
+                <span class="lang-tr">Fizik, malzeme bilimi ve yapay zekayı bir araya getiren disiplinler arası bir ekip.</span>
+            </p>
         </div>
 
         <div class="team-grid">
             <div class="team-card team-card-pi">
-                <img src="kagan.jpg" alt="Kağan Şarlar" class="team-photo">
-                <h3 class="team-name">
-                    <span class="lang-en">Assoc. Prof. Dr. Kağan ŞARLAR</span>
-                    <span class="lang-tr">Doç. Dr. Kağan ŞARLAR</span>
-                </h3>
-                <p class="team-title">
+                <img src="kagan.jpg" alt="Assoc. Prof. Kagan Sarlar" class="team-photo">
+                <div class="team-name">Doç. Dr. Kağan Şarlar</div>
+                <div class="team-title">
                     <span class="lang-en">Principal Investigator</span>
                     <span class="lang-tr">Proje Yürütücüsü</span>
-                </p>
-                <p class="team-affiliation">
-                    <span class="lang-en">Department of Physics<br>Karamanoğlu Mehmetbey University</span>
-                    <span class="lang-tr">Fizik Bölümü<br>Karamanoğlu Mehmetbey Üniversitesi</span>
-                </p>
+                </div>
+                <div class="team-affiliation">Karamanoğlu Mehmetbey University, Department of Physics</div>
                 <div class="team-links">
-    <!-- ORCID -->
-    <a href="https://orcid.org/0000-0002-8871-2357"
-       target="_blank" class="team-link" title="ORCID">🆔</a>
-
-    <!-- Email -->
-    <a href="mailto:kagansarlar@kmu.edu.tr"
-       class="team-link" title="Email">✉️</a>
-
-    <!-- Google Scholar -->
-    <a href="https://scholar.google.com/scholar?hl=tr&amp;as_sdt=0%2C5&amp;q=ka%C4%9Fan+%C5%9Farlar&amp;btnG=&amp;oq=ka%C4%9Fa"
-       target="_blank" class="team-link" title="Google Scholar">
-        <img src="scholar.png.png" alt="Google Scholar" class="icon-img">
-    </a>
-
-    <!-- ResearchGate -->
-    <a href="https://www.researchgate.net/profile/Kagan-Sarlar?ev=hdr_xprf"
-       target="_blank" class="team-link" title="ResearchGate">
-        <img src="researchgate.png.png" alt="ResearchGate" class="icon-img">
-    </a>
-
-    <!-- Scopus -->
-    <a href="https://www.scopus.com/authid/detail.uri?authorId=55550817200"
-       target="_blank" class="team-link" title="Scopus">
-        <img src="scopus.png.png" alt="Scopus" class="icon-img">
-    </a>
-</div>
-
+                    <a class="team-link" href="https://scholar.google.com/citations?user=9fk6A0wAAAAJ" target="_blank">GS</a>
+                    <a class="team-link" href="https://orcid.org/0000-0002-5072-5039" target="_blank">ORCID</a>
+                    <a class="team-link" href="mailto:kagansarlar@kmu.edu.tr">✉</a>
+                </div>
             </div>
 
             <div class="team-card">
-                <img src="atakan.png" alt="Atakan Tekgül" class="team-photo">
-                <h3 class="team-name">
-                    <span class="lang-en">Assoc. Prof. Dr. Atakan TEKGÜL</span>
-                    <span class="lang-tr">Doç. Dr. Atakan TEKGÜL</span>
-                </h3>
-                <p class="team-title">
-                    <span class="lang-en">Researcher</span>
-                    <span class="lang-tr">Araştırmacı</span>
-                </p>
-                <p class="team-affiliation">
-                    <span class="lang-en">Gürbağ Defense & Technology</span>
-                    <span class="lang-tr">Gürbağ Savunma ve Teknoloji</span>
-                </p>
+                <img src="placeholder-student.jpg" alt="Graduate Student Position" class="team-photo">
+                <div class="team-name">
+                    <span class="lang-en">Open MSc Position</span>
+                    <span class="lang-tr">Açık YL Pozisyonu</span>
+                </div>
+                <div class="team-title">
+                    <span class="lang-en">Graduate Research Opportunity</span>
+                    <span class="lang-tr">Lisansüstü Araştırma Fırsatı</span>
+                </div>
+                <div class="team-affiliation">
+                    <span class="lang-en">Join the Magnetelligence Lab</span>
+                    <span class="lang-tr">Magnetelligence Lab’a Katılın</span>
+                </div>
                 <div class="team-links">
-    <!-- Email -->
-    <a href="mailto:atakantekgul@gmail.com"
-       class="team-link" title="Email">✉️</a>
-
-    <!-- Google Scholar -->
-    <a href="https://scholar.google.com/scholar?hl=tr&amp;as_sdt=0%2C5&amp;q=atakan+tekg%C3%BCl&amp;btnG=&amp;oq=atakan+"
-       target="_blank" class="team-link" title="Google Scholar">
-        <img src="scholar.png.png" alt="Google Scholar" class="icon-img">
-    </a>
-
-    <!-- ResearchGate -->
-    <a href="https://www.researchgate.net/profile/Atakan-Tekguel"
-       target="_blank" class="team-link" title="ResearchGate">
-        <img src="researchgate.png.png" alt="ResearchGate" class="icon-img">
-    </a>
-
-    <!-- Scopus -->
-    <a href="https://www.scopus.com/authid/detail.uri?authorId=37462175100"
-       target="_blank" class="team-link" title="Scopus">
-        <img src="scopus.png.png" alt="Scopus" class="icon-img">
-    </a>
-</div>
-
-            </div>
-
-            <div class="team-card">
-                <img src="cuneyt.jpg" alt="M. Cüneyt Hacıismailoğlu" class="team-photo">
-                <h3 class="team-name">
-                    <span class="lang-en">Asst. Prof. Dr. M. Cüneyt HACIİSMAİLOĞLU</span>
-                    <span class="lang-tr">Dr. Öğr. Üyesi M. Cüneyt HACIİSMAİLOĞLU</span>
-                </h3>
-                <p class="team-title">
-                    <span class="lang-en">Researcher</span>
-                    <span class="lang-tr">Araştırmacı</span>
-                </p>
-                <p class="team-affiliation">
-                    <span class="lang-en">Department of Physics<br>Bursa Uludağ University</span>
-                    <span class="lang-tr">Fizik Bölümü<br>Bursa Uludağ Üniversitesi</span>
-                </p>
-                <div class="team-links">
-    <!-- Email -->
-    <a href="mailto:mcuneyt@uludag.edu.tr"
-       class="team-link" title="Email">✉️</a>
-
-    <!-- Google Scholar -->
-    <a href="https://scholar.google.com/scholar?hl=tr&amp;as_sdt=0%2C5&amp;q=c%C3%BCneyt+hac%C4%B1ismailo%C4%9Flu&amp;btnG="
-       target="_blank" class="team-link" title="Google Scholar">
-        <img src="scholar.png.png" alt="Google Scholar" class="icon-img">
-    </a>
-
-    <!-- ResearchGate -->
-    <a href="https://www.researchgate.net/profile/M-Haciismailoglu"
-       target="_blank" class="team-link" title="ResearchGate">
-        <img src="researchgate.png.png" alt="ResearchGate" class="icon-img">
-    </a>
-
-    <!-- Scopus -->
-    <a href="https://www.scopus.com/authid/detail.uri?authorId=8975743500"
-       target="_blank" class="team-link" title="Scopus">
-        <img src="scopus.png.png" alt="Scopus" class="icon-img">
-    </a>
-</div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="news">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Latest Updates</span>
-                <span class="lang-tr">Son Gelişmeler</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">News</span>
-                <span class="lang-tr">Haberler</span>
-            </h2>
-        </div>
-
-        <div class="news-list">
-            <div class="news-card">
-                <div class="news-date">
-                    <span class="news-month">2025</span>
-                </div>
-                <div class="news-content">
-                    <h4>
-                        <span class="lang-en">Project Accepted!</span>
-                        <span class="lang-tr">Proje Kabul Edildi!</span>
-                    </h4>
-                    <p>
-                        <span class="lang-en">
-                            The TÜBİTAK 3501 Career Development Program project "AI-Assisted Design of High-Entropy Magnetocaloric Alloys" was accepted on 4 November 2025. The funded project and MSc scholarship period will run between 2026–2028.
-                        </span>
-                        <span class="lang-tr">
-                            TÜBİTAK 3501 Kariyer Geliştirme Programı kapsamında yürütülecek "Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı" projesi 4 Kasım 2025 tarihinde kabul edilmiştir. Proje ve yüksek lisans burs dönemi 2026–2028 yılları arasında yürütülecektir.
-                        </span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="news-card">
-                <div class="news-date">
-                    <span class="news-month">2025</span>
-                </div>
-                <div class="news-content">
-                    <h4>
-                        <span class="lang-en">Manuscript Submitted to JMMM</span>
-                        <span class="lang-tr">JMMM'e Makale Gönderildi</span>
-                    </h4>
-                    <p>
-                        <span class="lang-en">Our paper "Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target" has been submitted to Journal of Magnetism and Magnetic Materials.ŞARLAR, KAĞAN, Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target.</span>
-                        <span class="lang-tr">"Alan-normalize edilmiş ΔSref hedefi kullanarak magnetokalorik yüksek entropili alaşımların makine öğrenimi ile taranması" başlıklı makalemiz Journal of Magnetism and Magnetic Materials'a gönderildi.ŞARLAR, KAĞAN, Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target. </span>
-                    </p>
+                    <a class="team-link" href="#open-position">i</a>
+                    <a class="team-link" href="mailto:kagansarlar@kmu.edu.tr">✉</a>
                 </div>
             </div>
         </div>
@@ -2116,40 +2050,42 @@
     <section id="funding">
         <div class="section-header">
             <span class="section-tag">
-                <span class="lang-en">Support</span>
-                <span class="lang-tr">Destek</span>
+                <span class="lang-en">Funding</span>
+                <span class="lang-tr">Finansman</span>
             </span>
             <h2 class="section-title">
-                <span class="lang-en">Funding & Partners</span>
-                <span class="lang-tr">Finansman ve Ortaklar</span>
+                <span class="lang-en">Supported by TÜBİTAK 3501</span>
+                <span class="lang-tr">TÜBİTAK 3501 Tarafından Desteklenmektedir</span>
             </h2>
+            <p class="section-description">
+                <span class="lang-en">A nationally funded research initiative advancing AI-guided discovery of high-entropy magnetocaloric alloys.</span>
+                <span class="lang-tr">Yüksek entropili magnetokalorik alaşımların yapay zeka destekli keşfini ilerleten ulusal destekli bir araştırma girişimi.</span>
+            </p>
         </div>
 
         <div class="funding-content">
             <div class="funding-main">
                 <div class="funding-card-main">
-                    <div class="funding-logo">🏛️</div>
+                    <div class="funding-logo">🇹🇷</div>
                     <div class="funding-info">
-                        <h4>TÜBİTAK 3501</h4>
-                        <p class="funding-program">
-                            <span class="lang-en">Career Development Program</span>
-                            <span class="lang-tr">Kariyer Geliştirme Programı</span>
-                        </p>
-                        <p class="funding-details">
-                            <span class="lang-en">Project No: 125F375</span>
-                            <span class="lang-tr">Proje No: 125F375</span>
-                        </p>
-                        <p class="funding-title">
-                            <span class="lang-en">"AI-Assisted Design, Optimization, and Identification of High-Entropy Magnetocaloric Alloys"</span>
-                            <span class="lang-tr">"Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı, Optimizasyonu ve Potansiyel Kompozisyonların Belirlenmesi"</span>
-                        </p>
+                        <h4>TÜBİTAK 3501 Career Development Program</h4>
+                        <div class="funding-program">Project No: 125F375</div>
+                        <div class="funding-details">
+                            <span class="lang-en">Funding Period: 2025–2027</span>
+                            <span class="lang-tr">Destek Dönemi: 2025–2027</span>
+                        </div>
+                        <div class="funding-title">
+                            <span class="lang-en">“AI-Assisted Design, Optimization, and Identification of Potential High-Entropy Magnetocaloric Alloy Compositions”</span>
+                            <span class="lang-tr">“Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı, Optimizasyonu ve Potansiyel Kompozisyonların Belirlenmesi”</span>
+                        </div>
                         <div class="funding-meta">
-                            <span>📅 24 <span class="lang-en">months</span><span class="lang-tr">ay</span></span>
-                            <span>📍 2026–2028</span>
                             <span>
-                                📜
-                                <span class="lang-en">Accepted on 4 November 2025</span>
-                                <span class="lang-tr">Kabul tarihi: 4 Kasım 2025</span>
+                                <span class="lang-en">Host: Karamanoğlu Mehmetbey University</span>
+                                <span class="lang-tr">Kurum: Karamanoğlu Mehmetbey Üniversitesi</span>
+                            </span>
+                            <span>
+                                <span class="lang-en">Field: Physics + AI + Materials</span>
+                                <span class="lang-tr">Alan: Fizik + YZ + Malzeme</span>
                             </span>
                         </div>
                     </div>
@@ -2157,47 +2093,45 @@
             </div>
 
             <div class="partners-section">
-                <h3 class="partners-title">
-                    <span class="lang-en">Host Institution & Partners</span>
-                    <span class="lang-tr">Ev Sahibi Kurum ve Ortaklar</span>
-                </h3>
+                <div class="partners-title">
+                    <span class="lang-en">Institutional Ecosystem</span>
+                    <span class="lang-tr">Kurumsal Ekosistem</span>
+                </div>
                 <div class="partners-grid">
                     <div class="partner-card partner-host">
                         <div class="partner-badge">
-                            <span class="lang-en">Host Institution</span>
-                            <span class="lang-tr">Ev Sahibi Kurum</span>
+                            <span class="lang-en">Host</span>
+                            <span class="lang-tr">Ev Sahibi</span>
                         </div>
-                        <div class="partner-logo">🏛️</div>
-                        <h4>Karamanoğlu Mehmetbey Üniversitesi</h4>
+                        <div class="partner-logo">🏛</div>
+                        <h4>Karamanoğlu Mehmetbey University</h4>
                         <p>
-                            <span class="lang-en">Department of Physics</span>
-                            <span class="lang-tr">Fizik Bölümü</span>
+                            <span class="lang-en">Department of Physics, Faculty of Science</span>
+                            <span class="lang-tr">Fen Fakültesi, Fizik Bölümü</span>
                         </p>
                     </div>
-
                     <div class="partner-card">
                         <div class="partner-badge partner-badge-collab">
-                            <span class="lang-en">Partner</span>
-                            <span class="lang-tr">Ortak</span>
+                            <span class="lang-en">Research</span>
+                            <span class="lang-tr">Araştırma</span>
                         </div>
-                        <div class="partner-logo">🎓</div>
-                        <h4>Bursa Uludağ Üniversitesi</h4>
+                        <div class="partner-logo">🧲</div>
+                        <h4>Magnetocaloric Materials Research</h4>
                         <p>
-                            <span class="lang-en">Academic Partner</span>
-                            <span class="lang-tr">Akademik Ortak</span>
+                            <span class="lang-en">High-entropy alloys, experimental validation, materials design</span>
+                            <span class="lang-tr">Yüksek entropili alaşımlar, deneysel doğrulama, malzeme tasarımı</span>
                         </p>
                     </div>
-
                     <div class="partner-card">
                         <div class="partner-badge partner-badge-industry">
-                            <span class="lang-en">Industry Partner</span>
-                            <span class="lang-tr">Sanayi Ortağı</span>
+                            <span class="lang-en">Open Science</span>
+                            <span class="lang-tr">Açık Bilim</span>
                         </div>
-                        <div class="partner-logo">🏭</div>
-                        <h4>Gürbağ Savunma ve Teknoloji</h4>
+                        <div class="partner-logo">💻</div>
+                        <h4>GitHub & Data Sharing</h4>
                         <p>
-                            <span class="lang-en">Industry Collaboration</span>
-                            <span class="lang-tr">Sanayi İşbirliği</span>
+                            <span class="lang-en">Code, workflows, datasets, and educational outputs</span>
+                            <span class="lang-tr">Kod, iş akışları, veri setleri ve eğitsel çıktılar</span>
                         </p>
                     </div>
                 </div>
@@ -2205,7 +2139,6 @@
         </div>
     </section>
 
-    <!-- Research sekmesi buradan itibaren: Publications + Datasets + Tools + Presentations -->
     <section id="publications">
         <div class="section-header">
             <span class="section-tag">
@@ -2213,158 +2146,173 @@
                 <span class="lang-tr">Araştırma</span>
             </span>
             <h2 class="section-title">
-                <span class="lang-en">Publications</span>
-                <span class="lang-tr">Yayınlar</span>
+                <span class="lang-en">Publications, Data, and Tools</span>
+                <span class="lang-tr">Yayınlar, Veri ve Araçlar</span>
             </h2>
             <p class="section-description">
-                <span class="lang-en">Peer-reviewed publications and preprints from our research.</span>
-                <span class="lang-tr">Araştırmamızdan hakemli yayınlar ve ön baskılar.</span>
+                <span class="lang-en">Research outputs and open-science resources from Magnetelligence Lab.</span>
+                <span class="lang-tr">Magnetelligence Lab’dan araştırma çıktıları ve açık bilim kaynakları.</span>
             </p>
         </div>
 
         <div class="publications-list">
-           <div class="pub-card">
-    <div class="pub-year">2025</div>
-    <div class="pub-content">
-        <h4>Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target</h4>
-        <p class="pub-authors">K. Şarlar</p>
-        <p class="pub-journal">
-            <span class="lang-en">Journal of Magnetism and Magnetic Materials (Under Review)</span>
-            <span class="lang-tr">Journal of Magnetism and Magnetic Materials (Hakem Sürecinde)</span>
-        </p>
-        <p class="pub-doi">
-            DOI:
-            <a href="http://dx.doi.org/10.2139/ssrn.5610154" target="_blank" rel="noopener noreferrer">
-                10.2139/ssrn.5610154
-            </a>
-        </p>
-        <div class="pub-links">
-            <a href="http://dx.doi.org/10.2139/ssrn.5610154" class="pub-link" target="_blank" rel="noopener noreferrer">
-                📄 <span class="lang-en">Preprint (SSRN)</span>
-                <span class="lang-tr">Ön Baskı (SSRN)</span>
-            </a>
-             <a href="https://github.com/kaansarlar/Machine-learning-screening-of-magnetocaloric-high-entropy-alloys-using-a-field-normalized-Sref-targ"
-       class="pub-link" target="_blank" rel="noopener noreferrer">
-                💾 <span class="lang-en">Data</span>
-                <span class="lang-tr">Veri Seti</span>
-            </a>
-        </div>
-    </div>
-</div>
-
+            <div class="pub-card">
+                <div class="pub-year">2025</div>
+                <div class="pub-content">
+                    <h4>Machine Learning Screening of Magnetocaloric High-Entropy Alloys Using a Field-Normalized ΔSref Target</h4>
+                    <div class="pub-authors">K. Şarlar</div>
+                    <div class="pub-journal">Journal of Magnetism and Magnetic Materials (under review / project-related manuscript)</div>
+                    <div class="pub-links">
+                        <a class="pub-link" href="https://github.com/kaansarlar/Pre-experimental-screening-of-magnetocaloric-high-entropy-alloys" target="_blank">Code & Data</a>
+                    </div>
+                </div>
+            </div>
 
             <div class="pub-card">
-                <div class="pub-year">2026</div>
+                <div class="pub-year">2025</div>
                 <div class="pub-content">
-                    <h4>
-                        <span class="lang-en">[More publications will be added as the project progresses]</span>
-                        <span class="lang-tr">[Proje ilerledikçe daha fazla yayın eklenecektir]</span>
-                    </h4>
-                    <p class="pub-authors">—</p>
-                    <p class="pub-journal">—</p>
+                    <h4>Preprint and project dissemination materials</h4>
+                    <div class="pub-authors">Magnetelligence Lab</div>
+                    <div class="pub-journal">Ongoing dissemination and research communication</div>
+                    <div class="pub-links">
+                        <a class="pub-link" href="https://kaansarlar.github.io/magnetelligence/" target="_blank">Project Website</a>
+                        <a class="pub-link" href="https://github.com/kaansarlar/magnetelligence" target="_blank">GitHub</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section id="datasets">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Open Data</span>
-                <span class="lang-tr">Açık Veri</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Datasets</span>
-                <span class="lang-tr">Veri Setleri</span>
-            </h2>
-            <p class="section-description">
-                <span class="lang-en">Open-access datasets for reproducible research.</span>
-                <span class="lang-tr">Tekrarlanabilir araştırmalar için açık erişimli veri setleri.</span>
-            </p>
-        </div>
+        <div style="height: 3rem;"></div>
 
         <div class="datasets-grid">
             <div class="dataset-card">
-                <div class="dataset-icon">📊</div>
-                <h4>MCE-HEA Database</h4>
+                <div class="dataset-icon">🗂</div>
+                <h4>
+                    <span class="lang-en">Magnetocaloric HEA Dataset</span>
+                    <span class="lang-tr">Magnetokalorik HEA Veri Seti</span>
+                </h4>
                 <p>
-                    <span class="lang-en">Comprehensive magnetocaloric properties dataset of high-entropy alloys including composition, Curie temperature, and magnetic entropy change.</span>
-                    <span class="lang-tr">Yüksek entropili alaşımların kompozisyon, Curie sıcaklığı ve manyetik entropi değişimi dahil kapsamlı magnetokalorik özellikler veri seti.</span>
+                    <span class="lang-en">A structured dataset for high-entropy magnetocaloric alloys, including compositions, descriptor sets, and field-normalized targets.</span>
+                    <span class="lang-tr">Kompozisyonlar, tanımlayıcı setleri ve alan normalize hedefleri içeren yapılandırılmış yüksek entropili magnetokalorik alaşım veri seti.</span>
                 </p>
                 <div class="dataset-meta">
-                    <span>📁 500+ <span class="lang-en">entries</span><span class="lang-tr">kayıt</span></span>
-                    <span>📅 2025</span>
-                    <span>📄 CSV</span>
+                    <span>500+ entries</span>
+                    <span>50+ features</span>
+                    <span>HEA focus</span>
                 </div>
-                <button class="btn-disabled" disabled>
-                    <span class="lang-en">Coming Soon</span>
-                    <span class="lang-tr">Yakında</span>
-                </button>
+                <a href="https://github.com/kaansarlar/Pre-experimental-screening-of-magnetocaloric-high-entropy-alloys" target="_blank" class="btn btn-secondary">
+                    <span class="lang-en">Access Repository</span>
+                    <span class="lang-tr">Depoya Git</span>
+                </a>
             </div>
 
             <div class="dataset-card">
-                <div class="dataset-icon">🧬</div>
+                <div class="dataset-icon">📈</div>
                 <h4>
-                    <span class="lang-en">Feature Engineering Set</span>
-                    <span class="lang-tr">Özellik Mühendisliği Seti</span>
+                    <span class="lang-en">Presentations & Visual Materials</span>
+                    <span class="lang-tr">Sunumlar ve Görsel Materyaller</span>
                 </h4>
                 <p>
-                    <span class="lang-en">Pre-calculated elemental and compositional features for ML model training, including valence electron concentration and atomic size mismatch.</span>
-                    <span class="lang-tr">ML model eğitimi için önceden hesaplanmış elementel ve kompozisyonel özellikler, valans elektron konsantrasyonu ve atomik boyut uyumsuzluğu dahil.</span>
+                    <span class="lang-en">Talks, posters, and educational materials related to magnetocaloric materials and AI-driven materials discovery.</span>
+                    <span class="lang-tr">Magnetokalorik malzemeler ve yapay zeka destekli malzeme keşfi ile ilgili konuşmalar, posterler ve eğitsel materyaller.</span>
                 </p>
                 <div class="dataset-meta">
-                    <span>📁 50+ <span class="lang-en">features</span><span class="lang-tr">özellik</span></span>
-                    <span>📅 2025</span>
-                    <span>📄 CSV</span>
+                    <span>Talks</span>
+                    <span>Posters</span>
+                    <span>Educational</span>
                 </div>
-                <button class="btn-disabled" disabled>
+                <button class="btn-disabled">
                     <span class="lang-en">Coming Soon</span>
                     <span class="lang-tr">Yakında</span>
                 </button>
             </div>
         </div>
-    </section>
 
-    <section id="tools">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Software</span>
-                <span class="lang-tr">Yazılım</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Tools & Code</span>
-                <span class="lang-tr">Araçlar ve Kodlar</span>
-            </h2>
-            <p class="section-description">
-                <span class="lang-en">Open-source tools developed during this project.</span>
-                <span class="lang-tr">Bu proje kapsamında geliştirilen açık kaynak araçlar.</span>
-            </p>
-        </div>
+        <div style="height: 3rem;"></div>
 
         <div class="tools-grid">
             <div class="tool-card">
-                <div class="tool-header">
-                    <div class="tool-logo">🤖</div>
-                    <div>
-                        <h4 class="tool-name">MCE-ML</h4>
-                        <span class="tool-version">v1.0</span>
-                    </div>
-                </div>
-                <p class="tool-description">
-                    <span class="lang-en">Machine learning pipeline for magnetocaloric materials screening with nested cross-validation and SHAP analysis.</span>
-                    <span class="lang-tr">İç içe çapraz doğrulama ve SHAP analizi ile magnetokalorik malzeme taraması için makine öğrenimi hattı.</span>
+                <div class="tool-icon">🧠</div>
+                <h4>MCE-ML v1.0</h4>
+                <p>
+                    <span class="lang-en">A conceptual toolkit for data-driven screening of magnetocaloric alloys using machine learning and descriptor analysis.</span>
+                    <span class="lang-tr">Makine öğrenimi ve tanımlayıcı analizi kullanarak magnetokalorik alaşımların veri odaklı taranması için kavramsal araç seti.</span>
                 </p>
-                <div class="tool-features">
-                    <span class="tool-feature">LightGBM</span>
-                    <span class="tool-feature">XGBoost</span>
-                    <span class="tool-feature">SHAP</span>
-                    <span class="tool-feature">Scikit-learn</span>
-                </div>
-                <button class="btn-disabled" disabled>
+                <ul class="tool-features">
+                    <li>
+                        <span class="lang-en">Descriptor-based candidate screening</span>
+                        <span class="lang-tr">Tanımlayıcı tabanlı aday tarama</span>
+                    </li>
+                    <li>
+                        <span class="lang-en">Explainable AI interpretation</span>
+                        <span class="lang-tr">Açıklanabilir yapay zeka yorumu</span>
+                    </li>
+                    <li>
+                        <span class="lang-en">Physics-informed workflow design</span>
+                        <span class="lang-tr">Fizik bilgisi destekli iş akışı tasarımı</span>
+                    </li>
+                </ul>
+                <button class="btn-disabled">
                     <span class="lang-en">Coming Soon</span>
                     <span class="lang-tr">Yakında</span>
                 </button>
             </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">⚙</div>
+                <h4>Open Workflow Assets</h4>
+                <p>
+                    <span class="lang-en">Reusable scripts, notebooks, and data-preparation utilities supporting reproducible magnetocaloric materials research.</span>
+                    <span class="lang-tr">Yeniden üretilebilir magnetokalorik malzeme araştırmalarını destekleyen yeniden kullanılabilir scriptler, notebook’lar ve veri hazırlama araçları.</span>
+                </p>
+                <ul class="tool-features">
+                    <li>
+                        <span class="lang-en">Python notebooks</span>
+                        <span class="lang-tr">Python notebook’ları</span>
+                    </li>
+                    <li>
+                        <span class="lang-en">Reproducible processing steps</span>
+                        <span class="lang-tr">Yeniden üretilebilir işlem adımları</span>
+                    </li>
+                    <li>
+                        <span class="lang-en">AI-guided materials exploration</span>
+                        <span class="lang-tr">YZ destekli malzeme keşfi</span>
+                    </li>
+                </ul>
+                <a href="https://github.com/kaansarlar/magnetelligence" target="_blank" class="btn btn-secondary">
+                    <span class="lang-en">View GitHub</span>
+                    <span class="lang-tr">GitHub’ı Gör</span>
+                </a>
+            </div>
+        </div>
+
+        <div style="height: 3rem;"></div>
+
+        <div class="presentations-list">
+            <div class="presentation-card">
+                <div class="presentation-date">
+                    <div class="presentation-month">2025</div>
+                </div>
+                <div class="presentation-content">
+                    <h4>
+                        <span class="lang-en">Project Presentations and Educational Talks</span>
+                        <span class="lang-tr">Proje Sunumları ve Eğitsel Konuşmalar</span>
+                    </h4>
+                    <p>
+                        <span class="lang-en">Presentations on magnetocaloric materials, AI-guided materials discovery, and interdisciplinary research themes will be added here.</span>
+                        <span class="lang-tr">Magnetokalorik malzemeler, yapay zeka destekli malzeme keşfi ve disiplinler arası araştırma temalarına ilişkin sunumlar burada yer alacaktır.</span>
+                    </p>
+                    <div class="presentation-event">
+                        <span class="lang-en">More presentations will be added.</span>
+                        <span class="lang-tr">Daha fazla sunum eklenecektir.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="presentation-note">
+            <span class="lang-en">This section represents publications, datasets, tools, and presentations under the broader “Research” umbrella.</span>
+            <span class="lang-tr">Bu bölüm, daha geniş “Araştırma” başlığı altında yayınlar, veri setleri, araçlar ve sunumları temsil etmektedir.</span>
         </div>
     </section>
 
@@ -2375,98 +2323,130 @@
                 <span class="lang-tr">Açık Pozisyon</span>
             </span>
             <h2 class="section-title">
-                <span class="lang-en">MSc Scholarship Position (2026–2028)</span>
-                <span class="lang-tr">Yüksek Lisans Burslu Pozisyonu (2026–2028)</span>
-            </h2>
-        </div>
-
-        <div class="open-position-grid">
-            <div class="open-position-card">
-                <div class="open-position-header">
-                    <div class="open-position-title">
-                        <span class="lang-en">MSc in Physics / Solid State Physics  (Magnetocaloric High-Entropy Alloys)</span>
-                        <span class="lang-tr">Fizik / Katıhal Fiziği  Yüksek Lisans (Magnetokalorik Yüksek Entropili Alaşımlar)</span>
-                    </div>
-                    <div class="open-position-badge">
-                        <span class="lang-en">Fully Funded MSc</span>
-                        <span class="lang-tr">Burslu Yüksek Lisans</span>
-                    </div>
-                </div>
-
-                <div class="open-position-meta">
-                    <span>📍 KMÜ – Karaman</span>
-                    <span>📅 2026–2028</span>
-                    <span>
-                        💰
-                        <span class="lang-en">Scholarship funded by TÜBİTAK 3501 (125F375)</span>
-                        <span class="lang-tr">Burs: TÜBİTAK 3501 (125F375) kapsamında</span>
-                    </span>
-                </div>
-
-                <div class="open-position-body">
-                    <p class="lang-en">
-                        We are looking for a motivated MSc student to work on AI-guided design and experimental characterization of magnetocaloric high-entropy alloys within the TÜBİTAK 3501 project. The MSc scholarship is planned for the 2026–2028 period, following the project acceptance on 4 November 2025.
-                    </p>
-                    <p class="lang-tr">
-                        TÜBİTAK 3501 projesi kapsamında, magnetokalorik yüksek entropili alaşımların yapay zekâ destekli tasarımı ve deneysel karakterizasyonu üzerine çalışacak motive bir yüksek lisans öğrencisi arıyoruz. Proje 4 Kasım 2025 tarihinde kabul edilmiş olup, yüksek lisans burs dönemi 2026–2028 yıllarını kapsamaktadır.
-                    </p>
-
-                    <h4>
-                        <span class="lang-en">Expected Background</span>
-                        <span class="lang-tr">Beklenen Ön Koşullar</span>
-                    </h4>
-                    <ul class="open-position-list">
-                        <li class="lang-en">BSc degree in Physics, Materials Science or related fields.</li>
-                        <li class="lang-tr">Fizik, Malzeme Bilimi veya ilgili alanlarda lisans mezunu  olmak.</li>
-                        <li class="lang-en">Basic programming skills (preferably Python) and interest in machine learning.</li>
-                        <li class="lang-tr">Temel programlama bilgisi (tercihen Python) ve makine öğrenimine ilgi duymak.</li>
-                        <li class="lang-en">Interest in magnetism, magnetic materials, or energy-efficient cooling technologies.</li>
-                        <li class="lang-tr">Manyetizma, manyetik malzemeler veya enerji verimli soğutma teknolojilerine ilgi duymak.</li>
-                    </ul>
-
-                    <h4>
-                        <span class="lang-en">How to Apply</span>
-                        <span class="lang-tr">Başvuru Şekli</span>
-                    </h4>
-                    <p class="lang-en">
-                        Please send your CV, transcript, and a short motivation letter to <strong>kagansarlar@kmu.edu.tr</strong> with the subject line “MSc Magnetocaloric HEA – Application”. Informal inquiries are welcome.
-                    </p>
-                    <p class="lang-tr">
-                        Özgeçmişinizi, not dökümünüzü ve kısa bir motivasyon mektubunu konu kısmına “Yüksek Lisans Magnetokalorik HEA – Başvuru” yazarak <strong>kagansarlar@kmu.edu.tr</strong> adresine gönderiniz. Sorularınız için gayriresmî iletişime de açığız.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="presentations">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Talks & Posters</span>
-                <span class="lang-tr">Sunumlar ve Posterler</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Presentations</span>
-                <span class="lang-tr">Sunumlar</span>
+                <span class="lang-en">MSc Research Opportunity</span>
+                <span class="lang-tr">Yüksek Lisans Araştırma Fırsatı</span>
             </h2>
             <p class="section-description">
-                <span class="lang-en">Conference presentations and invited talks.</span>
-                <span class="lang-tr">Konferans sunumları ve davetli konuşmalar.</span>
+                <span class="lang-en">We are looking for a motivated graduate student to join the Magnetelligence Lab and work at the intersection of physics, materials science, and artificial intelligence.</span>
+                <span class="lang-tr">Fizik, malzeme bilimi ve yapay zekânın kesişiminde çalışmak üzere Magnetelligence Lab’a katılacak motive bir yüksek lisans öğrencisi arıyoruz.</span>
             </p>
         </div>
 
-        <div class="presentations-list">
-            <div class="presentation-card presentation-coming-soon">
-                <div class="presentation-icon">📅</div>
-                <div class="presentation-content">
+        <div class="open-position-card">
+            <div class="position-badge">
+                <span class="lang-en">Now Recruiting</span>
+                <span class="lang-tr">Başvurular Açık</span>
+            </div>
+
+            <div class="position-header">
+                <div class="position-title">
+                    <h3>
+                        <span class="lang-en">Graduate Researcher in AI-Driven Magnetocaloric Materials</span>
+                        <span class="lang-tr">YZ Destekli Magnetokalorik Malzemelerde Lisansüstü Araştırmacı</span>
+                    </h3>
+                    <div class="position-subtitle">
+                        <span class="lang-en">Join a TÜBİTAK 3501-funded research environment at Karamanoğlu Mehmetbey University</span>
+                        <span class="lang-tr">Karamanoğlu Mehmetbey Üniversitesi’nde TÜBİTAK 3501 destekli bir araştırma ortamına katılın</span>
+                    </div>
+                </div>
+
+                <div class="position-meta">
+                    <span class="meta-chip">
+                        <span class="lang-en">MSc Level</span>
+                        <span class="lang-tr">Yüksek Lisans</span>
+                    </span>
+                    <span class="meta-chip">
+                        <span class="lang-en">Physics / Materials / AI</span>
+                        <span class="lang-tr">Fizik / Malzeme / YZ</span>
+                    </span>
+                    <span class="meta-chip">
+                        <span class="lang-en">Karaman, Türkiye</span>
+                        <span class="lang-tr">Karaman, Türkiye</span>
+                    </span>
+                    <span class="meta-chip">
+                        <span class="lang-en">Project-Based Research</span>
+                        <span class="lang-tr">Proje Tabanlı Araştırma</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="position-grid">
+                <div class="position-section">
                     <h4>
-                        <span class="lang-en">Presentations will be added as the project progresses</span>
-                        <span class="lang-tr">Proje ilerledikçe sunumlar eklenecektir</span>
+                        <span class="lang-en">What You Will Work On</span>
+                        <span class="lang-tr">Neler Üzerinde Çalışacaksınız</span>
                     </h4>
-                    <p class="presentation-meta">
-                        <span class="lang-en">Stay tuned for upcoming conference presentations and talks.</span>
-                        <span class="lang-tr">Yaklaşan konferans sunumları ve konuşmalar için takipte kalın.</span>
+                    <p>
+                        <span class="lang-en">You will contribute to a research program focused on the AI-assisted discovery of high-entropy magnetocaloric alloys. The project combines machine learning, descriptor engineering, scientific programming, and materials physics with the long-term goal of accelerating next-generation cooling materials research.</span>
+                        <span class="lang-tr">Yüksek entropili magnetokalorik alaşımların yapay zekâ destekli keşfine odaklanan bir araştırma programına katkı sağlayacaksınız. Proje; yeni nesil soğutma malzemeleri araştırmalarını hızlandırma amacıyla makine öğrenimi, tanımlayıcı mühendisliği, bilimsel programlama ve malzeme fiziğini bir araya getirir.</span>
                     </p>
+                    <ul class="position-list">
+                        <li>
+                            <span class="lang-en">Analyze magnetocaloric materials datasets and compositional descriptors</span>
+                            <span class="lang-tr">Magnetokalorik malzeme veri setlerini ve kompozisyon tanımlayıcılarını analiz etmek</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Develop and interpret machine-learning models for candidate screening</span>
+                            <span class="lang-tr">Aday taraması için makine öğrenimi modelleri geliştirmek ve yorumlamak</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Gain experience in Python-based scientific workflows and open-science practices</span>
+                            <span class="lang-tr">Python tabanlı bilimsel iş akışları ve açık bilim uygulamalarında deneyim kazanmak</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Participate in an interdisciplinary environment connecting theory, data, and real materials research</span>
+                            <span class="lang-tr">Kuram, veri ve gerçek malzeme araştırmalarını birleştiren disiplinler arası bir ortamda yer almak</span>
+                        </li>
+                    </ul>
+                    <div class="position-highlight">
+                        <span class="lang-en">This position is ideal for students who are curious about physics, coding, materials discovery, and modern AI-based research methods.</span>
+                        <span class="lang-tr">Bu pozisyon; fizik, kodlama, malzeme keşfi ve modern yapay zekâ tabanlı araştırma yöntemlerine ilgi duyan öğrenciler için idealdir.</span>
+                    </div>
+                </div>
+
+                <div class="position-section">
+                    <h4>
+                        <span class="lang-en">Who Should Apply</span>
+                        <span class="lang-tr">Kimler Başvurmalı</span>
+                    </h4>
+                    <ul class="position-list">
+                        <li>
+                            <span class="lang-en">Students with a background or interest in physics, materials science, engineering, or related areas</span>
+                            <span class="lang-tr">Fizik, malzeme bilimi, mühendislik veya ilgili alanlarda altyapısı ya da ilgisi olan öğrenciler</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Candidates motivated to learn Python, data analysis, and machine-learning concepts</span>
+                            <span class="lang-tr">Python, veri analizi ve makine öğrenimi kavramlarını öğrenmeye istekli adaylar</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Students who want to grow in a research-oriented academic environment</span>
+                            <span class="lang-tr">Araştırma odaklı akademik bir ortamda gelişmek isteyen öğrenciler</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Applicants who value discipline, curiosity, and scientific thinking</span>
+                            <span class="lang-tr">Disiplin, merak ve bilimsel düşünceye önem veren başvuru sahipleri</span>
+                        </li>
+                    </ul>
+
+                    <h4 style="margin-top: 1.6rem;">
+                        <span class="lang-en">How to Apply</span>
+                        <span class="lang-tr">Nasıl Başvurulur</span>
+                    </h4>
+                    <p>
+                        <span class="lang-en">Interested students may contact us by email with a short introduction, CV, and a brief note on their academic interests.</span>
+                        <span class="lang-tr">İlgilenen öğrenciler kısa bir tanıtım metni, özgeçmiş ve akademik ilgi alanlarını belirten kısa bir not ile e-posta üzerinden iletişime geçebilir.</span>
+                    </p>
+
+                    <div class="position-actions">
+                        <a href="mailto:kagansarlar@kmu.edu.tr?subject=MSc%20Application%20-%20Magnetelligence%20Lab" class="btn btn-primary">
+                            <span class="lang-en">Apply by Email</span>
+                            <span class="lang-tr">E-posta ile Başvur</span>
+                        </a>
+                        <a href="#contact" class="btn btn-secondary">
+                            <span class="lang-en">Contact the PI</span>
+                            <span class="lang-tr">Yürütücü ile İletişim</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2475,58 +2455,50 @@
     <section id="collaboration">
         <div class="section-header">
             <span class="section-tag">
-                <span class="lang-en">Work With Us</span>
-                <span class="lang-tr">Bizimle Çalışın</span>
+                <span class="lang-en">Collaborate</span>
+                <span class="lang-tr">İşbirliği</span>
             </span>
             <h2 class="section-title">
-                <span class="lang-en">Collaboration Opportunities</span>
-                <span class="lang-tr">İşbirliği Fırsatları</span>
+                <span class="lang-en">Open to Scientific Collaboration</span>
+                <span class="lang-tr">Bilimsel İşbirliğine Açığız</span>
             </h2>
+            <p class="section-description">
+                <span class="lang-en">We welcome collaborations in magnetocaloric materials, machine learning for materials science, data-driven alloy design, and related interdisciplinary themes.</span>
+                <span class="lang-tr">Magnetokalorik malzemeler, malzeme bilimi için makine öğrenimi, veri odaklı alaşım tasarımı ve ilgili disiplinler arası temalarda işbirliklerine açığız.</span>
+            </p>
         </div>
 
-        <div class="collab-grid">
-            <div class="collab-card">
-                <div class="collab-icon">🎓</div>
-                <h4>
-                    <span class="lang-en">Graduate Students</span>
-                    <span class="lang-tr">Lisansüstü Öğrenciler</span>
-                </h4>
-                <p>
-                    <span class="lang-en">We are looking for motivated MSc and PhD students interested in computational materials science and machine learning.</span>
-                    <span class="lang-tr">Hesaplamalı malzeme bilimi ve makine öğrenimi ile ilgilenen motivasyonlu yüksek lisans ve doktora öğrencileri arıyoruz.</span>
-                </p>
-            </div>
-
-            <div class="collab-card">
-                <div class="collab-icon">🔬</div>
-                <h4>
-                    <span class="lang-en">Academic Collaboration</span>
-                    <span class="lang-tr">Akademik İşbirliği</span>
-                </h4>
-                <p>
-                    <span class="lang-en">Open to collaborations with research groups working on magnetocaloric materials, high-entropy alloys, or ML for materials.</span>
-                    <span class="lang-tr">Magnetokalorik malzemeler, yüksek entropili alaşımlar veya malzemeler için ML üzerinde çalışan araştırma gruplarıyla işbirliğine açığız.</span>
-                </p>
-            </div>
-
-            <div class="collab-card">
-                <div class="collab-icon">🏭</div>
-                <h4>
-                    <span class="lang-en">Industry Partners</span>
-                    <span class="lang-tr">Sanayi Ortakları</span>
-                </h4>
-                <p>
-                    <span class="lang-en">Seeking industry partners interested in sustainable cooling technologies and advanced magnetic materials.</span>
-                    <span class="lang-tr">Sürdürülebilir soğutma teknolojileri ve ileri manyetik malzemelerle ilgilenen sanayi ortakları arıyoruz.</span>
-                </p>
-            </div>
-        </div>
-
-        <div class="collab-cta">
-            <a href="#contact" class="btn btn-primary">
-                <span class="lang-en">Get in Touch</span>
+        <div class="tool-card" style="max-width: 1000px; margin: 0 auto;">
+            <div class="tool-icon">🤝</div>
+            <h4>
+                <span class="lang-en">Potential Collaboration Areas</span>
+                <span class="lang-tr">Olası İşbirliği Alanları</span>
+            </h4>
+            <p>
+                <span class="lang-en">Magnetelligence Lab is interested in academic and research collaborations that combine materials science, artificial intelligence, physics, scientific programming, data curation, and experimental feedback. We are especially interested in partnerships that advance reproducible, interpretable, and high-impact materials discovery.</span>
+                <span class="lang-tr">Magnetelligence Lab; malzeme bilimi, yapay zekâ, fizik, bilimsel programlama, veri kürasyonu ve deneysel geri bildirimi birleştiren akademik ve araştırma işbirlikleriyle ilgilenmektedir. Özellikle yeniden üretilebilir, yorumlanabilir ve yüksek etkili malzeme keşfini ilerleten ortaklıklara ilgi duyuyoruz.</span>
+            </p>
+            <ul class="tool-features">
+                <li>
+                    <span class="lang-en">Magnetocaloric materials and high-entropy alloy research</span>
+                    <span class="lang-tr">Magnetokalorik malzemeler ve yüksek entropili alaşım araştırmaları</span>
+                </li>
+                <li>
+                    <span class="lang-en">Machine learning and explainable AI for materials science</span>
+                    <span class="lang-tr">Malzeme bilimi için makine öğrenimi ve açıklanabilir yapay zekâ</span>
+                </li>
+                <li>
+                    <span class="lang-en">Dataset development, descriptor engineering, and workflow design</span>
+                    <span class="lang-tr">Veri seti geliştirme, tanımlayıcı mühendisliği ve iş akışı tasarımı</span>
+                </li>
+                <li>
+                    <span class="lang-en">Educational content, workshops, and interdisciplinary student projects</span>
+                    <span class="lang-tr">Eğitsel içerikler, atölyeler ve disiplinler arası öğrenci projeleri</span>
+                </li>
+            </ul>
+            <a href="mailto:kagansarlar@kmu.edu.tr?subject=Collaboration%20Inquiry%20-%20Magnetelligence%20Lab" class="btn btn-primary">
+                <span class="lang-en">Start a Conversation</span>
                 <span class="lang-tr">İletişime Geçin</span>
-                →
             </a>
         </div>
     </section>
@@ -2534,68 +2506,84 @@
     <section id="contact">
         <div class="section-header">
             <span class="section-tag">
-                <span class="lang-en">Get in Touch</span>
-                <span class="lang-tr">İletişime Geçin</span>
+                <span class="lang-en">Contact</span>
+                <span class="lang-tr">İletişim</span>
             </span>
             <h2 class="section-title">
-                <span class="lang-en">Contact Us</span>
-                <span class="lang-tr">Bize Ulaşın</span>
+                <span class="lang-en">Get in Touch</span>
+                <span class="lang-tr">Bizimle İletişime Geçin</span>
             </h2>
+            <p class="section-description">
+                <span class="lang-en">For collaboration, student opportunities, or project-related inquiries, feel free to contact us.</span>
+                <span class="lang-tr">İşbirliği, öğrenci fırsatları veya proje ile ilgili sorular için bizimle iletişime geçebilirsiniz.</span>
+            </p>
         </div>
 
         <div class="contact-content">
             <div class="contact-info">
-                <h3>
-                    <span class="lang-en">Collaborate With Us</span>
-                    <span class="lang-tr">Bizimle İşbirliği Yapın</span>
-                </h3>
-                <p>
-                    <span class="lang-en">Interested in collaboration or have questions about our research? We'd love to hear from you.</span>
-                    <span class="lang-tr">İşbirliği yapmak ister misiniz veya araştırmamız hakkında sorularınız mı var? Sizden haber almaktan memnuniyet duyarız.</span>
-                </p>
+                <div class="contact-item">
+                    <div class="contact-icon">✉</div>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <a href="mailto:kagansarlar@kmu.edu.tr">kagansarlar@kmu.edu.tr</a>
+                    </div>
+                </div>
 
-                <div class="contact-details">
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <div class="contact-text">
-                            <strong>Email</strong>
-                            kagansarlar@kmu.edu.tr
-                        </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🏫</div>
+                    <div class="contact-details">
+                        <h4>
+                            <span class="lang-en">Institution</span>
+                            <span class="lang-tr">Kurum</span>
+                        </h4>
+                        <p>Karamanoğlu Mehmetbey University</p>
+                        <p>
+                            <span class="lang-en">Department of Physics, Faculty of Science</span>
+                            <span class="lang-tr">Fen Fakültesi, Fizik Bölümü</span>
+                        </p>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">🏛️</div>
-                        <div class="contact-text">
-                            <strong>
-                                <span class="lang-en">Address</span>
-                                <span class="lang-tr">Adres</span>
-                            </strong>
-                            <span class="lang-en">Department of Physics, Karamanoğlu Mehmetbey University, 70100 Karaman, Turkey</span>
-                            <span class="lang-tr">Fizik Bölümü, Karamanoğlu Mehmetbey Üniversitesi, 70100 Karaman, Türkiye</span>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">🆔</div>
-                        <div class="contact-text">
-                            <strong>ORCID</strong>
-                            0000-0002-8871-2357
-                        </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-details">
+                        <h4>
+                            <span class="lang-en">Online</span>
+                            <span class="lang-tr">Çevrimiçi</span>
+                        </h4>
+                        <a href="https://github.com/kaansarlar/magnetelligence" target="_blank">GitHub Repository</a><br>
+                        <a href="https://kaansarlar.github.io/magnetelligence/" target="_blank">Project Website</a>
                     </div>
                 </div>
             </div>
 
-            <div class="contact-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3145.8!2d33.215!3d37.175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDEwJzMwLjAiTiAzM8KwMTInNTQuMCJF!5e0!3m2!1sen!2str!4v1600000000000!5m2!1sen!2str" allowfullscreen="" loading="lazy"></iframe>
+            <div class="contact-form">
+                <h3>
+                    <span class="lang-en">Research Inquiries</span>
+                    <span class="lang-tr">Araştırma İletişimi</span>
+                </h3>
+                <p>
+                    <span class="lang-en">If you would like to discuss collaboration, student opportunities, invited talks, or open-science initiatives, please contact the principal investigator directly.</span>
+                    <span class="lang-tr">İşbirliği, öğrenci fırsatları, davetli konuşmalar veya açık bilim girişimleri hakkında görüşmek isterseniz, lütfen proje yürütücüsüyle doğrudan iletişime geçin.</span>
+                </p>
+                <a href="mailto:kagansarlar@kmu.edu.tr?subject=Magnetelligence%20Lab%20Inquiry" class="btn btn-primary">
+                    <span class="lang-en">Send Email</span>
+                    <span class="lang-tr">E-posta Gönder</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <footer>
+    <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="logo.png" alt="Magnetelligence" class="footer-logo-img">
+                <img src="logo.png" alt="Magnetelligence Logo" class="footer-logo-img">
                 <div>
-                    <div class="logo-text">Magnet<span>elligence</span></div>
-                    <div class="footer-text">© 2025 Magnetelligence Lab</div>
+                    <div class="logo-text" style="font-size: 1.05rem;">MAGNET<span>ELLIGENCE</span></div>
+                    <div class="footer-text">
+                        <span class="lang-en">AI-Driven Magnetocaloric Materials Discovery</span>
+                        <span class="lang-tr">YZ Destekli Magnetokalorik Malzeme Keşfi</span>
+                    </div>
                 </div>
             </div>
 
