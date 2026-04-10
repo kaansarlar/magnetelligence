@@ -1869,7 +1869,7 @@
         </div>
 
         <div id="mainFilmWrapper" class="film-wrapper main-film-hidden">
-            <video id="introFilmMain" muted playsinline preload="metadata" controls>
+            <video id="introFilmMain" muted playsinline preload="auto" controls>
                 <source src="Magnetelligence_alt_yazılı_1.mp4" type="video/mp4">
             </video>
         </div>
@@ -2784,25 +2784,68 @@
                 mainFilmWrapper.classList.add("main-film-hidden");
             }
 
+            let isSwitchingVideo = false;
+
             function syncVideoState(fromVideo, toVideo, shouldPlayOverride = null) {
+                if (isSwitchingVideo) return;
+                isSwitchingVideo = true;
+
                 const syncTime = (fromVideo.ended && isFinite(fromVideo.duration) && fromVideo.duration > 0)
                     ? Math.max(0, fromVideo.duration - 0.05)
-                    : fromVideo.currentTime;
-
-                try {
-                    toVideo.currentTime = syncTime || 0;
-                } catch (e) {}
+                    : (fromVideo.currentTime || 0);
 
                 const shouldPlay = shouldPlayOverride !== null
                     ? shouldPlayOverride
                     : (!fromVideo.paused && !fromVideo.ended);
 
-                fromVideo.pause();
+                const applySync = () => {
+                    try {
+                        if (Math.abs((toVideo.currentTime || 0) - syncTime) > 0.15) {
+                            toVideo.currentTime = syncTime;
+                        }
+                    } catch (e) {}
 
-                if (shouldPlay) {
-                    toVideo.play().catch(() => {});
+                    if (!shouldPlay) {
+                        fromVideo.pause();
+                        toVideo.pause();
+                        isSwitchingVideo = false;
+                        return;
+                    }
+
+                    toVideo.muted = true;
+                    toVideo.defaultMuted = true;
+                    toVideo.playsInline = true;
+
+                    const playPromise = toVideo.play();
+
+                    if (playPromise && typeof playPromise.then === "function") {
+                        playPromise.then(() => {
+                            fromVideo.pause();
+                            isSwitchingVideo = false;
+                        }).catch(() => {
+                            // If autoplay handoff is briefly rejected, keep the outgoing video running
+                            // instead of stopping playback entirely.
+                            isSwitchingVideo = false;
+                        });
+                    } else {
+                        fromVideo.pause();
+                        isSwitchingVideo = false;
+                    }
+                };
+
+                if (toVideo.readyState >= 1) {
+                    applySync();
                 } else {
-                    toVideo.pause();
+                    const onLoaded = () => {
+                        toVideo.removeEventListener("loadedmetadata", onLoaded);
+                        applySync();
+                    };
+                    toVideo.addEventListener("loadedmetadata", onLoaded, { once: true });
+                    try {
+                        toVideo.load();
+                    } catch (e) {
+                        applySync();
+                    }
                 }
             }
 
