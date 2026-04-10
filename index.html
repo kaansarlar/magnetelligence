@@ -1603,6 +1603,10 @@
             border-radius: 16px;
         }
 
+        .main-film-hidden video {
+            visibility: hidden;
+        }
+
         @media (max-width: 1024px) {
             .about-content,
             .contact-content {
@@ -1864,7 +1868,7 @@
             </h2>
         </div>
 
-        <div class="film-wrapper">
+        <div id="mainFilmWrapper" class="film-wrapper main-film-hidden">
             <video id="introFilmMain" muted playsinline preload="metadata" controls>
                 <source src="Magnetelligence_alt_yazılı_1.mp4" type="video/mp4">
             </video>
@@ -2753,11 +2757,14 @@
             const floatingPlayer = document.getElementById("floatingFilmPlayer");
             const floatingVideo = document.getElementById("introFilmFloating");
             const mainVideo = document.getElementById("introFilmMain");
+            const mainFilmWrapper = document.getElementById("mainFilmWrapper");
             const filmSection = document.getElementById("lab-film");
 
-            if (!floatingPlayer || !floatingVideo || !mainVideo || !filmSection) return;
+            if (!floatingPlayer || !floatingVideo || !mainVideo || !mainFilmWrapper || !filmSection) return;
 
-            const introFinished = sessionStorage.getItem("introFilmFinished") === "true";
+            let introFinished = sessionStorage.getItem("introFilmFinished") === "true";
+            let currentMode = introFinished ? "main" : "floating";
+            let observer = null;
 
             function showFloating() {
                 floatingPlayer.classList.add("active");
@@ -2769,22 +2776,64 @@
                 floatingPlayer.setAttribute("aria-hidden", "true");
             }
 
-            if (!introFinished) {
-                showFloating();
-                floatingVideo.play().catch(() => {});
-            } else {
-                hideFloating();
-                floatingVideo.pause();
-                floatingVideo.currentTime = 0;
+            function showMain() {
+                mainFilmWrapper.classList.remove("main-film-hidden");
             }
 
-            floatingVideo.addEventListener("ended", function () {
+            function hideMain() {
+                mainFilmWrapper.classList.add("main-film-hidden");
+            }
+
+            function syncVideoState(fromVideo, toVideo, shouldPlayOverride = null) {
+                const syncTime = (fromVideo.ended && isFinite(fromVideo.duration) && fromVideo.duration > 0)
+                    ? Math.max(0, fromVideo.duration - 0.05)
+                    : fromVideo.currentTime;
+
+                try {
+                    toVideo.currentTime = syncTime || 0;
+                } catch (e) {}
+
+                const shouldPlay = shouldPlayOverride !== null
+                    ? shouldPlayOverride
+                    : (!fromVideo.paused && !fromVideo.ended);
+
+                fromVideo.pause();
+
+                if (shouldPlay) {
+                    toVideo.play().catch(() => {});
+                } else {
+                    toVideo.pause();
+                }
+            }
+
+            function switchTo(mode) {
+                if (introFinished || mode === currentMode) return;
+
+                if (mode === "main") {
+                    showMain();
+                    syncVideoState(floatingVideo, mainVideo);
+                    hideFloating();
+                } else {
+                    showFloating();
+                    syncVideoState(mainVideo, floatingVideo);
+                    hideMain();
+                }
+
+                currentMode = mode;
+            }
+
+            function finishIntro(sourceVideo) {
+                if (introFinished) return;
+
+                introFinished = true;
                 sessionStorage.setItem("introFilmFinished", "true");
+
+                if (observer) observer.disconnect();
+
+                showMain();
                 hideFloating();
-                floatingVideo.pause();
-                floatingVideo.currentTime = 0;
-                mainVideo.pause();
-                mainVideo.currentTime = 0;
+                syncVideoState(sourceVideo, mainVideo, false);
+                currentMode = "main";
 
                 requestAnimationFrame(() => {
                     filmSection.scrollIntoView({
@@ -2792,11 +2841,44 @@
                         block: "start"
                     });
                 });
-            }, { once: true });
+            }
+
+            if (!introFinished) {
+                hideMain();
+                showFloating();
+                floatingVideo.play().catch(() => {});
+            } else {
+                showMain();
+                hideFloating();
+                floatingVideo.pause();
+                floatingVideo.currentTime = 0;
+                mainVideo.pause();
+            }
+
+            observer = new IntersectionObserver((entries) => {
+                if (introFinished) return;
+
+                const entry = entries[0];
+                const shouldUseMain = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+
+                if (shouldUseMain) {
+                    switchTo("main");
+                } else {
+                    switchTo("floating");
+                }
+            }, {
+                threshold: [0, 0.15, 0.35, 0.6, 0.85]
+            });
+
+            observer.observe(filmSection);
+
+            floatingVideo.addEventListener("ended", function () {
+                finishIntro(floatingVideo);
+            });
 
             mainVideo.addEventListener("ended", function () {
-                sessionStorage.setItem("introFilmFinished", "true");
-            }, { once: true });
+                finishIntro(mainVideo);
+            });
         });
     </script>
 </body>
