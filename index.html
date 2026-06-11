@@ -4,1921 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magnetelligence Lab | AI-Driven Magnetocaloric Materials Discovery</title>
-    <meta name="description" content="AI-Assisted Design of High-Entropy Magnetocaloric Alloys - TÜBİTAK 125F375 Project">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ST0M1YHFZ9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta name="description" content="AI-Assisted Design of High-Entropy Magnetocaloric Alloys — TÜBİTAK 3501 Project 125F375. Machine learning meets sustainable magnetic cooling.">
+    <meta name="author" content="Kağan Şarlar">
 
-  gtag('config', 'G-ST0M1YHFZ9');
-</script>
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Magnetelligence Lab | AI-Driven Magnetocaloric Materials Discovery">
+    <meta property="og:description" content="Accelerating the design of high-entropy magnetocaloric alloys with machine learning. TÜBİTAK 3501 — 125F375.">
+    <meta property="og:url" content="https://kaansarlar.github.io/magnetelligence/">
+    <meta property="og:image" content="assets/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ResearchProject",
+      "name": "Magnetelligence",
+      "alternateName": "AI-Assisted Design of High-Entropy Magnetocaloric Alloys",
+      "identifier": "TÜBİTAK 125F375",
+      "funder": { "@type": "Organization", "name": "TÜBİTAK", "url": "https://www.tubitak.gov.tr" },
+      "member": [
+        { "@type": "Person", "name": "Kağan Şarlar", "affiliation": "Karamanoğlu Mehmetbey University" },
+        { "@type": "Person", "name": "Atakan Tekgül", "affiliation": "Gürbağ Defense & Technology" },
+        { "@type": "Person", "name": "M. Cüneyt Hacıismailoğlu", "affiliation": "Bursa Uludağ University" }
+      ],
+      "url": "https://kaansarlar.github.io/magnetelligence/"
+    }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧲</text></svg>">
-
-    <style>
-        :root {
-            --primary: #0f172a;
-            --secondary: #1e293b;
-            --accent: #06b6d4;
-            --accent-light: #22d3ee;
-            --accent-glow: rgba(6, 182, 212, 0.3);
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --gradient-1: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
-            --gradient-2: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-            --card-bg: rgba(30, 41, 59, 0.6);
-            --border: rgba(148, 163, 184, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--primary);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* ============================================
-           MAGNETELLIGENCE THEMED ANIMATIONS
-           ============================================ */
-
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3;
-            background:
-                radial-gradient(ellipse at 20% 30%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-        }
-
-        .neural-network {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        .neural-network svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .nn-node {
-            fill: var(--accent);
-            filter: drop-shadow(0 0 6px var(--accent));
-        }
-
-        .nn-node-hidden {
-            fill: #8b5cf6;
-            filter: drop-shadow(0 0 4px #8b5cf6);
-        }
-
-        .nn-node-output {
-            fill: #10b981;
-            filter: drop-shadow(0 0 6px #10b981);
-        }
-
-        .nn-connection {
-            stroke: var(--accent);
-            stroke-width: 1;
-            opacity: 0.3;
-            stroke-dasharray: 5, 5;
-            animation: dataFlow 3s linear infinite;
-        }
-
-        .nn-connection-active {
-            stroke: #8b5cf6;
-            stroke-width: 1.5;
-            opacity: 0.5;
-            animation: dataFlow 2s linear infinite;
-        }
-
-        @keyframes dataFlow {
-            0% { stroke-dashoffset: 0; }
-            100% { stroke-dashoffset: -20; }
-        }
-
-        .magnetic-field {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .field-line-curve {
-            position: absolute;
-            border: 2px solid transparent;
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            opacity: 0.25;
-            animation: fieldPulse 4s ease-in-out infinite;
-        }
-
-        .field-line-curve:nth-child(1) {
-            width: 200px; height: 100px;
-            top: 15%; left: 5%;
-            transform: rotate(-30deg);
-            animation-delay: 0s;
-        }
-        .field-line-curve:nth-child(2) {
-            width: 300px; height: 150px;
-            top: 10%; left: 3%;
-            transform: rotate(-25deg);
-            animation-delay: 0.5s;
-        }
-        .field-line-curve:nth-child(3) {
-            width: 400px; height: 200px;
-            top: 5%; left: 1%;
-            transform: rotate(-20deg);
-            animation-delay: 1s;
-        }
-        .field-line-curve:nth-child(4) {
-            width: 200px; height: 100px;
-            bottom: 15%; right: 5%;
-            transform: rotate(150deg);
-            animation-delay: 0.3s;
-        }
-        .field-line-curve:nth-child(5) {
-            width: 300px; height: 150px;
-            bottom: 10%; right: 3%;
-            transform: rotate(155deg);
-            animation-delay: 0.8s;
-        }
-        .field-line-curve:nth-child(6) {
-            width: 400px; height: 200px;
-            bottom: 5%; right: 1%;
-            transform: rotate(160deg);
-            animation-delay: 1.3s;
-        }
-
-        @keyframes fieldPulse {
-            0%, 100% { opacity: 0.2; transform: scale(1) rotate(var(--rotation, 0deg)); }
-            50% { opacity: 0.4; transform: scale(1.05) rotate(var(--rotation, 0deg)); }
-        }
-
-        .spin-array {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .spin {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            opacity: 0.5;
-        }
-
-        .spin::before {
-            content: '↑';
-            font-size: 20px;
-            color: var(--accent);
-            text-shadow: 0 0 8px var(--accent);
-            display: block;
-            animation: spinAlign 3s ease-in-out infinite;
-        }
-
-        .spin.up::before {
-            content: '↑';
-            color: #06b6d4;
-            animation: spinAlignUp 4s ease-in-out infinite;
-        }
-
-        .spin.random::before {
-            animation: spinRandom 2s ease-in-out infinite;
-            color: #f97316;
-        }
-
-        .spin:nth-child(1) { top: 20%; left: 8%; }
-        .spin:nth-child(2) { top: 20%; left: 12%; }
-        .spin:nth-child(3) { top: 28%; left: 8%; }
-        .spin:nth-child(4) { top: 28%; left: 12%; }
-        .spin:nth-child(5) { top: 36%; left: 8%; }
-        .spin:nth-child(6) { top: 36%; left: 12%; }
-        .spin:nth-child(7) { top: 44%; left: 8%; }
-        .spin:nth-child(8) { top: 44%; left: 12%; }
-
-        .spin:nth-child(9) { top: 20%; right: 8%; }
-        .spin:nth-child(10) { top: 20%; right: 12%; }
-        .spin:nth-child(11) { top: 28%; right: 8%; }
-        .spin:nth-child(12) { top: 28%; right: 12%; }
-        .spin:nth-child(13) { top: 36%; right: 8%; }
-        .spin:nth-child(14) { top: 36%; right: 12%; }
-        .spin:nth-child(15) { top: 44%; right: 8%; }
-        .spin:nth-child(16) { top: 44%; right: 12%; }
-
-        @keyframes spinAlignUp {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
-        }
-
-        @keyframes spinRandom {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(45deg); }
-            50% { transform: rotate(-30deg); }
-            75% { transform: rotate(60deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        .temp-label {
-            position: absolute;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .temp-cold {
-            top: 48%; left: 7%;
-            color: #06b6d4;
-        }
-
-        .temp-hot {
-            top: 48%; right: 7%;
-            color: #f97316;
-        }
-
-        .ai-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #8b5cf6;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6;
-            animation: aiFlow 6s linear infinite;
-            opacity: 0;
-        }
-
-        .ai-particle:nth-child(1) { left: 20%; animation-delay: 0s; }
-        .ai-particle:nth-child(2) { left: 35%; animation-delay: 1.5s; }
-        .ai-particle:nth-child(3) { left: 50%; animation-delay: 3s; }
-        .ai-particle:nth-child(4) { left: 65%; animation-delay: 4.5s; }
-
-        @keyframes aiFlow {
-            0% {
-                top: 70%;
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            10% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            90% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% {
-                top: 20%;
-                opacity: 0;
-                transform: scale(0.5);
-            }
-        }
-
-        .mce-indicator {
-            position: fixed;
-            bottom: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            opacity: 0.4;
-            z-index: -1;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-        }
-
-        .mce-indicator .delta-s {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .mce-arrow {
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, #06b6d4, #8b5cf6, #f97316);
-            position: relative;
-        }
-
-        .mce-arrow::after {
-            content: '→';
-            position: absolute;
-            right: -15px;
-            top: -10px;
-            color: #f97316;
-            font-size: 1.2rem;
-        }
-
-        /* Navigation (banner NOT sticky) */
-        nav {
-            position: relative;
-            z-index: 1000;
-            padding: 0.75rem 2rem;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
-            color: var(--text);
-        }
-
-        .logo-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 12px;
-            object-fit: contain;
-        }
-
-        .logo-text {
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .logo-text span {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            align-items: center;
-            margin-left: 2.5rem;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-1);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .lang-switch {
-            display: flex;
-            gap: 0.5rem;
-            background: var(--secondary);
-            padding: 0.25rem;
-            border-radius: 8px;
-        }
-
-        .lang-btn {
-            padding: 0.4rem 0.8rem;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            font-family: 'Outfit', sans-serif;
-            font-weight: 500;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .lang-btn.active {
-            background: var(--accent);
-            color: var(--primary);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .mobile-menu-btn span {
-            width: 25px;
-            height: 2px;
-            background: var(--text);
-            transition: all 0.3s ease;
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.03em;
-            animation: fadeInUp 0.8s ease 0.1s both;
-        }
-
-        .hero h1 span {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-description {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.3s both;
-        }
-
-        .btn {
-            padding: 0.875rem 1.75rem;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--gradient-1);
-            color: white;
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
-
-        .btn-secondary {
-            background: var(--card-bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--secondary);
-            border-color: var(--accent);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .stats {
-            padding: 4rem 2rem;
-            background: var(--card-bg);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .stats-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-text {
-            font-size: 2rem;
-        }
-
-        .stat-label {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        section {
-            padding: 6rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-tag {
-            display: inline-block;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 1rem;
-        }
-
-        .section-description {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-text h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--accent-light);
-        }
-
-        .about-text p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-        }
-
-        .about-features {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
-        }
-
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .feature-text h4 {
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .feature-text p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin: 0;
-        }
-
-        .about-visual {
-            position: relative;
-        }
-
-        .about-card {
-            background: var(--gradient-2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-1);
-        }
-
-        .code-block {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.8;
-        }
-
-        .code-comment { color: #6b7280; }
-        .code-keyword { color: #c084fc; }
-        .code-string { color: #34d399; }
-        .code-function { color: #60a5fa; }
-        .code-number { color: #f472b6; }
-
-        .code-block-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .code-label {
-            font-size: 0.85rem;
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        .code-link {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .code-link:hover {
-            color: var(--accent);
-        }
-
-        .btn-coming-soon {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            justify-items: center;
-        }
-
-        .team-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            width: 100%;
-            max-width: 380px;
-        }
-
-        .team-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.1);
-        }
-
-        .team-card-pi {
-            border-color: var(--accent);
-            box-shadow: 0 10px 40px var(--accent-glow);
-        }
-
-        .team-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 1.5rem;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .team-name {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .team-title {
-            color: var(--accent);
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .team-affiliation {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .team-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .team-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: var(--secondary);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-        }
-
-        .team-link:hover {
-            background: var(--accent);
-            color: var(--primary);
-            border-color: var(--accent);
-        }
-
-        .news-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .news-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-            transition: all 0.3s ease;
-        }
-
-        .news-card:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
-        }
-
-        .news-date {
-            background: var(--gradient-1);
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 10px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .news-month {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .news-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .news-content p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .funding-content {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        .funding-main {
-            display: flex;
-            justify-content: center;
-        }
-
-        .funding-card-main {
-            background: var(--gradient-2);
-            border: 2px solid var(--accent);
-            border-radius: 20px;
-            padding: 2.5rem;
-            display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-            max-width: 800px;
-            box-shadow: 0 10px 40px var(--accent-glow);
-        }
-
-        .funding-logo {
-            font-size: 3rem;
-            flex-shrink: 0;
-        }
-
-        .funding-info h4 {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .funding-program {
-            color: var(--accent);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .funding-details {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .funding-title {
-            font-style: italic;
-            color: var(--text);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .funding-meta {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            flex-wrap: wrap;
-        }
-
-        .partners-section {
-            text-align: center;
-        }
-
-        .partners-title {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            color: var(--text-muted);
-        }
-
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .partner-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .partner-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .partner-host {
-            border-color: var(--accent);
-        }
-
-        .partner-badge {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: var(--primary);
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-
-        .partner-badge-collab {
-            background: #8b5cf6;
-            color: white;
-        }
-
-        .partner-badge-industry {
-            background: #10b981;
-            color: white;
-        }
-
-        .partner-logo {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .partner-card h4 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .partner-card p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .publications-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .pub-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-            transition: all 0.3s ease;
-        }
-
-        .pub-card:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
-        }
-
-        .pub-year {
-            background: var(--gradient-1);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .pub-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .pub-authors {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .pub-journal {
-            color: var(--accent);
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-
-        .pub-links {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .pub-link {
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            background: var(--secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .pub-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .datasets-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-        .pub-doi {
-                font-size: 0.85rem;
-                color: var(--text-muted);
-                margin-top: 0.25rem;
-        }
-
-        .pub-doi a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .pub-doi a:hover {
-            text-decoration: underline;
-        }
-
-
-        .dataset-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .dataset-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .dataset-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient-1);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .dataset-card h4 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .dataset-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .dataset-meta {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            flex-wrap: wrap;
-        }
-
-        .btn-disabled {
-            background: var(--secondary);
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            cursor: not-allowed;
-            opacity: 0.6;
-            padding: 0.875rem 1.75rem;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .tool-card {
-            background: var(--gradient-2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-1);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
-        }
-
-        .tool-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .tool-logo {
-            width: 50px;
-            height: 50px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .tool-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .tool-version {
-            font-size: 0.8rem;
-            color: var(--accent);
-            background: var(--card-bg);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-        }
-
-        .tool-description {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tool-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tool-feature {
-            background: var(--card-bg);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* Open Position Section */
-        .open-position-grid {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .open-position-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .open-position-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .open-position-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .open-position-badge {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            background: var(--accent);
-            color: var(--primary);
-            padding: 0.3rem 0.7rem;
-            border-radius: 999px;
-        }
-
-        .open-position-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .open-position-body p {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .open-position-list {
-            margin-left: 1.2rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .open-position-list li {
-            margin-bottom: 0.35rem;
-        }
-
-        .presentations-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .presentation-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .presentation-coming-soon {
-            opacity: 0.7;
-            border-style: dashed;
-        }
-
-        .presentation-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-
-        .presentation-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .presentation-meta {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .collab-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .collab-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .collab-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .collab-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .collab-card h4 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .collab-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .collab-cta {
-            text-align: center;
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .contact-info h3 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-info > p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
-        .contact-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .contact-text strong {
-            display: block;
-            color: var(--text);
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .contact-map {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            overflow: hidden;
-            height: 100%;
-            min-height: 350px;
-        }
-
-        .contact-map iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            filter: grayscale(1) invert(1) contrast(0.9);
-        }
-
-        footer {
-            background: var(--secondary);
-            border-top: 1px solid var(--border);
-            padding: 3rem 2rem;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .footer-logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: contain;
-        }
-
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .lang-en, .lang-tr {
-            display: none;
-        }
-
-        [data-lang="en"] .lang-en {
-            display: block;
-        }
-
-        [data-lang="tr"] .lang-tr {
-            display: block;
-        }
-
-        [data-lang="en"] span.lang-en,
-        [data-lang="tr"] span.lang-tr {
-            display: inline;
-        }
-
-
-
-        .lab-film {
-            padding: 0 2rem 4rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .film-wrapper {
-            max-width: 980px;
-            margin: 0 auto;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            background: #000;
-            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.08);
-        }
-
-        .film-wrapper video {
-            width: 100%;
-            display: block;
-            background: #000;
-        }
-
-        .floating-film-player {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: min(360px, 32vw);
-            max-width: 360px;
-            z-index: 3000;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transform: translateY(-8px);
-            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-        }
-
-        .floating-film-player.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .floating-film-player .film-wrapper {
-            max-width: 100%;
-            margin: 0;
-            border-radius: 16px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-        }
-
-        .floating-film-player video {
-            border-radius: 16px;
-        }
-
-        .main-film-hidden video {
-            visibility: hidden;
-        }
-
-        @media (max-width: 1024px) {
-            .about-content,
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--primary);
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 1rem;
-                border-bottom: 1px solid var(--border);
-                margin-left: 0;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .mobile-menu-btn {
-                display: flex;
-            }
-
-            .hero {
-                padding: 7rem 1.5rem 3rem;
-            }
-
-            .hero-description {
-                font-size: 1.1rem;
-            }
-
-            .floating-film-player {
-                width: 220px;
-                top: 12px;
-                right: 12px;
-            }
-
-
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-            }
-
-            section {
-                padding: 4rem 1.5rem;
-            }
-
-            .pub-card,
-            .news-card,
-            .presentation-card {
-                flex-direction: column;
-            }
-
-            .datasets-grid,
-            .tools-grid,
-            .collab-grid,
-            .partners-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .funding-card-main {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .funding-meta {
-                justify-content: center;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-        }
-        .icon-img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-}
-
-    </style>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-lang="en">
-    <div class="bg-animation"></div>
+    <a href="#main" class="skip-link"><span class="lang-en">Skip to content</span><span class="lang-tr">İçeriğe geç</span></a>
 
-    <div class="neural-network">
-        <svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
-            <circle class="nn-node" cx="150" cy="150" r="6"/>
-            <circle class="nn-node" cx="150" cy="250" r="6"/>
-            <circle class="nn-node" cx="150" cy="350" r="6"/>
-            <circle class="nn-node" cx="150" cy="450" r="6"/>
+    <!-- Scroll progress -->
+    <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar" id="scrollBar"></div></div>
 
-            <circle class="nn-node-hidden" cx="350" cy="180" r="5"/>
-            <circle class="nn-node-hidden" cx="350" cy="280" r="5"/>
-            <circle class="nn-node-hidden" cx="350" cy="380" r="5"/>
+    <!-- Ambient background -->
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+    <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
 
-            <circle class="nn-node-hidden" cx="550" cy="200" r="5"/>
-            <circle class="nn-node-hidden" cx="550" cy="300" r="5"/>
-            <circle class="nn-node-hidden" cx="550" cy="400" r="5"/>
-
-            <circle class="nn-node-output" cx="750" cy="250" r="7"/>
-            <circle class="nn-node-output" cx="750" cy="350" r="7"/>
-
-            <line class="nn-connection" x1="156" y1="150" x2="344" y2="180"/>
-            <line class="nn-connection" x1="156" y1="150" x2="344" y2="280"/>
-            <line class="nn-connection-active" x1="156" y1="250" x2="344" y2="180"/>
-            <line class="nn-connection" x1="156" y1="250" x2="344" y2="280"/>
-            <line class="nn-connection" x1="156" y1="250" x2="344" y2="380"/>
-            <line class="nn-connection" x1="156" y1="350" x2="344" y2="280"/>
-            <line class="nn-connection-active" x1="156" y1="350" x2="344" y2="380"/>
-            <line class="nn-connection" x1="156" y1="450" x2="344" y2="380"/>
-
-            <line class="nn-connection-active" x1="356" y1="180" x2="544" y2="200"/>
-            <line class="nn-connection" x1="356" y1="180" x2="544" y2="300"/>
-            <line class="nn-connection" x1="356" y1="280" x2="544" y2="200"/>
-            <line class="nn-connection-active" x1="356" y1="280" x2="544" y2="300"/>
-            <line class="nn-connection" x1="356" y1="280" x2="544" y2="400"/>
-            <line class="nn-connection" x1="356" y1="380" x2="544" y2="300"/>
-            <line class="nn-connection-active" x1="356" y1="380" x2="544" y2="400"/>
-
-            <line class="nn-connection" x1="556" y1="200" x2="743" y2="250"/>
-            <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="250"/>
-            <line class="nn-connection-active" x1="556" y1="300" x2="743" y2="350"/>
-            <line class="nn-connection" x1="556" y1="400" x2="743" y2="350"/>
-
-            <text x="130" y="500" fill="#06b6d4" font-size="10" opacity="0.5" font-family="JetBrains Mono">Features</text>
-            <text x="720" y="420" fill="#10b981" font-size="10" opacity="0.5" font-family="JetBrains Mono">ΔS, Tc</text>
-        </svg>
-    </div>
-
-    <div class="magnetic-field">
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-        <div class="field-line-curve"></div>
-    </div>
-
-    <div class="spin-array">
-        <div class="spin up"></div>
-        <div class="spin up"></div>
-        <div class="spin up"></div>
-        <div class="spin up"></div>
-        <div class="spin up"></div>
-        <div class="spin up"></div>
-        <div class="spin up"></div>
-        <div class="spin up"></div>
-
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-        <div class="spin random"></div>
-
-        <span class="temp-label temp-cold">T &lt; Tc</span>
-        <span class="temp-label temp-hot">T &gt; Tc</span>
-    </div>
-
-    <div class="particles">
-        <div class="ai-particle"></div>
-        <div class="ai-particle"></div>
-        <div class="ai-particle"></div>
-        <div class="ai-particle"></div>
-    </div>
-
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="logo.png" alt="Magnetelligence Logo" class="logo-img">
-                <div class="logo-text">Magnet<span>elligence</span></div>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#about"><span class="lang-en">About</span><span class="lang-tr">Hakkında</span></a></li>
-                <li><a href="#news"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></a></li>
-                <!-- Research sekmesi: Publications + Datasets + Tools + Presentations bölümlerini temsil ediyor -->
-                <li><a href="#publications"><span class="lang-en">Research</span><span class="lang-tr">Araştırma</span></a></li>
-                <li><a href="#team"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
-                <li><a href="#funding"><span class="lang-en">Funding</span><span class="lang-tr">Finansman</span></a></li>
-                <li><a href="#open-position"><span class="lang-en">Open Position</span><span class="lang-tr">Açık Pozisyon</span></a></li>
-                <li><a href="#collaboration"><span class="lang-en">Collaborate</span><span class="lang-tr">İşbirliği</span></a></li>
-                <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
-                <li>
-                    <div class="lang-switch">
-                        <button class="lang-btn active" data-lang="en">EN</button>
-                        <button class="lang-btn" data-lang="tr">TR</button>
-                    </div>
-                </li>
-            </ul>
-            <button class="mobile-menu-btn" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1>
-                <span class="lang-en"><span>AI-Powered</span> Discovery of Magnetocaloric Materials</span>
-                <span class="lang-tr">Magnetokalorik Malzemelerin <span>Yapay Zeka</span> ile Keşfi</span>
-            </h1>
-            <p class="hero-description">
-                <span class="lang-en">Accelerating the design of next-generation high-entropy magnetocaloric alloys through machine learning and physics-informed models.</span>
-                <span class="lang-tr">Makine öğrenimi ve fizik bilgisi destekli modeller ile yeni nesil yüksek entropili magnetokalorik alaşımların tasarımını hızlandırıyoruz.</span>
-            </p>
-            <div class="hero-buttons">
-                <a href="#about" class="btn btn-primary">
-                    <span class="lang-en">Explore Research</span>
-                    <span class="lang-tr">Araştırmayı İncele</span>
-                    →
+    <!-- ============ NAV ============ -->
+    <header>
+        <nav id="nav" aria-label="Main navigation">
+            <div class="nav-container">
+                <a href="#hero" class="logo">
+                    <img src="assets/logo.png" alt="Magnetelligence logo" class="logo-img" width="64" height="64">
+                    <span class="logo-text">Magnet<span class="logo-accent">elligence</span></span>
                 </a>
-                <a href="#publications" class="btn btn-secondary">
-                    <span class="lang-en">View Research Output</span>
-                    <span class="lang-tr">Araştırma Çıktılarını Gör</span>
+
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#about" class="nav-link"><span class="lang-en">About</span><span class="lang-tr">Hakkında</span></a></li>
+                    <li><a href="#research" class="nav-link"><span class="lang-en">Research</span><span class="lang-tr">Araştırma</span></a></li>
+                    <li><a href="#team" class="nav-link"><span class="lang-en">Team</span><span class="lang-tr">Ekip</span></a></li>
+                    <li><a href="#news" class="nav-link"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></a></li>
+                    <li><a href="#funding" class="nav-link"><span class="lang-en">Funding</span><span class="lang-tr">Finansman</span></a></li>
+                    <li><a href="#open-position" class="nav-link nav-link-highlight"><span class="lang-en">Open Position</span><span class="lang-tr">Açık Pozisyon</span></a></li>
+                    <li><a href="#contact" class="nav-link"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <div class="lang-switch" role="group" aria-label="Language">
+                        <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+                        <button class="lang-btn" data-lang="tr" aria-pressed="false">TR</button>
+                    </div>
+                    <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+        <canvas id="spinCanvas" aria-hidden="true"></canvas>
+        <div class="hero-content">
+            <div class="hero-badge reveal">
+                <span class="pulse-dot"></span>
+                <span class="lang-en">TÜBİTAK 3501 · Project 125F375 · 2026–2028</span>
+                <span class="lang-tr">TÜBİTAK 3501 · Proje 125F375 · 2026–2028</span>
+            </div>
+            <h1 class="reveal">
+                <span class="lang-en"><span class="grad">AI-Powered</span> Discovery of Magnetocaloric Materials</span>
+                <span class="lang-tr">Magnetokalorik Malzemelerin <span class="grad">Yapay Zekâ</span> ile Keşfi</span>
+            </h1>
+            <p class="hero-description reveal">
+                <span class="lang-en">Accelerating the design of next-generation high-entropy magnetocaloric alloys through machine learning and physics-informed models — for a future of sustainable, gas-free cooling.</span>
+                <span class="lang-tr">Makine öğrenimi ve fizik bilgisiyle desteklenen modellerle yeni nesil yüksek entropili magnetokalorik alaşımların tasarımını hızlandırıyoruz — sürdürülebilir, gazsız soğutma geleceği için.</span>
+            </p>
+            <div class="hero-buttons reveal">
+                <a href="#about" class="btn btn-primary">
+                    <span class="lang-en">Explore Research</span><span class="lang-tr">Araştırmayı İncele</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                </a>
+                <a href="#open-position" class="btn btn-secondary">
+                    <span class="lang-en">Join the Lab</span><span class="lang-tr">Ekibe Katıl</span>
                 </a>
             </div>
+            <p class="hero-hint reveal" aria-hidden="true">
+                <span class="lang-en">✦ Move your cursor — align the spins, activate the network</span>
+                <span class="lang-tr">✦ İmleci gezdirin — spinleri hizalayın, sinir ağını aktive edin</span>
+            </p>
         </div>
     </section>
 
-    <div id="floatingFilmPlayer" class="floating-film-player" aria-hidden="true">
-        <div class="film-wrapper">
-            <video id="introFilmFloating" muted playsinline preload="auto" controls>
-                <source src="Magnetelligence_alt_yazılı_1.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-
-    <section id="lab-film" class="lab-film">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Lab Film</span>
-                <span class="lang-tr">Laboratuvar Filmi</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Why Join Magnetelligence Lab?</span>
-                <span class="lang-tr">Neden Magnetelligence Lab?</span>
-            </h2>
-        </div>
-
-        <div id="mainFilmWrapper" class="film-wrapper main-film-hidden">
-            <video id="introFilmMain" muted playsinline preload="auto" controls>
-                <source src="Magnetelligence_alt_yazılı_1.mp4" type="video/mp4">
-            </video>
-        </div>
-    </section>
-
-
-    <div class="stats">
+    <!-- ============ STATS ============ -->
+    <div class="stats reveal" id="stats">
         <div class="stats-container">
             <div class="stat-item">
-                <div class="stat-value">24</div>
-                <div class="stat-label">
-                    <span class="lang-en">Months Duration</span>
-                    <span class="lang-tr">Ay Süre</span>
-                </div>
+                <div class="stat-value" data-count="24">0</div>
+                <div class="stat-label"><span class="lang-en">Months Duration</span><span class="lang-tr">Ay Süre</span></div>
             </div>
             <div class="stat-item">
-                <div class="stat-value stat-text">HEA</div>
-                <div class="stat-label">
-                    <span class="lang-en">Focus Materials</span>
-                    <span class="lang-tr">Odak Malzemeler</span>
-                </div>
+                <div class="stat-value" data-count="500" data-suffix="+">0</div>
+                <div class="stat-label"><span class="lang-en">Database Entries</span><span class="lang-tr">Veri Tabanı Kaydı</span></div>
             </div>
             <div class="stat-item">
-                <div class="stat-value stat-text">ML</div>
-                <div class="stat-label">
-                    <span class="lang-en">Driven Design</span>
-                    <span class="lang-tr">Destekli Tasarım</span>
-                </div>
+                <div class="stat-value" data-count="50" data-suffix="+">0</div>
+                <div class="stat-label"><span class="lang-en">Engineered Features</span><span class="lang-tr">Mühendislik Özelliği</span></div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">2</div>
-                <div class="stat-label">
-                    <span class="lang-en">Production Methods</span>
-                    <span class="lang-tr">Üretim Yöntemi</span>
-                </div>
+                <div class="stat-value" data-count="4">0</div>
+                <div class="stat-label"><span class="lang-en">ML Algorithms</span><span class="lang-tr">ML Algoritması</span></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" data-count="2">0</div>
+                <div class="stat-label"><span class="lang-en">Synthesis Methods</span><span class="lang-tr">Üretim Yöntemi</span></div>
             </div>
         </div>
     </div>
 
+    <!-- ============ LAB FILM ============ -->
+    <section id="lab-film">
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Lab Film</span><span class="lang-tr">Laboratuvar Filmi</span></span>
+            <h2 class="section-title"><span class="lang-en">Why Join Magnetelligence Lab?</span><span class="lang-tr">Neden Magnetelligence Lab?</span></h2>
+        </div>
+        <div class="film-wrapper reveal">
+            <video id="introFilm" muted playsinline preload="metadata" controls poster="assets/logo.png">
+                <source src="https://kaansarlar.github.io/magnetelligence/Magnetelligence_alt_yaz%C4%B1l%C4%B1_1.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
     <section id="about">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">About the Project</span>
-                <span class="lang-tr">Proje Hakkında</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Bridging AI and Materials Science</span>
-                <span class="lang-tr">Yapay Zeka ve Malzeme Bilimini Birleştiriyoruz</span>
-            </h2>
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">About the Project</span><span class="lang-tr">Proje Hakkında</span></span>
+            <h2 class="section-title"><span class="lang-en">Bridging AI and Materials Science</span><span class="lang-tr">Yapay Zekâ ve Malzeme Bilimini Birleştiriyoruz</span></h2>
             <p class="section-description">
                 <span class="lang-en">Combining machine learning with experimental validation to discover novel magnetocaloric materials for sustainable cooling technologies.</span>
                 <span class="lang-tr">Sürdürülebilir soğutma teknolojileri için yeni magnetokalorik malzemeleri keşfetmek amacıyla makine öğrenimini deneysel doğrulamayla birleştiriyoruz.</span>
@@ -1926,1010 +170,431 @@
         </div>
 
         <div class="about-content">
-            <div class="about-text">
-                <h3>
-                    <span class="lang-en">Project Overview</span>
-                    <span class="lang-tr">Projeye Genel Bakış</span>
-                </h3>
+            <div class="about-text reveal">
+                <h3><span class="lang-en">Project Overview</span><span class="lang-tr">Projeye Genel Bakış</span></h3>
                 <p class="lang-en">
-                    The Magnetelligence project (TÜBİTAK 125F375) focuses on the AI-assisted design, optimization, and identification of high-entropy magnetocaloric alloys. By leveraging advanced machine learning techniques including LightGBM, XGBoost, Gradient Boosting, and Random Forest algorithms, we aim to accelerate the discovery of materials with superior magnetocaloric properties.
+                    The Magnetelligence project (TÜBİTAK 125F375) focuses on the AI-assisted design, optimization, and identification of high-entropy magnetocaloric alloys. By leveraging advanced machine learning techniques — LightGBM, XGBoost, Gradient Boosting, and Random Forest — we aim to accelerate the discovery of materials with superior magnetocaloric properties.
                 </p>
                 <p class="lang-tr">
-                    Magnetelligence projesi (TÜBİTAK 125F375), yüksek entropili magnetokalorik alaşımların yapay zeka destekli tasarımı, optimizasyonu ve belirlenmesine odaklanmaktadır. LightGBM, XGBoost, Gradient Boosting ve Random Forest algoritmaları dahil ileri düzey makine öğrenimi tekniklerinden yararlanarak, üstün magnetokalorik özelliklere sahip malzemelerin keşfini hızlandırmayı hedefliyoruz.
+                    Magnetelligence projesi (TÜBİTAK 125F375), yüksek entropili magnetokalorik alaşımların yapay zekâ destekli tasarımı, optimizasyonu ve belirlenmesine odaklanmaktadır. LightGBM, XGBoost, Gradient Boosting ve Random Forest gibi ileri makine öğrenimi tekniklerinden yararlanarak üstün magnetokalorik özelliklere sahip malzemelerin keşfini hızlandırmayı hedefliyoruz.
                 </p>
 
                 <div class="about-features">
                     <div class="feature-item">
                         <div class="feature-icon">🤖</div>
                         <div class="feature-text">
-                            <h4>
-                                <span class="lang-en">Machine Learning Screening</span>
-                                <span class="lang-tr">Makine Öğrenimi Taraması</span>
-                            </h4>
-                            <p>
-                                <span class="lang-en">Field-normalized ΔSref target for accurate predictions</span>
-                                <span class="lang-tr">Doğru tahminler için alan-normalize edilmiş ΔSref hedefi</span>
-                            </p>
+                            <h4><span class="lang-en">Machine Learning Screening</span><span class="lang-tr">Makine Öğrenimi Taraması</span></h4>
+                            <p><span class="lang-en">Field-normalized ΔS<sub>ref</sub> target for accurate, transferable predictions</span><span class="lang-tr">Doğru ve aktarılabilir tahminler için alan-normalize ΔS<sub>ref</sub> hedefi</span></p>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon">🔬</div>
                         <div class="feature-text">
-                            <h4>
-                                <span class="lang-en">Experimental Validation</span>
-                                <span class="lang-tr">Deneysel Doğrulama</span>
-                            </h4>
-                            <p>
-                                <span class="lang-en">Arc melting and thermal evaporation synthesis</span>
-                                <span class="lang-tr">Ark ergitme ve termal buharlaştırma sentezi</span>
-                            </p>
+                            <h4><span class="lang-en">Experimental Validation</span><span class="lang-tr">Deneysel Doğrulama</span></h4>
+                            <p><span class="lang-en">Arc melting and thermal evaporation synthesis</span><span class="lang-tr">Ark ergitme ve termal buharlaştırma sentezi</span></p>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon">📊</div>
                         <div class="feature-text">
-                            <h4>
-                                <span class="lang-en">Interpretable Models</span>
-                                <span class="lang-tr">Yorumlanabilir Modeller</span>
-                            </h4>
-                            <p>
-                                <span class="lang-en">SHAP analysis for feature importance insights</span>
-                                <span class="lang-tr">Özellik önem analizi için SHAP</span>
-                            </p>
+                            <h4><span class="lang-en">Interpretable Models</span><span class="lang-tr">Yorumlanabilir Modeller</span></h4>
+                            <p><span class="lang-en">SHAP analysis for feature-importance insights</span><span class="lang-tr">Özellik önem analizi için SHAP</span></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="about-visual">
-                <div class="about-card">
-                    <div class="code-block-header">
-                        <span class="code-label">
-                            <span class="lang-en">📝 Conceptual Pipeline</span>
-                            <span class="lang-tr">📝 Kavramsal İş Akışı</span>
-                        </span>
-                        <a href="#" class="code-link btn-coming-soon">
-                            <span class="lang-en">View full notebook →</span>
-                            <span class="lang-tr">Tam notebook'u gör →</span>
-                        </a>
+            <div class="about-visual reveal">
+                <div class="code-card">
+                    <div class="code-card-header">
+                        <div class="code-dots"><span></span><span></span><span></span></div>
+                        <span class="code-filename">mce_pipeline.py</span>
                     </div>
-                    <div class="code-block">
-                        <span class="code-comment"># Magnetocaloric ML Pipeline (Pseudocode)</span><br><br>
-                        <span class="code-keyword">import</span> lightgbm <span class="code-keyword">as</span> lgb<br>
-                        <span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> <span class="code-function">cross_val_score</span><br><br>
+                    <pre class="code-block"><code><span class="c"># Magnetocaloric ML Pipeline</span>
+<span class="k">import</span> lightgbm <span class="k">as</span> lgb
+<span class="k">from</span> sklearn.model_selection <span class="k">import</span> <span class="f">cross_val_score</span>
 
-                        <span class="code-comment"># Load HEA magnetocaloric dataset</span><br>
-                        X, y = <span class="code-function">load_mce_data</span>(<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;target=<span class="code-string">'delta_S_ref'</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;normalize_field=<span class="code-keyword">True</span><br>
-                        )<br><br>
+<span class="c"># Load HEA magnetocaloric dataset</span>
+X, y = <span class="f">load_mce_data</span>(
+    target=<span class="s">'delta_S_ref'</span>,
+    normalize_field=<span class="k">True</span>
+)
 
-                        <span class="code-comment"># Train with nested cross-validation</span><br>
-                        model = lgb.<span class="code-function">LGBMRegressor</span>(<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;n_estimators=<span class="code-number">500</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;learning_rate=<span class="code-number">0.05</span><br>
-                        )<br><br>
+<span class="c"># Train with nested cross-validation</span>
+model = lgb.<span class="f">LGBMRegressor</span>(
+    n_estimators=<span class="n">500</span>,
+    learning_rate=<span class="n">0.05</span>
+)
 
-                        <span class="code-comment"># SHAP interpretation</span><br>
-                        shap_values = <span class="code-function">explain_model</span>(model, X)
-                    </div>
+<span class="c"># SHAP interpretation</span>
+shap_values = <span class="f">explain_model</span>(model, X)</code></pre>
                 </div>
+            </div>
+        </div>
+
+        <!-- Pipeline diagram -->
+        <div class="pipeline reveal" aria-label="Research pipeline">
+            <div class="pipeline-step">
+                <div class="pipeline-icon">📚</div>
+                <h4><span class="lang-en">Data Curation</span><span class="lang-tr">Veri Derleme</span></h4>
+                <p><span class="lang-en">500+ MCE-HEA literature entries</span><span class="lang-tr">500+ MCE-HEA literatür kaydı</span></p>
+            </div>
+            <div class="pipeline-arrow" aria-hidden="true">→</div>
+            <div class="pipeline-step">
+                <div class="pipeline-icon">🧬</div>
+                <h4><span class="lang-en">Feature Engineering</span><span class="lang-tr">Özellik Mühendisliği</span></h4>
+                <p><span class="lang-en">50+ elemental &amp; compositional descriptors</span><span class="lang-tr">50+ elementel ve kompozisyonel betimleyici</span></p>
+            </div>
+            <div class="pipeline-arrow" aria-hidden="true">→</div>
+            <div class="pipeline-step">
+                <div class="pipeline-icon">🤖</div>
+                <h4><span class="lang-en">ML Screening</span><span class="lang-tr">ML Taraması</span></h4>
+                <p><span class="lang-en">Gradient boosting + SHAP interpretation</span><span class="lang-tr">Gradient boosting + SHAP yorumu</span></p>
+            </div>
+            <div class="pipeline-arrow" aria-hidden="true">→</div>
+            <div class="pipeline-step">
+                <div class="pipeline-icon">⚗️</div>
+                <h4><span class="lang-en">Synthesis &amp; Validation</span><span class="lang-tr">Sentez ve Doğrulama</span></h4>
+                <p><span class="lang-en">Arc melting · thermal evaporation · magnetometry</span><span class="lang-tr">Ark ergitme · termal buharlaştırma · manyetometri</span></p>
             </div>
         </div>
     </section>
 
+    <!-- ============ TEAM ============ -->
     <section id="team">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Research Team</span>
-                <span class="lang-tr">Araştırma Ekibi</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Meet the Team</span>
-                <span class="lang-tr">Ekibimiz</span>
-            </h2>
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Research Team</span><span class="lang-tr">Araştırma Ekibi</span></span>
+            <h2 class="section-title"><span class="lang-en">Meet the Team</span><span class="lang-tr">Ekibimiz</span></h2>
         </div>
 
         <div class="team-grid">
-            <div class="team-card team-card-pi">
-                <img src="kagan.jpg" alt="Kağan Şarlar" class="team-photo">
-                <h3 class="team-name">
-                    <span class="lang-en">Assoc. Prof. Dr. Kağan ŞARLAR</span>
-                    <span class="lang-tr">Doç. Dr. Kağan ŞARLAR</span>
-                </h3>
-                <p class="team-title">
-                    <span class="lang-en">Principal Investigator</span>
-                    <span class="lang-tr">Proje Yürütücüsü</span>
-                </p>
-                <p class="team-affiliation">
-                    <span class="lang-en">Department of Physics<br>Karamanoğlu Mehmetbey University</span>
-                    <span class="lang-tr">Fizik Bölümü<br>Karamanoğlu Mehmetbey Üniversitesi</span>
-                </p>
+            <article class="team-card team-card-pi reveal">
+                <div class="team-photo-wrap"><img src="assets/kagan.jpg" alt="Kağan Şarlar" class="team-photo" loading="lazy"></div>
+                <span class="team-role-badge"><span class="lang-en">Principal Investigator</span><span class="lang-tr">Proje Yürütücüsü</span></span>
+                <h3 class="team-name"><span class="lang-en">Assoc. Prof. Dr. Kağan ŞARLAR</span><span class="lang-tr">Doç. Dr. Kağan ŞARLAR</span></h3>
+                <p class="team-affiliation"><span class="lang-en">Department of Physics<br>Karamanoğlu Mehmetbey University</span><span class="lang-tr">Fizik Bölümü<br>Karamanoğlu Mehmetbey Üniversitesi</span></p>
                 <div class="team-links">
-    <!-- ORCID -->
-    <a href="https://orcid.org/0000-0002-8871-2357"
-       target="_blank" class="team-link" title="ORCID">🆔</a>
+                    <a href="https://orcid.org/0000-0002-8871-2357" target="_blank" rel="noopener" class="team-link" title="ORCID">🆔</a>
+                    <a href="mailto:kagansarlar@kmu.edu.tr" class="team-link" title="Email">✉️</a>
+                    <a href="https://scholar.google.com/scholar?hl=tr&as_sdt=0%2C5&q=ka%C4%9Fan+%C5%9Farlar" target="_blank" rel="noopener" class="team-link" title="Google Scholar"><img src="assets/scholar.png.png" alt="Google Scholar" class="icon-img" loading="lazy"></a>
+                    <a href="https://www.researchgate.net/profile/Kagan-Sarlar" target="_blank" rel="noopener" class="team-link" title="ResearchGate"><img src="assets/researchgate.png.png" alt="ResearchGate" class="icon-img" loading="lazy"></a>
+                    <a href="https://www.scopus.com/authid/detail.uri?authorId=55550817200" target="_blank" rel="noopener" class="team-link" title="Scopus"><img src="assets/scopus.png.png" alt="Scopus" class="icon-img" loading="lazy"></a>
+                </div>
+            </article>
 
-    <!-- Email -->
-    <a href="mailto:kagansarlar@kmu.edu.tr"
-       class="team-link" title="Email">✉️</a>
-
-    <!-- Google Scholar -->
-    <a href="https://scholar.google.com/scholar?hl=tr&amp;as_sdt=0%2C5&amp;q=ka%C4%9Fan+%C5%9Farlar&amp;btnG=&amp;oq=ka%C4%9Fa"
-       target="_blank" class="team-link" title="Google Scholar">
-        <img src="scholar.png.png" alt="Google Scholar" class="icon-img">
-    </a>
-
-    <!-- ResearchGate -->
-    <a href="https://www.researchgate.net/profile/Kagan-Sarlar?ev=hdr_xprf"
-       target="_blank" class="team-link" title="ResearchGate">
-        <img src="researchgate.png.png" alt="ResearchGate" class="icon-img">
-    </a>
-
-    <!-- Scopus -->
-    <a href="https://www.scopus.com/authid/detail.uri?authorId=55550817200"
-       target="_blank" class="team-link" title="Scopus">
-        <img src="scopus.png.png" alt="Scopus" class="icon-img">
-    </a>
-</div>
-
-            </div>
-
-            <div class="team-card">
-                <img src="atakan.png" alt="Atakan Tekgül" class="team-photo">
-                <h3 class="team-name">
-                    <span class="lang-en">Assoc. Prof. Dr. Atakan TEKGÜL</span>
-                    <span class="lang-tr">Doç. Dr. Atakan TEKGÜL</span>
-                </h3>
-                <p class="team-title">
-                    <span class="lang-en">Researcher</span>
-                    <span class="lang-tr">Araştırmacı</span>
-                </p>
-                <p class="team-affiliation">
-                    <span class="lang-en">Gürbağ Defense & Technology</span>
-                    <span class="lang-tr">Gürbağ Savunma ve Teknoloji</span>
-                </p>
+            <article class="team-card reveal">
+                <div class="team-photo-wrap"><img src="assets/atakan.png" alt="Atakan Tekgül" class="team-photo" loading="lazy"></div>
+                <span class="team-role-badge badge-alt"><span class="lang-en">Researcher</span><span class="lang-tr">Araştırmacı</span></span>
+                <h3 class="team-name"><span class="lang-en">Assoc. Prof. Dr. Atakan TEKGÜL</span><span class="lang-tr">Doç. Dr. Atakan TEKGÜL</span></h3>
+                <p class="team-affiliation"><span class="lang-en">Gürbağ Defense &amp; Technology</span><span class="lang-tr">Gürbağ Savunma ve Teknoloji</span></p>
                 <div class="team-links">
-    <!-- Email -->
-    <a href="mailto:atakantekgul@gmail.com"
-       class="team-link" title="Email">✉️</a>
+                    <a href="mailto:atakantekgul@gmail.com" class="team-link" title="Email">✉️</a>
+                    <a href="https://scholar.google.com/scholar?hl=tr&as_sdt=0%2C5&q=atakan+tekg%C3%BCl" target="_blank" rel="noopener" class="team-link" title="Google Scholar"><img src="assets/scholar.png.png" alt="Google Scholar" class="icon-img" loading="lazy"></a>
+                    <a href="https://www.researchgate.net/profile/Atakan-Tekguel" target="_blank" rel="noopener" class="team-link" title="ResearchGate"><img src="assets/researchgate.png.png" alt="ResearchGate" class="icon-img" loading="lazy"></a>
+                    <a href="https://www.scopus.com/authid/detail.uri?authorId=37462175100" target="_blank" rel="noopener" class="team-link" title="Scopus"><img src="assets/scopus.png.png" alt="Scopus" class="icon-img" loading="lazy"></a>
+                </div>
+            </article>
 
-    <!-- Google Scholar -->
-    <a href="https://scholar.google.com/scholar?hl=tr&amp;as_sdt=0%2C5&amp;q=atakan+tekg%C3%BCl&amp;btnG=&amp;oq=atakan+"
-       target="_blank" class="team-link" title="Google Scholar">
-        <img src="scholar.png.png" alt="Google Scholar" class="icon-img">
-    </a>
-
-    <!-- ResearchGate -->
-    <a href="https://www.researchgate.net/profile/Atakan-Tekguel"
-       target="_blank" class="team-link" title="ResearchGate">
-        <img src="researchgate.png.png" alt="ResearchGate" class="icon-img">
-    </a>
-
-    <!-- Scopus -->
-    <a href="https://www.scopus.com/authid/detail.uri?authorId=37462175100"
-       target="_blank" class="team-link" title="Scopus">
-        <img src="scopus.png.png" alt="Scopus" class="icon-img">
-    </a>
-</div>
-
-            </div>
-
-            <div class="team-card">
-                <img src="cuneyt.jpg" alt="M. Cüneyt Hacıismailoğlu" class="team-photo">
-                <h3 class="team-name">
-                    <span class="lang-en">Asst. Prof. Dr. M. Cüneyt HACIİSMAİLOĞLU</span>
-                    <span class="lang-tr">Dr. Öğr. Üyesi M. Cüneyt HACIİSMAİLOĞLU</span>
-                </h3>
-                <p class="team-title">
-                    <span class="lang-en">Researcher</span>
-                    <span class="lang-tr">Araştırmacı</span>
-                </p>
-                <p class="team-affiliation">
-                    <span class="lang-en">Department of Physics<br>Bursa Uludağ University</span>
-                    <span class="lang-tr">Fizik Bölümü<br>Bursa Uludağ Üniversitesi</span>
-                </p>
+            <article class="team-card reveal">
+                <div class="team-photo-wrap"><img src="assets/cuneyt.jpg" alt="M. Cüneyt Hacıismailoğlu" class="team-photo" loading="lazy"></div>
+                <span class="team-role-badge badge-alt"><span class="lang-en">Researcher</span><span class="lang-tr">Araştırmacı</span></span>
+                <h3 class="team-name"><span class="lang-en">Asst. Prof. Dr. M. Cüneyt HACIİSMAİLOĞLU</span><span class="lang-tr">Dr. Öğr. Üyesi M. Cüneyt HACIİSMAİLOĞLU</span></h3>
+                <p class="team-affiliation"><span class="lang-en">Department of Physics<br>Bursa Uludağ University</span><span class="lang-tr">Fizik Bölümü<br>Bursa Uludağ Üniversitesi</span></p>
                 <div class="team-links">
-    <!-- Email -->
-    <a href="mailto:mcuneyt@uludag.edu.tr"
-       class="team-link" title="Email">✉️</a>
-
-    <!-- Google Scholar -->
-    <a href="https://scholar.google.com/scholar?hl=tr&amp;as_sdt=0%2C5&amp;q=c%C3%BCneyt+hac%C4%B1ismailo%C4%9Flu&amp;btnG="
-       target="_blank" class="team-link" title="Google Scholar">
-        <img src="scholar.png.png" alt="Google Scholar" class="icon-img">
-    </a>
-
-    <!-- ResearchGate -->
-    <a href="https://www.researchgate.net/profile/M-Haciismailoglu"
-       target="_blank" class="team-link" title="ResearchGate">
-        <img src="researchgate.png.png" alt="ResearchGate" class="icon-img">
-    </a>
-
-    <!-- Scopus -->
-    <a href="https://www.scopus.com/authid/detail.uri?authorId=8975743500"
-       target="_blank" class="team-link" title="Scopus">
-        <img src="scopus.png.png" alt="Scopus" class="icon-img">
-    </a>
-</div>
-
-            </div>
+                    <a href="mailto:mcuneyt@uludag.edu.tr" class="team-link" title="Email">✉️</a>
+                    <a href="https://scholar.google.com/scholar?hl=tr&as_sdt=0%2C5&q=c%C3%BCneyt+hac%C4%B1ismailo%C4%9Flu" target="_blank" rel="noopener" class="team-link" title="Google Scholar"><img src="assets/scholar.png.png" alt="Google Scholar" class="icon-img" loading="lazy"></a>
+                    <a href="https://www.researchgate.net/profile/M-Haciismailoglu" target="_blank" rel="noopener" class="team-link" title="ResearchGate"><img src="assets/researchgate.png.png" alt="ResearchGate" class="icon-img" loading="lazy"></a>
+                    <a href="https://www.scopus.com/authid/detail.uri?authorId=8975743500" target="_blank" rel="noopener" class="team-link" title="Scopus"><img src="assets/scopus.png.png" alt="Scopus" class="icon-img" loading="lazy"></a>
+                </div>
+            </article>
         </div>
     </section>
 
+    <!-- ============ NEWS ============ -->
     <section id="news">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Latest Updates</span>
-                <span class="lang-tr">Son Gelişmeler</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">News</span>
-                <span class="lang-tr">Haberler</span>
-            </h2>
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Latest Updates</span><span class="lang-tr">Son Gelişmeler</span></span>
+            <h2 class="section-title"><span class="lang-en">News</span><span class="lang-tr">Haberler</span></h2>
         </div>
 
-        <div class="news-list">
-            <div class="news-card">
-                <div class="news-date">
-                    <span class="news-month">2026</span>
-                </div>
-                <div class="news-content">
-                    <h4>
-                        <span class="lang-en">Sigma Xi Full Membership</span>
-                        <span class="lang-tr">Sigma Xi Tam Üyeliği</span>
-                    </h4>
-                    <p>
-                        <span class="lang-en">Assoc. Prof. Dr. Kağan Şarlar was elected as a Full Member of Sigma Xi, The Scientific Research Honor Society, in May 2026.</span>
-                        <span class="lang-tr">Doç. Dr. Kağan Şarlar, Mayıs 2026'da Sigma Xi, The Scientific Research Honor Society tam üyeliğine kabul edilmiştir.</span>
-                    </p>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-marker"></div>
+                <div class="timeline-date"><span class="lang-en">May 2026</span><span class="lang-tr">Mayıs 2026</span></div>
+                <div class="timeline-card">
+                    <h4><span class="lang-en">Sigma Xi Full Membership</span><span class="lang-tr">Sigma Xi Tam Üyeliği</span></h4>
+                    <p><span class="lang-en">Assoc. Prof. Dr. Kağan Şarlar was elected as a Full Member of Sigma Xi, The Scientific Research Honor Society.</span><span class="lang-tr">Doç. Dr. Kağan Şarlar, Sigma Xi (The Scientific Research Honor Society) tam üyeliğine kabul edilmiştir.</span></p>
                 </div>
             </div>
 
-            <div class="news-card">
-                <div class="news-date">
-                    <span class="news-month">2025</span>
-                </div>
-                <div class="news-content">
-                    <h4>
-                        <span class="lang-en">Project Accepted!</span>
-                        <span class="lang-tr">Proje Kabul Edildi!</span>
-                    </h4>
-                    <p>
-                        <span class="lang-en">
-                            The TÜBİTAK 3501 Career Development Program project "AI-Assisted Design of High-Entropy Magnetocaloric Alloys" was accepted on 4 November 2025. The funded project and MSc scholarship period will run between 2026–2028.
-                        </span>
-                        <span class="lang-tr">
-                            TÜBİTAK 3501 Kariyer Geliştirme Programı kapsamında yürütülecek "Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı" projesi 4 Kasım 2025 tarihinde kabul edilmiştir. Proje ve yüksek lisans burs dönemi 2026–2028 yılları arasında yürütülecektir.
-                        </span>
-                    </p>
+            <div class="timeline-item reveal">
+                <div class="timeline-marker"></div>
+                <div class="timeline-date"><span class="lang-en">Nov 2025</span><span class="lang-tr">Kasım 2025</span></div>
+                <div class="timeline-card timeline-card-featured">
+                    <h4>🎉 <span class="lang-en">Project Accepted!</span><span class="lang-tr">Proje Kabul Edildi!</span></h4>
+                    <p><span class="lang-en">The TÜBİTAK 3501 Career Development Program project "AI-Assisted Design of High-Entropy Magnetocaloric Alloys" was accepted on 4 November 2025. The funded project and MSc scholarship period will run between 2026–2028.</span><span class="lang-tr">TÜBİTAK 3501 Kariyer Geliştirme Programı kapsamındaki "Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı" projesi 4 Kasım 2025 tarihinde kabul edilmiştir. Proje ve yüksek lisans burs dönemi 2026–2028 yılları arasında yürütülecektir.</span></p>
                 </div>
             </div>
 
-            <div class="news-card">
-                <div class="news-date">
-                    <span class="news-month">2025</span>
-                </div>
-                <div class="news-content">
-                    <h4>
-                        <span class="lang-en">Manuscript Submitted to JMMM</span>
-                        <span class="lang-tr">JMMM'e Makale Gönderildi</span>
-                    </h4>
-                    <p>
-                        <span class="lang-en">Our paper "Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target" has been submitted to Journal of Magnetism and Magnetic Materials.ŞARLAR, KAĞAN, Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target.</span>
-                        <span class="lang-tr">"Alan-normalize edilmiş ΔSref hedefi kullanarak magnetokalorik yüksek entropili alaşımların makine öğrenimi ile taranması" başlıklı makalemiz Journal of Magnetism and Magnetic Materials'a gönderildi.ŞARLAR, KAĞAN, Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target. </span>
-                    </p>
+            <div class="timeline-item reveal">
+                <div class="timeline-marker"></div>
+                <div class="timeline-date">2025</div>
+                <div class="timeline-card">
+                    <h4><span class="lang-en">Manuscript Submitted to JMMM</span><span class="lang-tr">JMMM'e Makale Gönderildi</span></h4>
+                    <p><span class="lang-en">Our paper "Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔS<sub>ref</sub> target" was submitted to the Journal of Magnetism and Magnetic Materials.</span><span class="lang-tr">"Alan-normalize ΔS<sub>ref</sub> hedefi kullanılarak magnetokalorik yüksek entropili alaşımların makine öğrenimi ile taranması" başlıklı makalemiz Journal of Magnetism and Magnetic Materials dergisine gönderildi.</span></p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ============ FUNDING ============ -->
     <section id="funding">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Support</span>
-                <span class="lang-tr">Destek</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Funding & Partners</span>
-                <span class="lang-tr">Finansman ve Ortaklar</span>
-            </h2>
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Support</span><span class="lang-tr">Destek</span></span>
+            <h2 class="section-title"><span class="lang-en">Funding &amp; Partners</span><span class="lang-tr">Finansman ve Ortaklar</span></h2>
         </div>
 
-        <div class="funding-content">
-            <div class="funding-main">
-                <div class="funding-card-main">
-                    <div class="funding-logo">🏛️</div>
-                    <div class="funding-info">
-                        <h4>TÜBİTAK 3501</h4>
-                        <p class="funding-program">
-                            <span class="lang-en">Career Development Program</span>
-                            <span class="lang-tr">Kariyer Geliştirme Programı</span>
-                        </p>
-                        <p class="funding-details">
-                            <span class="lang-en">Project No: 125F375</span>
-                            <span class="lang-tr">Proje No: 125F375</span>
-                        </p>
-                        <p class="funding-title">
-                            <span class="lang-en">"AI-Assisted Design, Optimization, and Identification of High-Entropy Magnetocaloric Alloys"</span>
-                            <span class="lang-tr">"Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı, Optimizasyonu ve Potansiyel Kompozisyonların Belirlenmesi"</span>
-                        </p>
-                        <div class="funding-meta">
-                            <span>📅 24 <span class="lang-en">months</span><span class="lang-tr">ay</span></span>
-                            <span>📍 2026–2028</span>
-                            <span>
-                                📜
-                                <span class="lang-en">Accepted on 4 November 2025</span>
-                                <span class="lang-tr">Kabul tarihi: 4 Kasım 2025</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="partners-section">
-                <h3 class="partners-title">
-                    <span class="lang-en">Host Institution & Partners</span>
-                    <span class="lang-tr">Ev Sahibi Kurum ve Ortaklar</span>
-                </h3>
-                <div class="partners-grid">
-                    <div class="partner-card partner-host">
-                        <div class="partner-badge">
-                            <span class="lang-en">Host Institution</span>
-                            <span class="lang-tr">Ev Sahibi Kurum</span>
-                        </div>
-                        <div class="partner-logo">🏛️</div>
-                        <h4>Karamanoğlu Mehmetbey Üniversitesi</h4>
-                        <p>
-                            <span class="lang-en">Department of Physics</span>
-                            <span class="lang-tr">Fizik Bölümü</span>
-                        </p>
-                    </div>
-
-                    <div class="partner-card">
-                        <div class="partner-badge partner-badge-collab">
-                            <span class="lang-en">Partner</span>
-                            <span class="lang-tr">Ortak</span>
-                        </div>
-                        <div class="partner-logo">🎓</div>
-                        <h4>Bursa Uludağ Üniversitesi</h4>
-                        <p>
-                            <span class="lang-en">Academic Partner</span>
-                            <span class="lang-tr">Akademik Ortak</span>
-                        </p>
-                    </div>
-
-                    <div class="partner-card">
-                        <div class="partner-badge partner-badge-industry">
-                            <span class="lang-en">Industry Partner</span>
-                            <span class="lang-tr">Sanayi Ortağı</span>
-                        </div>
-                        <div class="partner-logo">🏭</div>
-                        <h4>Gürbağ Savunma ve Teknoloji</h4>
-                        <p>
-                            <span class="lang-en">Industry Collaboration</span>
-                            <span class="lang-tr">Sanayi İşbirliği</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Research sekmesi buradan itibaren: Publications + Datasets + Tools + Presentations -->
-    <section id="publications">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Research</span>
-                <span class="lang-tr">Araştırma</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Publications</span>
-                <span class="lang-tr">Yayınlar</span>
-            </h2>
-            <p class="section-description">
-                <span class="lang-en">Peer-reviewed publications and preprints from our research.</span>
-                <span class="lang-tr">Araştırmamızdan hakemli yayınlar ve ön baskılar.</span>
-            </p>
-        </div>
-
-        <div class="publications-list">
-           <div class="pub-card">
-    <div class="pub-year">2026</div>
-    <div class="pub-content">
-        <h4>Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔSref target</h4>
-        <p class="pub-authors">K. Şarlar</p>
-        <p class="pub-journal">
-            <span class="lang-en">Journal of Magnetism and Magnetic Materials</span>
-            <span class="lang-tr">Journal of Magnetism and Magnetic Materials</span>
-        </p>
-        <p class="pub-doi">
-            DOI:
-            <a href="https://doi.org/10.1016/j.jmmm.2026.174120" target="_blank" rel="noopener noreferrer">
-                10.1016/j.jmmm.2026.174120
-            </a>
-        </p>
-        <div class="pub-links">
-            <a href="https://doi.org/10.1016/j.jmmm.2026.174120" class="pub-link" target="_blank" rel="noopener noreferrer">
-                📄 <span class="lang-en">Article DOI</span>
-                <span class="lang-tr">Makale DOI</span>
-            </a>
-             <a href="https://github.com/kaansarlar/Machine-learning-screening-of-magnetocaloric-high-entropy-alloys-using-a-field-normalized-Sref-targ"
-       class="pub-link" target="_blank" rel="noopener noreferrer">
-                💾 <span class="lang-en">Data</span>
-                <span class="lang-tr">Veri Seti</span>
-            </a>
-        </div>
-    </div>
-</div>
-
-
-
-            </div>
-        </div>
-    </section>
-
-    <section id="datasets">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Open Data</span>
-                <span class="lang-tr">Açık Veri</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Datasets</span>
-                <span class="lang-tr">Veri Setleri</span>
-            </h2>
-            <p class="section-description">
-                <span class="lang-en">Open-access datasets for reproducible research.</span>
-                <span class="lang-tr">Tekrarlanabilir araştırmalar için açık erişimli veri setleri.</span>
-            </p>
-        </div>
-
-        <div class="datasets-grid">
-            <div class="dataset-card">
-                <div class="dataset-icon">📊</div>
-                <h4>MCE-HEA Database</h4>
-                <p>
-                    <span class="lang-en">Comprehensive magnetocaloric properties dataset of high-entropy alloys including composition, Curie temperature, and magnetic entropy change.</span>
-                    <span class="lang-tr">Yüksek entropili alaşımların kompozisyon, Curie sıcaklığı ve manyetik entropi değişimi dahil kapsamlı magnetokalorik özellikler veri seti.</span>
+        <div class="funding-card reveal">
+            <div class="funding-logo">🏛️</div>
+            <div class="funding-info">
+                <h3>TÜBİTAK 3501 <span class="funding-no">· 125F375</span></h3>
+                <p class="funding-program"><span class="lang-en">Career Development Program</span><span class="lang-tr">Kariyer Geliştirme Programı</span></p>
+                <p class="funding-title">
+                    <span class="lang-en">"AI-Assisted Design, Optimization, and Identification of High-Entropy Magnetocaloric Alloys"</span>
+                    <span class="lang-tr">"Yapay Zekâ Destekli Yüksek Entropili Magnetokalorik Alaşımların Tasarımı, Optimizasyonu ve Potansiyel Kompozisyonların Belirlenmesi"</span>
                 </p>
-                <div class="dataset-meta">
-                    <span>📁 500+ <span class="lang-en">entries</span><span class="lang-tr">kayıt</span></span>
-                    <span>📅 2025</span>
-                    <span>📄 CSV</span>
+                <div class="funding-meta">
+                    <span>📅 24 <span class="lang-en">months</span><span class="lang-tr">ay</span></span>
+                    <span>📍 2026–2028</span>
+                    <span>📜 <span class="lang-en">Accepted 4 Nov 2025</span><span class="lang-tr">Kabul: 4 Kasım 2025</span></span>
                 </div>
-                <button class="btn-disabled" disabled>
-                    <span class="lang-en">Coming Soon</span>
-                    <span class="lang-tr">Yakında</span>
-                </button>
             </div>
+        </div>
 
-            <div class="dataset-card">
-                <div class="dataset-icon">🧬</div>
-                <h4>
-                    <span class="lang-en">Feature Engineering Set</span>
-                    <span class="lang-tr">Özellik Mühendisliği Seti</span>
-                </h4>
-                <p>
-                    <span class="lang-en">Pre-calculated elemental and compositional features for ML model training, including valence electron concentration and atomic size mismatch.</span>
-                    <span class="lang-tr">ML model eğitimi için önceden hesaplanmış elementel ve kompozisyonel özellikler, valans elektron konsantrasyonu ve atomik boyut uyumsuzluğu dahil.</span>
-                </p>
-                <div class="dataset-meta">
-                    <span>📁 50+ <span class="lang-en">features</span><span class="lang-tr">özellik</span></span>
-                    <span>📅 2025</span>
-                    <span>📄 CSV</span>
-                </div>
-                <button class="btn-disabled" disabled>
-                    <span class="lang-en">Coming Soon</span>
-                    <span class="lang-tr">Yakında</span>
-                </button>
+        <div class="partners-grid">
+            <div class="partner-card partner-host reveal">
+                <span class="partner-badge"><span class="lang-en">Host Institution</span><span class="lang-tr">Ev Sahibi Kurum</span></span>
+                <div class="partner-logo">🏛️</div>
+                <h4>Karamanoğlu Mehmetbey Üniversitesi</h4>
+                <p><span class="lang-en">Department of Physics</span><span class="lang-tr">Fizik Bölümü</span></p>
+            </div>
+            <div class="partner-card reveal">
+                <span class="partner-badge badge-collab"><span class="lang-en">Academic Partner</span><span class="lang-tr">Akademik Ortak</span></span>
+                <div class="partner-logo">🎓</div>
+                <h4>Bursa Uludağ Üniversitesi</h4>
+                <p><span class="lang-en">Department of Physics</span><span class="lang-tr">Fizik Bölümü</span></p>
+            </div>
+            <div class="partner-card reveal">
+                <span class="partner-badge badge-industry"><span class="lang-en">Industry Partner</span><span class="lang-tr">Sanayi Ortağı</span></span>
+                <div class="partner-logo">🏭</div>
+                <h4>Gürbağ Savunma ve Teknoloji</h4>
+                <p><span class="lang-en">Industry Collaboration</span><span class="lang-tr">Sanayi İşbirliği</span></p>
             </div>
         </div>
     </section>
 
-    <section id="tools">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Software</span>
-                <span class="lang-tr">Yazılım</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Tools & Code</span>
-                <span class="lang-tr">Araçlar ve Kodlar</span>
-            </h2>
-            <p class="section-description">
-                <span class="lang-en">Open-source tools developed during this project.</span>
-                <span class="lang-tr">Bu proje kapsamında geliştirilen açık kaynak araçlar.</span>
-            </p>
+    <!-- ============ RESEARCH OUTPUT ============ -->
+    <section id="research">
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Research Output</span><span class="lang-tr">Araştırma Çıktıları</span></span>
+            <h2 class="section-title"><span class="lang-en">Publications, Data &amp; Tools</span><span class="lang-tr">Yayınlar, Veri ve Araçlar</span></h2>
         </div>
 
-        <div class="tools-grid">
-            <div class="tool-card">
-                <div class="tool-header">
-                    <div class="tool-logo">🤖</div>
-                    <div>
-                        <h4 class="tool-name">MCE-ML</h4>
-                        <span class="tool-version">v1.0</span>
+        <!-- Tabs -->
+        <div class="tabs reveal" role="tablist" aria-label="Research output">
+            <button class="tab active" role="tab" aria-selected="true" data-tab="publications"><span class="lang-en">📄 Publications</span><span class="lang-tr">📄 Yayınlar</span></button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="datasets"><span class="lang-en">📊 Datasets</span><span class="lang-tr">📊 Veri Setleri</span></button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="tools"><span class="lang-en">🛠️ Tools</span><span class="lang-tr">🛠️ Araçlar</span></button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="presentations"><span class="lang-en">🎤 Presentations</span><span class="lang-tr">🎤 Sunumlar</span></button>
+        </div>
+
+        <div class="tab-panel active" id="panel-publications" role="tabpanel">
+            <div class="pub-card reveal">
+                <div class="pub-year">2026</div>
+                <div class="pub-content">
+                    <h4>Machine learning screening of magnetocaloric high-entropy alloys using a field-normalized ΔS<sub>ref</sub> target</h4>
+                    <p class="pub-authors">K. Şarlar</p>
+                    <p class="pub-journal">Journal of Magnetism and Magnetic Materials</p>
+                    <div class="pub-links">
+                        <a href="https://doi.org/10.1016/j.jmmm.2026.174120" class="pub-link" target="_blank" rel="noopener">📄 DOI: 10.1016/j.jmmm.2026.174120</a>
+                        <a href="https://github.com/kaansarlar/Machine-learning-screening-of-magnetocaloric-high-entropy-alloys-using-a-field-normalized-Sref-targ" class="pub-link" target="_blank" rel="noopener">💾 <span class="lang-en">Data &amp; Code</span><span class="lang-tr">Veri ve Kod</span></a>
                     </div>
                 </div>
-                <p class="tool-description">
-                    <span class="lang-en">Machine learning pipeline for magnetocaloric materials screening with nested cross-validation and SHAP analysis.</span>
-                    <span class="lang-tr">İç içe çapraz doğrulama ve SHAP analizi ile magnetokalorik malzeme taraması için makine öğrenimi hattı.</span>
-                </p>
-                <div class="tool-features">
-                    <span class="tool-feature">LightGBM</span>
-                    <span class="tool-feature">XGBoost</span>
-                    <span class="tool-feature">SHAP</span>
-                    <span class="tool-feature">Scikit-learn</span>
+            </div>
+        </div>
+
+        <div class="tab-panel" id="panel-datasets" role="tabpanel" hidden>
+            <div class="cards-grid">
+                <div class="resource-card reveal">
+                    <div class="resource-icon">📊</div>
+                    <h4>MCE-HEA Database</h4>
+                    <p><span class="lang-en">Comprehensive magnetocaloric properties dataset of high-entropy alloys: composition, Curie temperature, and magnetic entropy change.</span><span class="lang-tr">Yüksek entropili alaşımların kompozisyon, Curie sıcaklığı ve manyetik entropi değişimini içeren kapsamlı magnetokalorik özellik veri seti.</span></p>
+                    <div class="resource-meta"><span>📁 500+ <span class="lang-en">entries</span><span class="lang-tr">kayıt</span></span><span>📄 CSV</span></div>
+                    <span class="badge-soon"><span class="lang-en">Coming Soon</span><span class="lang-tr">Yakında</span></span>
                 </div>
-                <button class="btn-disabled" disabled>
-                    <span class="lang-en">Coming Soon</span>
-                    <span class="lang-tr">Yakında</span>
-                </button>
+                <div class="resource-card reveal">
+                    <div class="resource-icon">🧬</div>
+                    <h4><span class="lang-en">Feature Engineering Set</span><span class="lang-tr">Özellik Mühendisliği Seti</span></h4>
+                    <p><span class="lang-en">Pre-calculated elemental and compositional features for ML training, including valence electron concentration and atomic size mismatch.</span><span class="lang-tr">ML eğitimi için önceden hesaplanmış elementel ve kompozisyonel özellikler; valans elektron konsantrasyonu ve atomik boyut uyumsuzluğu dahil.</span></p>
+                    <div class="resource-meta"><span>📁 50+ <span class="lang-en">features</span><span class="lang-tr">özellik</span></span><span>📄 CSV</span></div>
+                    <span class="badge-soon"><span class="lang-en">Coming Soon</span><span class="lang-tr">Yakında</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-panel" id="panel-tools" role="tabpanel" hidden>
+            <div class="cards-grid">
+                <div class="resource-card reveal">
+                    <div class="resource-icon">🤖</div>
+                    <h4>MCE-ML <span class="tool-version">v1.0</span></h4>
+                    <p><span class="lang-en">Machine learning pipeline for magnetocaloric materials screening with nested cross-validation and SHAP analysis.</span><span class="lang-tr">İç içe çapraz doğrulama ve SHAP analizi ile magnetokalorik malzeme taraması için makine öğrenimi hattı.</span></p>
+                    <div class="resource-meta tag-row">
+                        <span class="tag">LightGBM</span><span class="tag">XGBoost</span><span class="tag">SHAP</span><span class="tag">Scikit-learn</span>
+                    </div>
+                    <span class="badge-soon"><span class="lang-en">Coming Soon</span><span class="lang-tr">Yakında</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-panel" id="panel-presentations" role="tabpanel" hidden>
+            <div class="resource-card resource-card-wide reveal">
+                <div class="resource-icon">📅</div>
+                <h4><span class="lang-en">Presentations will be added as the project progresses</span><span class="lang-tr">Proje ilerledikçe sunumlar eklenecektir</span></h4>
+                <p><span class="lang-en">Stay tuned for upcoming conference presentations and invited talks.</span><span class="lang-tr">Yaklaşan konferans sunumları ve davetli konuşmalar için takipte kalın.</span></p>
             </div>
         </div>
     </section>
 
+    <!-- ============ OPEN POSITION ============ -->
     <section id="open-position">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Open Position</span>
-                <span class="lang-tr">Açık Pozisyon</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">MSc Scholarship Position (2026–2028)</span>
-                <span class="lang-tr">Yüksek Lisans Burslu Pozisyonu (2026–2028)</span>
-            </h2>
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Open Position</span><span class="lang-tr">Açık Pozisyon</span></span>
+            <h2 class="section-title"><span class="lang-en">MSc Scholarship Position (2026–2028)</span><span class="lang-tr">Yüksek Lisans Burslu Pozisyonu (2026–2028)</span></h2>
         </div>
 
-        <div class="open-position-grid">
-            <div class="open-position-card">
-                <div class="open-position-header">
-                    <div class="open-position-title">
-                        <span class="lang-en">MSc in Physics / Solid State Physics  (Magnetocaloric High-Entropy Alloys)</span>
-                        <span class="lang-tr">Fizik / Katıhal Fiziği  Yüksek Lisans (Magnetokalorik Yüksek Entropili Alaşımlar)</span>
-                    </div>
-                    <div class="open-position-badge">
-                        <span class="lang-en">Fully Funded MSc</span>
-                        <span class="lang-tr">Burslu Yüksek Lisans</span>
-                    </div>
-                </div>
+        <div class="position-card reveal">
+            <div class="position-header">
+                <h3><span class="lang-en">MSc in Physics / Solid State Physics — Magnetocaloric High-Entropy Alloys</span><span class="lang-tr">Fizik / Katıhal Fiziği Yüksek Lisansı — Magnetokalorik Yüksek Entropili Alaşımlar</span></h3>
+                <span class="position-badge"><span class="lang-en">Fully Funded</span><span class="lang-tr">Burslu</span></span>
+            </div>
+            <div class="position-meta">
+                <span>📍 KMÜ – Karaman</span>
+                <span>📅 2026–2028</span>
+                <span>💰 TÜBİTAK 3501 (125F375)</span>
+            </div>
+            <p class="lang-en">We are looking for a motivated MSc student to work on AI-guided design and experimental characterization of magnetocaloric high-entropy alloys within the TÜBİTAK 3501 project. The MSc scholarship is planned for the 2026–2028 period, following the project acceptance on 4 November 2025.</p>
+            <p class="lang-tr">TÜBİTAK 3501 projesi kapsamında, magnetokalorik yüksek entropili alaşımların yapay zekâ destekli tasarımı ve deneysel karakterizasyonu üzerine çalışacak motive bir yüksek lisans öğrencisi arıyoruz. Proje 4 Kasım 2025 tarihinde kabul edilmiş olup, yüksek lisans burs dönemi 2026–2028 yıllarını kapsamaktadır.</p>
 
-                <div class="open-position-meta">
-                    <span>📍 KMÜ – Karaman</span>
-                    <span>📅 2026–2028</span>
-                    <span>
-                        💰
-                        <span class="lang-en">Scholarship funded by TÜBİTAK 3501 (125F375)</span>
-                        <span class="lang-tr">Burs: TÜBİTAK 3501 (125F375) kapsamında</span>
-                    </span>
-                </div>
-
-                <div class="open-position-body">
-                    <p class="lang-en">
-                        We are looking for a motivated MSc student to work on AI-guided design and experimental characterization of magnetocaloric high-entropy alloys within the TÜBİTAK 3501 project. The MSc scholarship is planned for the 2026–2028 period, following the project acceptance on 4 November 2025.
-                    </p>
-                    <p class="lang-tr">
-                        TÜBİTAK 3501 projesi kapsamında, magnetokalorik yüksek entropili alaşımların yapay zekâ destekli tasarımı ve deneysel karakterizasyonu üzerine çalışacak motive bir yüksek lisans öğrencisi arıyoruz. Proje 4 Kasım 2025 tarihinde kabul edilmiş olup, yüksek lisans burs dönemi 2026–2028 yıllarını kapsamaktadır.
-                    </p>
-
-                    <h4>
-                        <span class="lang-en">Expected Background</span>
-                        <span class="lang-tr">Beklenen Ön Koşullar</span>
-                    </h4>
-                    <ul class="open-position-list">
-                        <li class="lang-en">BSc degree in Physics, Materials Science or related fields.</li>
-                        <li class="lang-tr">Fizik, Malzeme Bilimi veya ilgili alanlarda lisans mezunu  olmak.</li>
-                        <li class="lang-en">Basic programming skills (preferably Python) and interest in machine learning.</li>
-                        <li class="lang-tr">Temel programlama bilgisi (tercihen Python) ve makine öğrenimine ilgi duymak.</li>
-                        <li class="lang-en">Interest in magnetism, magnetic materials, or energy-efficient cooling technologies.</li>
-                        <li class="lang-tr">Manyetizma, manyetik malzemeler veya enerji verimli soğutma teknolojilerine ilgi duymak.</li>
+            <div class="position-columns">
+                <div>
+                    <h4><span class="lang-en">Expected Background</span><span class="lang-tr">Beklenen Ön Koşullar</span></h4>
+                    <ul class="check-list">
+                        <li><span class="lang-en">BSc in Physics, Materials Science or related fields</span><span class="lang-tr">Fizik, Malzeme Bilimi veya ilgili alanlarda lisans derecesi</span></li>
+                        <li><span class="lang-en">Basic programming skills (preferably Python) and interest in machine learning</span><span class="lang-tr">Temel programlama bilgisi (tercihen Python) ve makine öğrenimine ilgi</span></li>
+                        <li><span class="lang-en">Interest in magnetism, magnetic materials, or energy-efficient cooling</span><span class="lang-tr">Manyetizma, manyetik malzemeler veya enerji verimli soğutma teknolojilerine ilgi</span></li>
                     </ul>
-
-                    <h4>
-                        <span class="lang-en">How to Apply</span>
-                        <span class="lang-tr">Başvuru Şekli</span>
-                    </h4>
-                    <p class="lang-en">
-                        Please send your CV, transcript, and a short motivation letter to <strong>kagansarlar@kmu.edu.tr</strong> with the subject line “MSc Magnetocaloric HEA – Application”. Informal inquiries are welcome.
-                    </p>
-                    <p class="lang-tr">
-                        Özgeçmişinizi, not dökümünüzü ve kısa bir motivasyon mektubunu konu kısmına “Yüksek Lisans Magnetokalorik HEA – Başvuru” yazarak <strong>kagansarlar@kmu.edu.tr</strong> adresine gönderiniz. Sorularınız için gayriresmî iletişime de açığız.
-                    </p>
+                </div>
+                <div>
+                    <h4><span class="lang-en">How to Apply</span><span class="lang-tr">Başvuru Şekli</span></h4>
+                    <p class="lang-en">Send your CV, transcript, and a short motivation letter to <strong>kagansarlar@kmu.edu.tr</strong> with the subject line "MSc Magnetocaloric HEA – Application". Informal inquiries are welcome.</p>
+                    <p class="lang-tr">Özgeçmişinizi, not dökümünüzü ve kısa bir motivasyon mektubunu konu kısmına "Yüksek Lisans Magnetokalorik HEA – Başvuru" yazarak <strong>kagansarlar@kmu.edu.tr</strong> adresine gönderiniz. Sorularınız için gayriresmî iletişime de açığız.</p>
+                    <a href="mailto:kagansarlar@kmu.edu.tr?subject=MSc%20Magnetocaloric%20HEA%20%E2%80%93%20Application" class="btn btn-primary btn-apply">
+                        <span class="lang-en">Apply Now</span><span class="lang-tr">Hemen Başvur</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="presentations">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Talks & Posters</span>
-                <span class="lang-tr">Sunumlar ve Posterler</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Presentations</span>
-                <span class="lang-tr">Sunumlar</span>
-            </h2>
-            <p class="section-description">
-                <span class="lang-en">Conference presentations and invited talks.</span>
-                <span class="lang-tr">Konferans sunumları ve davetli konuşmalar.</span>
-            </p>
-        </div>
-
-        <div class="presentations-list">
-            <div class="presentation-card presentation-coming-soon">
-                <div class="presentation-icon">📅</div>
-                <div class="presentation-content">
-                    <h4>
-                        <span class="lang-en">Presentations will be added as the project progresses</span>
-                        <span class="lang-tr">Proje ilerledikçe sunumlar eklenecektir</span>
-                    </h4>
-                    <p class="presentation-meta">
-                        <span class="lang-en">Stay tuned for upcoming conference presentations and talks.</span>
-                        <span class="lang-tr">Yaklaşan konferans sunumları ve konuşmalar için takipte kalın.</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- ============ COLLABORATION ============ -->
     <section id="collaboration">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Work With Us</span>
-                <span class="lang-tr">Bizimle Çalışın</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Collaboration Opportunities</span>
-                <span class="lang-tr">İşbirliği Fırsatları</span>
-            </h2>
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Work With Us</span><span class="lang-tr">Bizimle Çalışın</span></span>
+            <h2 class="section-title"><span class="lang-en">Collaboration Opportunities</span><span class="lang-tr">İşbirliği Fırsatları</span></h2>
         </div>
 
-        <div class="collab-grid">
-            <div class="collab-card">
+        <div class="cards-grid cards-grid-3">
+            <div class="collab-card reveal">
                 <div class="collab-icon">🎓</div>
-                <h4>
-                    <span class="lang-en">Graduate Students</span>
-                    <span class="lang-tr">Lisansüstü Öğrenciler</span>
-                </h4>
-                <p>
-                    <span class="lang-en">We are looking for motivated MSc and PhD students interested in computational materials science and machine learning.</span>
-                    <span class="lang-tr">Hesaplamalı malzeme bilimi ve makine öğrenimi ile ilgilenen motivasyonlu yüksek lisans ve doktora öğrencileri arıyoruz.</span>
-                </p>
+                <h4><span class="lang-en">Graduate Students</span><span class="lang-tr">Lisansüstü Öğrenciler</span></h4>
+                <p><span class="lang-en">We are looking for motivated MSc and PhD students interested in computational materials science and machine learning.</span><span class="lang-tr">Hesaplamalı malzeme bilimi ve makine öğrenimiyle ilgilenen motivasyonlu yüksek lisans ve doktora öğrencileri arıyoruz.</span></p>
             </div>
-
-            <div class="collab-card">
+            <div class="collab-card reveal">
                 <div class="collab-icon">🔬</div>
-                <h4>
-                    <span class="lang-en">Academic Collaboration</span>
-                    <span class="lang-tr">Akademik İşbirliği</span>
-                </h4>
-                <p>
-                    <span class="lang-en">Open to collaborations with research groups working on magnetocaloric materials, high-entropy alloys, or ML for materials.</span>
-                    <span class="lang-tr">Magnetokalorik malzemeler, yüksek entropili alaşımlar veya malzemeler için ML üzerinde çalışan araştırma gruplarıyla işbirliğine açığız.</span>
-                </p>
+                <h4><span class="lang-en">Academic Collaboration</span><span class="lang-tr">Akademik İşbirliği</span></h4>
+                <p><span class="lang-en">Open to collaborations with research groups working on magnetocaloric materials, high-entropy alloys, or ML for materials.</span><span class="lang-tr">Magnetokalorik malzemeler, yüksek entropili alaşımlar veya malzemeler için ML üzerine çalışan araştırma gruplarıyla işbirliğine açığız.</span></p>
             </div>
-
-            <div class="collab-card">
+            <div class="collab-card reveal">
                 <div class="collab-icon">🏭</div>
-                <h4>
-                    <span class="lang-en">Industry Partners</span>
-                    <span class="lang-tr">Sanayi Ortakları</span>
-                </h4>
-                <p>
-                    <span class="lang-en">Seeking industry partners interested in sustainable cooling technologies and advanced magnetic materials.</span>
-                    <span class="lang-tr">Sürdürülebilir soğutma teknolojileri ve ileri manyetik malzemelerle ilgilenen sanayi ortakları arıyoruz.</span>
-                </p>
+                <h4><span class="lang-en">Industry Partners</span><span class="lang-tr">Sanayi Ortakları</span></h4>
+                <p><span class="lang-en">Seeking industry partners interested in sustainable cooling technologies and advanced magnetic materials.</span><span class="lang-tr">Sürdürülebilir soğutma teknolojileri ve ileri manyetik malzemelerle ilgilenen sanayi ortakları arıyoruz.</span></p>
             </div>
-        </div>
-
-        <div class="collab-cta">
-            <a href="#contact" class="btn btn-primary">
-                <span class="lang-en">Get in Touch</span>
-                <span class="lang-tr">İletişime Geçin</span>
-                →
-            </a>
         </div>
     </section>
 
+    <!-- ============ CONTACT ============ -->
     <section id="contact">
-        <div class="section-header">
-            <span class="section-tag">
-                <span class="lang-en">Get in Touch</span>
-                <span class="lang-tr">İletişime Geçin</span>
-            </span>
-            <h2 class="section-title">
-                <span class="lang-en">Contact Us</span>
-                <span class="lang-tr">Bize Ulaşın</span>
-            </h2>
+        <div class="section-header reveal">
+            <span class="section-tag"><span class="lang-en">Get in Touch</span><span class="lang-tr">İletişime Geçin</span></span>
+            <h2 class="section-title"><span class="lang-en">Contact Us</span><span class="lang-tr">Bize Ulaşın</span></h2>
         </div>
 
         <div class="contact-content">
-            <div class="contact-info">
-                <h3>
-                    <span class="lang-en">Collaborate With Us</span>
-                    <span class="lang-tr">Bizimle İşbirliği Yapın</span>
-                </h3>
-                <p>
-                    <span class="lang-en">Interested in collaboration or have questions about our research? We'd love to hear from you.</span>
-                    <span class="lang-tr">İşbirliği yapmak ister misiniz veya araştırmamız hakkında sorularınız mı var? Sizden haber almaktan memnuniyet duyarız.</span>
-                </p>
+            <div class="contact-info reveal">
+                <h3><span class="lang-en">Collaborate With Us</span><span class="lang-tr">Bizimle İşbirliği Yapın</span></h3>
+                <p><span class="lang-en">Interested in collaboration or have questions about our research? We'd love to hear from you.</span><span class="lang-tr">İşbirliği yapmak ister misiniz veya araştırmamız hakkında sorularınız mı var? Sizden haber almaktan memnuniyet duyarız.</span></p>
 
                 <div class="contact-details">
                     <div class="contact-item">
                         <div class="contact-icon">📧</div>
-                        <div class="contact-text">
-                            <strong>Email</strong>
-                            kagansarlar@kmu.edu.tr
-                        </div>
+                        <div class="contact-text"><strong>Email</strong><a href="mailto:kagansarlar@kmu.edu.tr">kagansarlar@kmu.edu.tr</a></div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">🏛️</div>
                         <div class="contact-text">
-                            <strong>
-                                <span class="lang-en">Address</span>
-                                <span class="lang-tr">Adres</span>
-                            </strong>
+                            <strong><span class="lang-en">Address</span><span class="lang-tr">Adres</span></strong>
                             <span class="lang-en">Department of Physics, Karamanoğlu Mehmetbey University, 70100 Karaman, Turkey</span>
                             <span class="lang-tr">Fizik Bölümü, Karamanoğlu Mehmetbey Üniversitesi, 70100 Karaman, Türkiye</span>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">🆔</div>
-                        <div class="contact-text">
-                            <strong>ORCID</strong>
-                            0000-0002-8871-2357
-                        </div>
+                        <div class="contact-text"><strong>ORCID</strong><a href="https://orcid.org/0000-0002-8871-2357" target="_blank" rel="noopener">0000-0002-8871-2357</a></div>
                     </div>
                 </div>
             </div>
 
-            <div class="contact-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3145.8!2d33.215!3d37.175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDEwJzMwLjAiTiAzM8KwMTInNTQuMCJF!5e0!3m2!1sen!2str!4v1600000000000!5m2!1sen!2str" allowfullscreen="" loading="lazy"></iframe>
+            <div class="contact-map reveal">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3145.8!2d33.215!3d37.175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDEwJzMwLjAiTiAzM8KwMTInNTQuMCJF!5e0!3m2!1sen!2str!4v1600000000000!5m2!1sen!2str" allowfullscreen loading="lazy" title="Karamanoğlu Mehmetbey University map"></iframe>
             </div>
         </div>
     </section>
 
+    </main>
+
+    <!-- ============ FOOTER ============ -->
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="logo.png" alt="Magnetelligence" class="footer-logo-img">
+                <img src="assets/logo.png" alt="Magnetelligence" class="footer-logo-img" width="60" height="60">
                 <div>
-                    <div class="logo-text">Magnet<span>elligence</span></div>
-                    <div class="footer-text">© 2025 Magnetelligence Lab</div>
+                    <div class="logo-text">Magnet<span class="logo-accent">elligence</span></div>
+                    <div class="footer-text">© 2025–2026 Magnetelligence Lab · TÜBİTAK 125F375</div>
                 </div>
             </div>
-
             <div class="footer-links">
-                <a href="#about">
-                    <span class="lang-en">About</span>
-                    <span class="lang-tr">Hakkında</span>
-                </a>
-                <a href="#publications">
-                    <span class="lang-en">Research</span>
-                    <span class="lang-tr">Araştırma</span>
-                </a>
-                <a href="#contact">
-                    <span class="lang-en">Contact</span>
-                    <span class="lang-tr">İletişim</span>
-                </a>
-                <a href="https://github.com/kaansarlar/magnetelligence" target="_blank">GitHub</a>
+                <a href="#about"><span class="lang-en">About</span><span class="lang-tr">Hakkında</span></a>
+                <a href="#research"><span class="lang-en">Research</span><span class="lang-tr">Araştırma</span></a>
+                <a href="#open-position"><span class="lang-en">Open Position</span><span class="lang-tr">Açık Pozisyon</span></a>
+                <a href="#contact"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a>
+                <a href="https://github.com/kaansarlar/magnetelligence" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>
     </footer>
 
-    <script>
-        const langBtns = document.querySelectorAll('.lang-btn');
-        langBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.dataset.lang;
-                document.body.dataset.lang = lang;
-                langBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                localStorage.setItem('preferred-lang', lang);
-            });
-        });
+    <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
 
-        const savedLang = localStorage.getItem('preferred-lang');
-        if (savedLang) {
-            document.body.dataset.lang = savedLang;
-            langBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === savedLang);
-            });
-        }
-
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    navLinks.classList.remove('active');
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const floatingPlayer = document.getElementById("floatingFilmPlayer");
-            const floatingVideo = document.getElementById("introFilmFloating");
-            const mainVideo = document.getElementById("introFilmMain");
-            const mainFilmWrapper = document.getElementById("mainFilmWrapper");
-            const filmSection = document.getElementById("lab-film");
-
-            if (!floatingPlayer || !floatingVideo || !mainVideo || !mainFilmWrapper || !filmSection) return;
-
-            let introFinished = sessionStorage.getItem("introFilmFinished") === "true";
-            let currentMode = introFinished ? "main" : "floating";
-            let observer = null;
-
-            function showFloating() {
-                floatingPlayer.classList.add("active");
-                floatingPlayer.setAttribute("aria-hidden", "false");
-            }
-
-            function hideFloating() {
-                floatingPlayer.classList.remove("active");
-                floatingPlayer.setAttribute("aria-hidden", "true");
-            }
-
-            function showMain() {
-                mainFilmWrapper.classList.remove("main-film-hidden");
-            }
-
-            function hideMain() {
-                mainFilmWrapper.classList.add("main-film-hidden");
-            }
-
-            let isSwitchingVideo = false;
-
-            function syncVideoState(fromVideo, toVideo, shouldPlayOverride = null) {
-                if (isSwitchingVideo) return;
-                isSwitchingVideo = true;
-
-                const syncTime = (fromVideo.ended && isFinite(fromVideo.duration) && fromVideo.duration > 0)
-                    ? Math.max(0, fromVideo.duration - 0.05)
-                    : (fromVideo.currentTime || 0);
-
-                const shouldPlay = shouldPlayOverride !== null
-                    ? shouldPlayOverride
-                    : (!fromVideo.paused && !fromVideo.ended);
-
-                const applySync = () => {
-                    try {
-                        if (Math.abs((toVideo.currentTime || 0) - syncTime) > 0.15) {
-                            toVideo.currentTime = syncTime;
-                        }
-                    } catch (e) {}
-
-                    if (!shouldPlay) {
-                        fromVideo.pause();
-                        toVideo.pause();
-                        isSwitchingVideo = false;
-                        return;
-                    }
-
-                    toVideo.muted = true;
-                    toVideo.defaultMuted = true;
-                    toVideo.playsInline = true;
-
-                    const playPromise = toVideo.play();
-
-                    if (playPromise && typeof playPromise.then === "function") {
-                        playPromise.then(() => {
-                            fromVideo.pause();
-                            isSwitchingVideo = false;
-                        }).catch(() => {
-                            // If autoplay handoff is briefly rejected, keep the outgoing video running
-                            // instead of stopping playback entirely.
-                            isSwitchingVideo = false;
-                        });
-                    } else {
-                        fromVideo.pause();
-                        isSwitchingVideo = false;
-                    }
-                };
-
-                if (toVideo.readyState >= 1) {
-                    applySync();
-                } else {
-                    const onLoaded = () => {
-                        toVideo.removeEventListener("loadedmetadata", onLoaded);
-                        applySync();
-                    };
-                    toVideo.addEventListener("loadedmetadata", onLoaded, { once: true });
-                    try {
-                        toVideo.load();
-                    } catch (e) {
-                        applySync();
-                    }
-                }
-            }
-
-            function switchTo(mode) {
-                if (introFinished || mode === currentMode) return;
-
-                if (mode === "main") {
-                    showMain();
-                    syncVideoState(floatingVideo, mainVideo);
-                    hideFloating();
-                } else {
-                    showFloating();
-                    syncVideoState(mainVideo, floatingVideo);
-                    hideMain();
-                }
-
-                currentMode = mode;
-            }
-
-            function finishIntro(sourceVideo) {
-                if (introFinished) return;
-
-                introFinished = true;
-                sessionStorage.setItem("introFilmFinished", "true");
-
-                if (observer) observer.disconnect();
-
-                showMain();
-                hideFloating();
-                syncVideoState(sourceVideo, mainVideo, false);
-                currentMode = "main";
-
-                requestAnimationFrame(() => {
-                    filmSection.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                });
-            }
-
-            if (!introFinished) {
-                hideMain();
-                showFloating();
-                floatingVideo.play().catch(() => {});
-            } else {
-                showMain();
-                hideFloating();
-                floatingVideo.pause();
-                floatingVideo.currentTime = 0;
-                mainVideo.pause();
-            }
-
-            observer = new IntersectionObserver((entries) => {
-                if (introFinished) return;
-
-                const entry = entries[0];
-                const shouldUseMain = entry.isIntersecting && entry.intersectionRatio >= 0.35;
-
-                if (shouldUseMain) {
-                    switchTo("main");
-                } else {
-                    switchTo("floating");
-                }
-            }, {
-                threshold: [0, 0.15, 0.35, 0.6, 0.85]
-            });
-
-            observer.observe(filmSection);
-
-            floatingVideo.addEventListener("ended", function () {
-                finishIntro(floatingVideo);
-            });
-
-            mainVideo.addEventListener("ended", function () {
-                finishIntro(mainVideo);
-            });
-        });
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
