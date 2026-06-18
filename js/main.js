@@ -2,6 +2,19 @@
    Magnetelligence Lab — v2 scripts
    ============================================================ */
 
+// ---------- Tools menu link ----------
+(function addToolsLink() {
+    const navLinks = document.getElementById('navLinks');
+    if (!navLinks || navLinks.querySelector('a[href="tools.html"]')) return;
+
+    const item = document.createElement('li');
+    item.innerHTML = '<a href="tools.html" class="nav-link" target="_blank" rel="noopener"><span class="lang-en">Tools</span><span class="lang-tr">Araçlar</span></a>';
+
+    const contactItem = navLinks.querySelector('a[href="#contact"]')?.parentElement;
+    if (contactItem) navLinks.insertBefore(item, contactItem);
+    else navLinks.appendChild(item);
+})();
+
 // ---------- Language toggle ----------
 const langBtns = document.querySelectorAll('.lang-btn');
 
