@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEA Alloy Calculator — Magnetelligence Lab</title>
+<style>
+:root{--bg:#f7f7f5;--card:#ffffff;--ink:#1a1a1a;--muted:#666;--line:#e0e0dc;--acc:#1d5fa0;--neg:#1d5fa0;--pos:#a83232;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Segoe UI",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding:16px;}
+.wrap{max-width:760px;margin:0 auto;}
+header{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+h1{font-size:1.25rem;font-weight:600;}
+.lang button{border:1px solid var(--line);background:var(--card);padding:4px 12px;cursor:pointer;font-size:.85rem;border-radius:6px 0 0 6px;}
+.lang button:last-child{border-radius:0 6px 6px 0;border-left:none;}
+.lang button.on{background:var(--acc);color:#fff;border-color:var(--acc);}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:14px;}
+label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px;}
+input[type=text]{width:100%;padding:9px 11px;font-size:1rem;border:1px solid var(--line);border-radius:7px;font-family:Consolas,monospace;}
+input[type=text]:focus{outline:2px solid var(--acc);border-color:var(--acc);}
+input[type=text]::placeholder{color:#b8b8b2;font-style:italic;}
+.row{display:flex;gap:12px;flex-wrap:wrap;}
+.row>div{flex:1;min-width:200px;}
+button.go{margin-top:14px;background:var(--acc);color:#fff;border:none;padding:10px 26px;font-size:1rem;border-radius:7px;cursor:pointer;}
+button.go:hover{opacity:.9;}
+.err{color:var(--pos);font-size:.9rem;margin-top:10px;display:none;}
+#results{display:none;}
+table.res{width:100%;border-collapse:collapse;margin:8px 0;}
+table.res td{padding:7px 4px;border-bottom:1px solid var(--line);font-size:.95rem;}
+table.res td:last-child{text-align:right;font-family:Consolas,monospace;font-weight:600;}
+.pairs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.pair{font-family:Consolas,monospace;font-size:.82rem;padding:3px 9px;border-radius:5px;background:#eef3fa;color:var(--neg);}
+.pair.p{background:#faeeee;color:var(--pos);}
+.pair.z{background:#f0f0ee;color:#555;}
+.src{font-size:.78rem;color:var(--muted);margin-top:12px;}
+.frac{font-family:Consolas,monospace;font-size:.85rem;color:var(--muted);margin-bottom:4px;}
+h2{font-size:1rem;font-weight:600;margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 id="t_title"></h1>
+  <div class="lang">
+    <button id="btn_tr" onclick="setLang('tr')">Türkçe</button>
+    <button id="btn_en" onclick="setLang('en')">English</button>
+  </div>
+</header>
+
+<div class="card">
+  <label id="t_formula" for="formula"></label>
+  <input type="text" id="formula" placeholder="Fe29Mn33Al15Ni14Cu9" autocomplete="off">
+  <label id="t_override" for="override"></label>
+  <input type="text" id="override" placeholder="Fe-O=-15; Ni-O=-20" autocomplete="off">
+  <button class="go" id="t_calc" onclick="calc()"></button>
+  <div class="err" id="errbox"></div>
+</div>
+
+<div class="card" id="results">
+  <h2 id="res_name"></h2>
+  <div class="frac" id="res_frac"></div>
+  <table class="res">
+    <tr><td id="t_delta"></td><td id="v_delta"></td></tr>
+    <tr><td id="t_dchi"></td><td id="v_dchi"></td></tr>
+    <tr><td id="t_vec"></td><td id="v_vec"></td></tr>
+    <tr><td id="t_dh"></td><td id="v_dh"></td></tr>
+    <tr><td id="t_ds"></td><td id="v_ds"></td></tr>
+  </table>
+  <h2 id="t_pairs" style="margin-top:14px"></h2>
+  <div class="pairs" id="pairbox"></div>
+  <div class="src" id="t_src"></div>
+</div>
+</div>
+
+<script>
+const DHMIX={"Ag-Al":-4,"Ag-As":-8,"Ag-B":5,"Ag-Be":6,"Ag-C":-32,"Ag-Ca":-28,"Ag-Co":19,"Ag-Cr":27,"Ag-Cu":2,"Ag-Fe":28,"Ag-Ga":-5,"Ag-Ge":-17.5,"Ag-H":-10,"Ag-K":7,"Ag-Li":-16,"Ag-Mg":-10,"Ag-Mn":13,"Ag-Mo":37,"Ag-N":-94,"Ag-Na":0,"Ag-Nb":16,"Ag-Ni":15,"Ag-P":-18.5,"Ag-Pd":-7,"Ag-Rb":7,"Ag-Rh":10,"Ag-Ru":23,"Ag-Sc":-28,"Ag-Si":-20,"Ag-Sr":-27,"Ag-Tc":24,"Ag-Ti":-2,"Ag-V":17,"Ag-Y":-29,"Ag-Zn":-4,"Ag-Zr":-20,"Al-B":0,"Al-Be":0,"Al-C":-36,"Al-H":-8,"Al-Li":-4,"Al-Mg":-2,"Al-N":-92,"Al-Na":13,"Al-As":-6,"As-B":10,"As-Be":7,"As-C":-14,"As-Ca":-61,"As-Co":-18,"As-Cr":-19,"As-Cu":-3,"As-Fe":-14,"As-Ga":-6,"As-Ge":-12.5,"As-H":-1,"As-K":-11,"As-Li":-29,"As-Mg":-21,"As-Mn":-31,"As-N":-59,"As-Na":-14,"As-Ni":-19,"As-P":-2.5,"As-Sc":-77,"As-Si":-17,"As-Ti":-60,"As-V":-35,"As-Zn":-6,"Ag-Au":-6,"Al-Au":-22,"As-Au":-11,"Au-B":-2,"Au-Ba":-60,"Au-Be":0,"Au-C":-20,"Au-Ca":-60,"Au-Cd":-11,"Au-Ce":-73,"Au-Co":7,"Au-Cr":0,"Au-Cs":-9,"Au-Cu":-9,"Au-Dy":-74,"Au-Er":-74,"Au-Eu":-58,"Au-Fe":8,"Au-Ga":-19,"Au-Gd":-74,"Au-Ge":-21.5,"Au-H":-8,"Au-Hf":-63,"Au-Ho":-72,"Au-In":-11,"Au-Ir":13,"Au-K":-9,"Au-La":-73,"Au-Li":-37,"Au-Lu":-75,"Au-Mg":-32,"Au-Mn":-11,"Au-Mo":3,"Au-N":-58,"Au-Na":-14,"Au-Nb":-32,"Au-Nd":-73,"Au-Ni":7,"Au-Os":18,"Au-P":-13.5,"Au-Pd":0,"Au-Pm":-75,"Au-Pr":-73,"Au-Pt":4,"Au-Rb":-10,"Au-Re":20,"Au-Rh":7,"Au-Ru":15,"Au-Sb":-4,"Au-Sc":-74,"Au-Si":-30,"Au-Sm":-74,"Au-Sn":-10,"Au-Sr":-59,"Au-Ta":-32,"Au-Tb":-74,"Au-Tc":14,"Au-Ti":-47,"Au-Tm":-74,"Au-V":-19,"Au-W":12,"Au-Y":-74,"Au-Yb":-59,"Au-Zn":-16,"Au-Zr":-74,"B-Be":0,"B-H":5,"B-Li":-6,"Ag-Ba":-28,"Al-Ba":-20,"As-Ba":-66,"B-Ba":-19,"Ba-Be":-10,"Ba-C":-90,"Ba-Ca":1,"Ba-Cd":-36,"Ba-Co":11,"Ba-Cr":50,"Ba-Cs":12,"Ba-Cu":-9,"Ba-Fe":37,"Ba-Ga":-30,"Ba-Ge":-63.5,"Ba-H":-49,"Ba-In":-42,"Ba-K":6,"Ba-Li":0,"Ba-Mg":-4,"Ba-Mn":29,"Ba-Mo":73,"Ba-N":-212,"Ba-Na":-3,"Ba-Nb":81,"Ba-Ni":0,"Ba-P":-85.5,"Ba-Pd":-62,"Ba-Rb":9,"Ba-Rh":-21,"Ba-Ru":6,"Ba-Sb":-72,"Ba-Sc":28,"Ba-Si":-52,"Ba-Sn":-51,"Ba-Sr":0,"Ba-Tc":11,"Ba-Ti":57,"Ba-V":57,"Ba-Y":20,"Ba-Zn":-23,"Ba-Zr":52,"Be-H":2,"Be-Li":-5,"Ag-Bi":2,"Al-Bi":10,"As-Bi":7,"Au-Bi":2,"B-Bi":31,"Ba-Bi":-68,"Be-Bi":26,"Bi-C":-12,"Bi-Ca":-56,"Bi-Cd":1,"Bi-Ce":-57,"Bi-Co":14,"Bi-Cr":24,"Bi-Cs":-27,"Bi-Cu":15,"Bi-Dy":-53,"Bi-Er":-52,"Bi-Eu":-58,"Bi-Fe":26,"Bi-Ga":4,"Bi-Gd":-54,"Bi-Ge":-7.5,"Bi-H":0,"Bi-Hf":-30,"Bi-Hg":1,"Bi-Ho":-52,"Bi-In":-1,"Bi-Ir":14,"Bi-K":-24,"Bi-La":-58,"Bi-Li":-23,"Bi-Lu":-51,"Bi-Mg":-10,"Bi-Mn":3,"Bi-Mo":38,"Bi-N":-80,"Bi-Na":-20,"Bi-Nb":12,"Bi-Nd":-55,"Bi-Ni":10,"Bi-Os":29,"Bi-P":5.5,"Bi-Pb":0,"Bi-Pd":-21,"Bi-Pm":-55,"Bi-Pr":-56,"Bi-Pt":-8,"Bi-Rb":-26,"Bi-Re":40,"Bi-Rh":3,"Bi-Ru":23,"Bi-Sb":1,"Bi-Sc":-46,"Bi-Si":-2,"Bi-Sm":-54,"Bi-Sn":1,"Bi-Sr":-61,"Bi-Ta":9,"Bi-Tb":-53,"Bi-Tc":23,"Bi-Ti":-14,"Bi-Tl":-1,"Bi-Tm":-51,"Bi-V":10,"Bi-W":45,"Bi-Y":-54,"Bi-Yb":-55,"Bi-Zn":4,"Bi-Zr":-40,"B-C":-10,"Be-C":-15,"C-H":-3,"C-Li":-61,"Al-Ca":-20,"B-Ca":-22,"Be-Ca":-14,"C-Ca":-89,"Ca-H":-46,"Ca-K":12,"Ca-Li":-1,"Ca-Mg":-6,"Ca-N":-201,"Ca-Na":1,"Ca-P":-81.5,"Ca-Si":-51,"Ag-Cd":-2,"Al-Cd":3,"As-Cd":-4,"B-Cd":13,"Be-Cd":11,"C-Cd":-27,"Ca-Cd":-32,"Cd-Co":6,"Cd-Cr":17,"Cd-Cu":6,"Cd-Fe":17,"Cd-Ga":1,"Cd-Ge":-14.5,"Cd-H":-6,"Cd-K":1,"Cd-Li":-13,"Cd-Mg":-6,"Cd-Mn":2,"Cd-Mo":28,"Cd-N":-91,"Cd-Na":-3,"Cd-Nb":11,"Cd-Ni":2,"Cd-P":-11.5,"Cd-Pd":-26,"Cd-Rb":1,"Cd-Rh":-6,"Cd-Ru":9,"Cd-Sc":-30,"Cd-Si":-13,"Cd-Sr":-33,"Cd-Tc":10,"Cd-Ti":-8,"Cd-V":9,"Cd-Y":-35,"Cd-Zn":1,"Cd-Zr":-26,"Ag-Ce":-30,"Al-Ce":-38,"As-Ce":-81,"B-Ce":-48,"Ba-Ce":17,"Be-Ce":-30,"C-Ce":-116,"Ca-Ce":9,"Cd-Ce":-36,"Ce-Co":-18,"Ce-Cr":15,"Ce-Cs":59,"Ce-Cu":-21,"Ce-Fe":3,"Ce-Ga":-41,"Ce-Ge":-73.5,"Ce-H":-61,"Ce-In":-38,"Ce-K":47,"Ce-La":0,"Ce-Li":7,"Ce-Mg":-7,"Ce-Mn":1,"Ce-Mo":29,"Ce-N":-234,"Ce-Na":25,"Ce-Nb":34,"Ce-Ni":-28,"Ce-P":-112.5,"Ce-Pd":-83,"Ce-Rb":53,"Ce-Rh":-52,"Ce-Ru":-30,"Ce-Sb":-70,"Ce-Sc":2,"Ce-Si":-73,"Ce-Sn":-52,"Ce-Sr":15,"Ce-Tc":-25,"Ce-Ti":18,"Ce-V":20,"Ce-Y":0,"Ce-Zn":-31,"Ce-Zr":12,"Al-Co":-19,"B-Co":-24,"Be-Co":-4,"C-Co":-42,"Ca-Co":2,"Co-Cr":-4,"Co-Fe":-1,"Co-H":-23,"Co-K":55,"Co-Li":8,"Co-Mg":3,"Co-Mn":-5,"Co-N":-75,"Co-Na":41,"Co-P":-35.5,"Co-Sc":-30,"Co-Si":-38,"Co-Ti":-28,"Co-V":-14,"Al-Cr":-10,"B-Cr":-31,"Be-Cr":-7,"C-Cr":-61,"Ca-Cr":38,"Cr-H":-28,"Cr-K":91,"Cr-Li":35,"Cr-Mg":24,"Cr-N":-107,"Cr-Na":71,"Cr-P":-49.5,"Cr-Sc":1,"Cr-Si":-37,"Cr-Ti":-7,"Cr-V":-2,"Ag-Cs":8,"Al-Cs":26,"As-Cs":-12,"B-Cs":29,"Be-Cs":29,"C-Cs":-43,"Ca-Cs":19,"Cd-Cs":1,"Co-Cs":58,"Cr-Cs":97,"Cs-Cu":28,"Cs-Fe":85,"Cs-Ga":14,"Cs-Ge":-19.5,"Cs-H":-16,"Cs-In":-4,"Cs-K":0,"Cs-Li":16,"Cs-Mg":25,"Cs-Mn":71,"Cs-Mo":128,"Cs-N":-155,"Cs-Na":3,"Cs-Nb":135,"Cs-Ni":48,"Cs-P":-24.5,"Cs-Pd":-9,"Cs-Rb":0,"Cs-Rh":34,"Cs-Ru":64,"Cs-Sb":-25,"Cs-Sc":70,"Cs-Si":-3,"Cs-Sn":-7,"Cs-Sr":14,"Cs-Tc":69,"Cs-Ti":104,"Cs-V":103,"Cs-Y":62,"Cs-Zn":15,"Cs-Zr":101,"Al-Cu":-1,"B-Cu":0,"Be-Cu":0,"C-Cu":-33,"Ca-Cu":-13,"Co-Cu":6,"Cr-Cu":12,"Cu-Fe":13,"Cu-H":-6,"Cu-K":25,"Cu-Li":-5,"Cu-Mg":-3,"Cu-Mn":4,"Cu-N":-84,"Cu-Na":16,"Cu-Ni":4,"Cu-P":-17.5,"Cu-Sc":-24,"Cu-Si":-19,"Cu-Ti":-9,"Cu-V":5,"Ag-Dy":-29,"Al-Dy":-38,"As-Dy":-80,"B-Dy":-51,"Ba-Dy":21,"Be-Dy":-32,"C-Dy":-117,"Ca-Dy":12,"Cd-Dy":-34,"Ce-Dy":0,"Co-Dy":-23,"Cr-Dy":9,"Cs-Dy":63,"Cu-Dy":-22,"Dy-Eu":15,"Dy-Fe":-3,"Dy-Ga":-40,"Dy-Gd":0,"Dy-Ge":-71.5,"Dy-H":-61,"Dy-In":-35,"Dy-K":51,"Dy-La":0,"Dy-Li":9,"Dy-Mg":-6,"Dy-Mn":-3,"Dy-Mo":22,"Dy-N":-231,"Dy-Na":29,"Dy-Nb":27,"Dy-Nd":0,"Dy-Ni":-32,"Dy-P":-112.5,"Dy-Pd":-84,"Dy-Pm":0,"Dy-Pr":0,"Dy-Rb":58,"Dy-Rh":-55,"Dy-Ru":-35,"Dy-Sb":-67,"Dy-Sc":1,"Dy-Si":-74,"Dy-Sm":0,"Dy-Sn":-50,"Dy-Sr":18,"Dy-Tb":0,"Dy-Tc":-30,"Dy-Ti":14,"Dy-V":15,"Dy-Y":0,"Dy-Zn":-31,"Dy-Zr":8,"Ag-Er":-29,"Al-Er":-38,"As-Er":-79,"B-Er":-52,"Ba-Er":22,"Be-Er":-33,"C-Er":-118,"Ca-Er":13,"Cd-Er":-33,"Ce-Er":0,"Co-Er":-24,"Cr-Er":8,"Cs-Er":65,"Cu-Er":-23,"Dy-Er":0,"Er-Eu":16,"Er-Fe":-5,"Er-Ga":-40,"Er-Gd":0,"Er-Ge":-71.5,"Er-H":-61,"Er-Ho":0,"Er-In":-34,"Er-K":53,"Er-La":1,"Er-Li":9,"Er-Mg":-5,"Er-Mn":-4,"Er-Mo":20,"Er-N":-230,"Er-Na":30,"Er-Nb":26,"Er-Nd":0,"Er-Ni":-34,"Er-P":-113.5,"Er-Pd":-85,"Er-Pm":0,"Er-Pr":0,"Er-Rb":59,"Er-Rh":-57,"Er-Ru":-37,"Er-Sb":-66,"Er-Sc":0,"Er-Si":-74,"Er-Sm":0,"Er-Sn":-49,"Er-Sr":20,"Er-Tb":0,"Er-Tc":-32,"Er-Ti":13,"Er-V":14,"Er-Y":0,"Er-Zn":-31,"Er-Zr":7,"Ag-Eu":-27,"Al-Eu":-19,"As-Eu":-60,"B-Eu":-19,"Ba-Eu":0,"Be-Eu":-12,"C-Eu":-87,"Ca-Eu":0,"Cd-Eu":-32,"Ce-Eu":12,"Co-Eu":7,"Cr-Eu":43,"Cs-Eu":16,"Cu-Eu":-10,"Eu-Fe":30,"Eu-Ga":-27,"Eu-Ge":-58.5,"Eu-H":-45,"Eu-In":-35,"Eu-K":10,"Eu-La":11,"Eu-Li":-1,"Eu-Mg":-5,"Eu-Mn":23,"Eu-Mo":63,"Eu-N":-231,"Eu-Na":0,"Eu-Nb":69,"Eu-Nd":13,"Eu-Ni":-3,"Eu-P":-79.5,"Eu-Pd":-61,"Eu-Pm":14,"Eu-Pr":13,"Eu-Rb":13,"Eu-Rh":-24,"Eu-Ru":2,"Eu-Sb":-63,"Eu-Sc":21,"Eu-Si":-49,"Eu-Sm":14,"Eu-Sn":-44,"Eu-Sr":0,"Eu-Tc":6,"Eu-Ti":48,"Eu-V":49,"Eu-Y":14,"Eu-Zn":-21,"Eu-Zr":42,"Al-Fe":-11,"B-Fe":-26,"Be-Fe":-4,"C-Fe":-50,"Ca-Fe":25,"Cr-Fe":-1,"Fe-H":-23,"Fe-K":81,"Fe-Li":26,"Fe-Mg":18,"Fe-Mn":0,"Fe-N":-87,"Fe-Na":62,"Fe-P":-39.5,"Fe-Sc":-11,"Fe-Si":-35,"Fe-Ti":-17,"Fe-V":-7,"Al-Ga":1,"B-Ga":6,"Be-Ga":5,"C-Ga":-33,"Ca-Ga":-28,"Co-Ga":-11,"Cr-Ga":-1,"Cu-Ga":1,"Fe-Ga":-2,"Ga-H":-8,"Ga-K":12,"Ga-Li":-9,"Ga-Mg":-4,"Ga-Mn":-13,"Ga-N":-95,"Ga-Na":5,"Ga-Ni":-15,"Ga-P":-18.5,"Ga-Sc":-38,"Ga-Si":-17,"Ga-Ti":-23,"Ga-V":-8,"Ga-Zn":0,"Ag-Gd":-29,"Al-Gd":-39,"As-Gd":-80,"B-Gd":-50,"Ba-Gd":20,"Be-Gd":-32,"C-Gd":-117,"Ca-Gd":11,"Cd-Gd":-35,"Ce-Gd":0,"Co-Gd":-22,"Cr-Gd":11,"Cs-Gd":62,"Cu-Gd":-22,"Eu-Gd":14,"Fe-Gd":-1,"Ga-Gd":-40,"Gd-Ge":-72.5,"Gd-H":-61,"Gd-In":-36,"Gd-K":50,"Gd-La":0,"Gd-Li":8,"Gd-Mg":-6,"Gd-Mn":-1,"Gd-Mo":24,"Gd-N":-232,"Gd-Na":28,"Gd-Nb":30,"Gd-Nd":0,"Gd-Ni":-31,"Gd-P":-113.5,"Gd-Pd":-84,"Gd-Pm":0,"Gd-Pr":0,"Gd-Rb":56,"Gd-Rh":-54,"Gd-Ru":-34,"Gd-Sb":-68,"Gd-Sc":1,"Gd-Si":-73,"Gd-Sm":0,"Gd-Sn":-51,"Gd-Sr":17,"Gd-Tc":-29,"Gd-Ti":15,"Gd-V":17,"Gd-Y":0,"Gd-Zn":-31,"Gd-Zr":9,"Al-Ge":-14.5,"B-Ge":-0.5,"Be-Ge":-3.5,"C-Ge":-29.5,"Ca-Ge":-59.5,"Co-Ge":-21.5,"Cr-Ge":-18.5,"Cu-Ge":-11.5,"Fe-Ge":-15.5,"Ga-Ge":-15.5,"Ge-H":-14.5,"Ge-K":-19.5,"Ge-Li":-34.5,"Ge-Mg":-26.5,"Ge-Mn":-31.5,"Ge-N":-78.5,"Ge-Na":-21.5,"Ge-Ni":-23.5,"Ge-P":-17,"Ge-Sc":-69.5,"Ge-Si":-14.5,"Ge-Ti":-51.5,"Ge-V":-31.5,"Ge-Zn":-15.5,"Ag-Hf":-13,"Al-Hf":-39,"As-Hf":-75,"B-Hf":-66,"Ba-Hf":54,"Be-Hf":-37,"C-Hf":-123,"Ca-Hf":39,"Cd-Hf":-19,"Ce-Hf":14,"Co-Hf":-35,"Cr-Hf":-9,"Cs-Hf":104,"Cu-Hf":-17,"Dy-Hf":10,"Er-Hf":9,"Eu-Hf":44,"Fe-Hf":-21,"Ga-Hf":-34,"Gd-Hf":11,"Ge-Hf":-65.5,"H-Hf":-63,"Hf-Ho":10,"Hf-In":-18,"Hf-K":92,"Hf-La":15,"Hf-Li":30,"Hf-Lu":8,"Hf-Mg":10,"Hf-Mn":-12,"Hf-Mo":-4,"Hf-N":-218,"Hf-Na":63,"Hf-Nb":4,"Hf-Nd":13,"Hf-Ni":-42,"Hf-P":-117.5,"Hf-Pd":-80,"Hf-Pm":11,"Hf-Pr":13,"Hf-Rb":98,"Hf-Rh":-63,"Hf-Ru":-52,"Hf-Sb":-50,"Hf-Sc":5,"Hf-Si":-77,"Hf-Sm":11,"Hf-Sn":-35,"Hf-Sr":50,"Hf-Tb":10,"Hf-Tc":-47,"Hf-Ti":0,"Hf-Tm":9,"Hf-V":-2,"Hf-Y":11,"Hf-Yb":38,"Hf-Zn":-24,"Hf-Zr":0,"Ag-Hg":-1,"Al-Hg":4,"As-Hg":0,"Au-Hg":-4,"B-Hg":19,"Ba-Hg":-49,"Be-Hg":15,"C-Hg":-20,"Ca-Hg":-43,"Cd-Hg":0,"Ce-Hg":-44,"Co-Hg":12,"Cr-Hg":21,"Cs-Hg":-11,"Cu-Hg":8,"Dy-Hg":-42,"Er-Hg":-41,"Eu-Hg":-43,"Fe-Hg":22,"Ga-Hg":1,"Gd-Hg":-43,"Ge-Hg":-11.5,"H-Hg":-3,"Hf-Hg":-23,"Hg-Ho":-41,"Hg-In":-1,"Hg-Ir":9,"Hg-K":-10,"Hg-La":-45,"Hg-Li":-19,"Hg-Lu":-41,"Hg-Mg":-10,"Hg-Mn":4,"Hg-Mo":32,"Hg-N":-81,"Hg-Na":-11,"Hg-Nb":11,"Hg-Nd":-43,"Hg-Ni":8,"Hg-Os":23,"Hg-P":-4.5,"Hg-Pd":-18,"Hg-Pm":-43,"Hg-Pr":-43,"Hg-Pt":-9,"Hg-Rb":-11,"Hg-Re":33,"Hg-Rh":2,"Hg-Ru":18,"Hg-Sb":-1,"Hg-Sc":-37,"Hg-Si":-10,"Hg-Sm":-43,"Hg-Sn":0,"Hg-Sr":-45,"Hg-Ta":9,"Hg-Tb":-42,"Hg-Tc":18,"Hg-Ti":-10,"Hg-Tm":-41,"Hg-V":10,"Hg-W":38,"Hg-Y":-43,"Hg-Yb":-42,"Hg-Zn":1,"Hg-Zr":-31,"Ag-Ho":-29,"Al-Ho":-38,"As-Ho":-79,"B-Ho":-50,"Ba-Ho":20,"Be-Ho":-32,"C-Ho":-116,"Ca-Ho":11,"Cd-Ho":-33,"Ce-Ho":0,"Co-Ho":-22,"Cr-Ho":10,"Cs-Ho":62,"Cu-Ho":-22,"Dy-Ho":0,"Eu-Ho":15,"Fe-Ho":-2,"Ga-Ho":-39,"Gd-Ho":0,"Ge-Ho":-71.5,"H-Ho":-60,"Ho-In":-35,"Ho-K":51,"Ho-La":0,"Ho-Li":8,"Ho-Mg":-6,"Ho-Mn":-2,"Ho-Mo":22,"Ho-N":-229,"Ho-Na":28,"Ho-Nb":28,"Ho-Nd":0,"Ho-Ni":-31,"Ho-P":-111.5,"Ho-Pd":-83,"Ho-Pm":0,"Ho-Pr":0,"Ho-Rb":57,"Ho-Rh":-54,"Ho-Ru":-34,"Ho-Sb":-66,"Ho-Sc":1,"Ho-Si":-73,"Ho-Sm":0,"Ho-Sn":-49,"Ho-Sr":18,"Ho-Tb":0,"Ho-Tc":-29,"Ho-Ti":14,"Ho-V":16,"Ho-Y":0,"Ho-Zn":-30,"Ho-Zr":9,"Ag-In":-2,"Al-In":7,"As-In":-3,"B-In":18,"Be-In":16,"C-In":-27,"Ca-In":-35,"Cd-In":0,"Co-In":7,"Cr-In":20,"Cu-In":10,"Fe-In":19,"Ga-In":3,"Ge-In":-13.5,"H-In":-6,"In-K":-4,"In-Li":-12,"In-Mg":-4,"In-Mn":3,"In-Mo":33,"In-N":-98,"In-Na":-5,"In-Nb":15,"In-Ni":2,"In-P":-10.5,"In-Pd":-31,"In-Rb":-4,"In-Rh":-8,"In-Ru":10,"In-Sc":-30,"In-Si":-10,"In-Sr":-37,"In-Tc":11,"In-Ti":-5,"In-V":12,"In-Y":-36,"In-Zn":3,"In-Zr":-25,"Ag-Ir":16,"Al-Ir":-30,"As-Ir":-19,"B-Ir":-26,"Ba-Ir":-14,"Be-Ir":-5,"C-Ir":-32,"Ca-Ir":-23,"Cd-Ir":0,"Ce-Ir":-50,"Co-Ir":-3,"Cr-Ir":-18,"Cs-Ir":45,"Cu-Ir":0,"Dy-Ir":-55,"Er-Ir":-56,"Eu-Ir":-18,"Fe-Ir":-9,"Ga-Ir":-21,"Gd-Ir":-53,"Ge-Ir":-24.5,"H-Ir":-20,"Hf-Ir":-68,"Ho-Ir":-53,"In-Ir":0,"Ir-K":42,"Ir-La":-48,"Ir-Li":-9,"Ir-Lu":-59,"Ir-Mg":-13,"Ir-Mn":-18,"Ir-Mo":-21,"Ir-N":-54,"Ir-Na":28,"Ir-Nb":-53,"Ir-Nd":-51,"Ir-Ni":-2,"Ir-Os":-1,"Ir-P":-30.5,"Ir-Pd":6,"Ir-Pm":-55,"Ir-Pr":-52,"Ir-Rb":44,"Ir-Re":-3,"Ir-Rh":1,"Ir-Ru":-1,"Ir-Sb":1,"Ir-Sc":-62,"Ir-Si":-43,"Ir-Sm":-53,"Ir-Sn":-5,"Ir-Sr":-16,"Ir-Ta":-52,"Ir-Tb":-55,"Ir-Tc":-2,"Ir-Ti":-57,"Ir-Tm":-56,"Ir-V":-34,"Ir-W":-16,"Ir-Y":-53,"Ir-Yb":-22,"Ir-Zn":-13,"Ir-Zr":-76,"Al-K":23,"B-K":27,"Be-K":27,"C-K":-43,"H-K":-16,"K-Li":11,"K-Mg":20,"K-N":-152,"K-Na":1,"K-P":-24.5,"K-Si":-4,"Ag-La":-30,"Al-La":-38,"As-La":-81,"B-La":-47,"Ba-La":16,"Be-La":-29,"C-La":-116,"Ca-La":8,"Cd-La":-36,"Co-La":-17,"Cr-La":17,"Cs-La":57,"Cu-La":-21,"Fe-La":5,"Ga-La":-41,"Ge-La":-73.5,"H-La":-60,"In-La":-39,"K-La":46,"La-Li":6,"La-Mg":-7,"La-Mn":3,"La-Mo":31,"La-N":-235,"La-Na":24,"La-Nb":36,"La-Ni":-27,"La-P":-112.5,"La-Pd":-82,"La-Rb":52,"La-Rh":-50,"La-Ru":-28,"La-Sb":-71,"La-Sc":2,"La-Si":-73,"La-Sn":-53,"La-Sr":14,"La-Tc":-23,"La-Ti":20,"La-V":22,"La-Y":0,"La-Zn":-31,"La-Zr":13,"H-Li":-25,"Ag-Lu":-30,"Al-Lu":-39,"As-Lu":-80,"B-Lu":-54,"Ba-Lu":24,"Be-Lu":-35,"C-Lu":-119,"Ca-Lu":14,"Cd-Lu":-33,"Ce-Lu":1,"Co-Lu":-27,"Cr-Lu":5,"Cs-Lu":67,"Cu-Lu":-24,"Dy-Lu":0,"Er-Lu":0,"Eu-Lu":18,"Fe-Lu":-7,"Ga-Lu":-40,"Gd-Lu":0,"Ge-Lu":-71.5,"H-Lu":-61,"Ho-Lu":0,"In-Lu":-34,"K-Lu":55,"La-Lu":1,"Li-Lu":10,"Lu-Mg":-5,"Lu-Mn":-6,"Lu-Mo":17,"Lu-N":-231,"Lu-Na":31,"Lu-Nb":23,"Lu-Nd":0,"Lu-Ni":-36,"Lu-P":-114.5,"Lu-Pd":-87,"Lu-Pm":0,"Lu-Pr":0,"Lu-Rb":61,"Lu-Rh":-59,"Lu-Ru":-40,"Lu-Sb":-66,"Lu-Sc":0,"Lu-Si":-75,"Lu-Sm":0,"Lu-Sn":-49,"Lu-Sr":21,"Lu-Tb":0,"Lu-Tc":-35,"Lu-Ti":11,"Lu-Tm":0,"Lu-V":11,"Lu-Y":0,"Lu-Yb":14,"Lu-Zn":-31,"Lu-Zr":6,"B-Mg":-4,"Be-Mg":-3,"C-Mg":-55,"H-Mg":-19,"Li-Mg":0,"Mg-N":-134,"Mg-Na":10,"Al-Mn":-19,"B-Mn":-32,"Be-Mn":-10,"C-Mn":-66,"Ca-Mn":19,"Cr-Mn":2,"H-Mn":-34,"K-Mn":66,"Li-Mn":19,"Mg-Mn":10,"Mn-N":-119,"Mn-Na":49,"Mn-P":-57.5,"Mn-Sc":-8,"Mn-Si":-45,"Mn-Ti":-8,"Mn-V":-1,"Al-Mo":-5,"As-Mo":-16,"B-Mo":-34,"Be-Mo":-7,"C-Mo":-67,"Ca-Mo":56,"Co-Mo":-5,"Cr-Mo":0,"Cu-Mo":19,"Fe-Mo":-2,"Ga-Mo":7,"Ge-Mo":-13.5,"H-Mo":-28,"K-Mo":120,"Li-Mo":49,"Mg-Mo":36,"Mn-Mo":5,"Mo-N":-115,"Mo-Na":93,"Mo-Nb":-6,"Mo-Ni":-7,"Mo-P":-53.5,"Mo-Rb":125,"Mo-Sc":11,"Mo-Si":-35,"Mo-Sr":69,"Mo-Ti":-4,"Mo-V":0,"Mo-Y":24,"Mo-Zn":12,"Mo-Zr":-6,"B-N":-28,"Be-N":-39,"C-N":-2,"H-N":-18,"Li-N":-145,"B-Na":18,"Be-Na":18,"C-Na":-45,"H-Na":-16,"Li-Na":4,"N-Na":-141,"Al-Nb":-18,"As-Nb":-44,"B-Nb":-54,"Be-Nb":-25,"C-Nb":-102,"Ca-Nb":63,"Co-Nb":-25,"Cr-Nb":-7,"Cu-Nb":3,"Fe-Nb":-16,"Ga-Nb":-8,"Ge-Nb":-36.5,"H-Nb":-46,"K-Nb":123,"Li-Nb":51,"Mg-Nb":32,"Mn-Nb":-4,"N-Nb":-174,"Na-Nb":93,"Nb-Ni":-30,"Nb-P":-89.5,"Nb-Rb":130,"Nb-Sc":18,"Nb-Si":-56,"Nb-Sr":76,"Nb-Ti":2,"Nb-V":-1,"Nb-Y":30,"Nb-Zn":-1,"Nb-Zr":4,"Ag-Nd":-29,"Al-Nd":-38,"As-Nd":-80,"B-Nd":-49,"Ba-Nd":18,"Be-Nd":-31,"C-Nd":-116,"Ca-Nd":10,"Cd-Nd":-35,"Ce-Nd":0,"Co-Nd":-20,"Cr-Nd":13,"Cs-Nd":60,"Cu-Nd":-22,"Fe-Nd":1,"Ga-Nd":-40,"Ge-Nd":-101.5,"H-Nd":-61,"In-Nd":-37,"K-Nd":49,"La-Nd":0,"Li-Nd":7,"Mg-Nd":-6,"Mn-Nd":0,"Mo-Nd":26,"N-Nd":-235,"Na-Nd":26,"Nb-Nd":32,"Nd-Ni":-30,"Nd-P":-112.5,"Nd-Pd":-83,"Nd-Pr":0,"Nd-Rb":55,"Nd-Rh":-53,"Nd-Ru":-32,"Nd-Sb":-69,"Nd-Sc":2,"Nd-Si":-73,"Nd-Sn":-51,"Nd-Sr":16,"Nd-Tc":-27,"Nd-Ti":17,"Nd-V":18,"Nd-Y":0,"Nd-Zn":-31,"Nd-Zr":10,"Al-Ni":-22,"B-Ni":-24,"Be-Ni":-4,"C-Ni":-39,"Ca-Ni":-7,"Co-Ni":0,"Cr-Ni":-7,"Fe-Ni":-2,"H-Ni":-23,"K-Ni":45,"Li-Ni":1,"Mg-Ni":-4,"Mn-Ni":-8,"N-Ni":-69,"Na-Ni":32,"Ni-P":-34.5,"Ni-Sc":-39,"Ni-Si":-40,"Ni-Ti":-35,"Ni-V":-18,"Ag-Os":28,"Al-Os":-18,"As-Os":-11,"B-Os":-24,"Ba-Os":15,"Be-Os":-2,"C-Os":-35,"Ca-Os":4,"Cd-Os":14,"Ce-Os":-24,"Co-Os":0,"Cr-Os":-11,"Cs-Os":74,"Cu-Os":10,"Dy-Os":-29,"Er-Os":-31,"Eu-Os":9,"Fe-Os":-4,"Ga-Os":-7,"Gd-Os":-28,"Ge-Os":-14.5,"H-Os":-19,"Hf-Os":-48,"Ho-Os":-28,"In-Os":16,"K-Os":70,"La-Os":-21,"Li-Os":11,"Lu-Os":-34,"Mg-Os":5,"Mn-Os":-9,"Mo-Os":-14,"N-Os":-60,"Na-Os":52,"Nb-Os":-39,"Nd-Os":-26,"Ni-Os":1,"Os-P":-29.5,"Os-Pd":8,"Os-Pm":-29,"Os-Pr":-26,"Os-Rb":72,"Os-Re":-1,"Os-Rh":2,"Os-Ru":0,"Os-Sb":14,"Os-Sc":-39,"Os-Si":-36,"Os-Sm":-28,"Os-Sn":9,"Os-Sr":13,"Os-Ta":-38,"Os-Tb":-30,"Os-Tc":0,"Os-Ti":-41,"Os-Tm":-31,"Os-V":-23,"Os-W":-10,"Os-Y":-28,"Os-Yb":4,"Os-Zn":-1,"Os-Zr":-55,"Al-P":-20.5,"B-P":0.5,"Be-P":-3.5,"C-P":-4.5,"H-P":0.5,"Li-P":-45.5,"Mg-P":-39.5,"N-P":-24.5,"Na-P":-26.5,"P-Si":-25.5,"Ag-Pa":0,"Al-Pa":-30,"As-Pa":-60,"Au-Pa":-43,"B-Pa":-54,"Ba-Pa":52,"Be-Pa":-27,"Bi-Pa":-15,"C-Pa":-105,"Ca-Pa":37,"Cd-Pa":-8,"Ce-Pa":14,"Co-Pa":-23,"Cr-Pa":-3,"Cs-Pa":104,"Cu-Pa":-7,"Dy-Pa":9,"Er-Pa":8,"Eu-Pa":43,"Fe-Pa":-11,"Ga-Pa":-25,"Gd-Pa":11,"Ge-Pa":-52.5,"H-Pa":-53,"Hf-Pa":-2,"Hg-Pa":-10,"Ho-Pa":10,"In-Pa":-7,"Ir-Pa":-50,"K-Pa":93,"La-Pa":15,"Li-Pa":30,"Lu-Pa":7,"Mg-Pa":14,"Mn-Pa":-5,"Mo-Pa":2,"N-Pa":-189,"Na-Pa":65,"Nb-Pa":4,"Nd-Pa":12,"Ni-Pa":-29,"Os-Pa":-33,"P-Pa":-98.5,"Pa-Pb":-9,"Pa-Pd":-59,"Pa-Pm":10,"Pa-Po":4,"Pa-Pr":12,"Pa-Pt":-68,"Pa-Rb":99,"Pa-Re":-17,"Pa-Rh":-46,"Pa-Ru":-36,"Pa-Sb":-34,"Pa-Sc":3,"Pa-Si":-66,"Pa-Sm":11,"Pa-Sn":-23,"Pa-Sr":48,"Pa-Ta":3,"Pa-Tb":10,"Pa-Tc":-31,"Pa-Ti":0,"Pa-Tl":1,"Pa-Tm":8,"Pa-V":1,"Pa-W":1,"Pa-Y":11,"Pa-Yb":36,"Pa-Zn":-15,"Pa-Zr":-3,"Ag-Pb":3,"Al-Pb":10,"As-Pb":6,"Au-Pb":2,"B-Pb":30,"Ba-Pb":-62,"Be-Pb":25,"C-Pb":-13,"Ca-Pb":-52,"Cd-Pb":2,"Ce-Pb":-50,"Co-Pb":17,"Cr-Pb":28,"Cs-Pb":-25,"Cu-Pb":15,"Dy-Pb":-46,"Er-Pb":-45,"Eu-Pb":-53,"Fe-Pb":29,"Ga-Pb":5,"Gd-Pb":-48,"Ge-Pb":-7.5,"H-Pb":-1,"Hf-Pb":-23,"Hg-Pb":1,"Ho-Pb":-46,"In-Pb":-1,"Ir-Pb":16,"K-Pb":-21,"La-Pb":-51,"Li-Pb":-21,"Lu-Pb":-45,"Mg-Pb":-8,"Mn-Pb":7,"Mo-Pb":42,"N-Pb":-82,"Na-Pb":-18,"Nb-Pb":17,"Nd-Pb":-49,"Ni-Pb":13,"Os-Pb":32,"P-Pb":4.5,"Pb-Pd":-18,"Pb-Pm":-49,"Pb-Pr":-49,"Pb-Pt":-5,"Pb-Rb":-23,"Pb-Re":44,"Pb-Rh":6,"Pb-Ru":25,"Pb-Sb":1,"Pb-Sc":-40,"Pb-Si":-2,"Pb-Sm":-48,"Pb-Sn":2,"Pb-Sr":-56,"Pb-Ta":15,"Pb-Tb":-47,"Pb-Tc":26,"Pb-Ti":-8,"Pb-Tl":-1,"Pb-Tm":-45,"Pb-V":15,"Pb-W":49,"Pb-Y":-48,"Pb-Yb":-50,"Pb-Zn":5,"Pb-Zr":-33,"Al-Pd":-46,"As-Pd":-36,"B-Pd":-24,"Be-Pd":-8,"C-Pd":-32,"Ca-Pd":-63,"Co-Pd":-1,"Cr-Pd":-15,"Cu-Pd":-14,"Fe-Pd":-4,"Ga-Pd":-42,"Ge-Pd":-43.5,"H-Pd":-27,"K-Pd":-9,"Li-Pd":-40,"Mg-Pd":-40,"Mn-Pd":-23,"Mo-Pd":-15,"N-Pd":-62,"Na-Pd":-15,"Nb-Pd":-53,"Ni-Pd":0,"P-Pd":-36.5,"Pd-Rb":-9,"Pd-Rh":2,"Pd-Ru":6,"Pd-Sc":-86,"Pd-Si":-55,"Pd-Sr":-61,"Pd-Tc":4,"Pd-Ti":-65,"Pd-V":-35,"Pd-Y":-84,"Pd-Zn":-33,"Pd-Zr":-91,"Ag-Pm":-30,"Al-Pm":-39,"As-Pm":-81,"B-Pm":-51,"Ba-Pm":20,"Be-Pm":-33,"C-Pm":-118,"Ca-Pm":11,"Cd-Pm":-35,"Ce-Pm":0,"Co-Pm":-23,"Cr-Pm":10,"Cs-Pm":63,"Cu-Pm":-23,"Fe-Pm":-2,"Ga-Pm":-41,"Ge-Pm":-73.5,"H-Pm":-61,"In-Pm":-37,"K-Pm":51,"La-Pm":0,"Li-Pm":8,"Mg-Pm":-6,"Mn-Pm":-2,"Mo-Pm":23,"N-Pm":-233,"Na-Pm":28,"Nb-Pm":29,"Nd-Pm":0,"Ni-Pm":-32,"P-Pm":-114.5,"Pd-Pm":-86,"Pm-Pr":0,"Pm-Rb":57,"Pm-Rh":-56,"Pm-Ru":-35,"Pm-Sb":-69,"Pm-Sc":1,"Pm-Si":-74,"Pm-Sn":-52,"Pm-Sr":18,"Pm-Tc":-30,"Pm-Ti":15,"Pm-V":16,"Pm-Y":0,"Pm-Zn":-32,"Pm-Zr":9,"Ag-Pr":-30,"Al-Pr":-38,"As-Pr":-81,"B-Pr":-49,"Ba-Pr":18,"Be-Pr":-31,"C-Pr":-117,"Ca-Pr":10,"Cd-Pr":-35,"Ce-Pr":0,"Co-Pr":-20,"Cr-Pr":13,"Cs-Pr":60,"Cu-Pr":-22,"Fe-Pr":1,"Ga-Pr":-41,"Ge-Pr":-72.5,"H-Pr":-61,"In-Pr":-37,"K-Pr":49,"La-Pr":0,"Li-Pr":7,"Mg-Pr":-6,"Mn-Pr":0,"Mo-Pr":26,"N-Pr":-233,"Na-Pr":26,"Nb-Pr":32,"Ni-Pr":-30,"P-Pr":-112.5,"Pd-Pr":-83,"Pr-Rb":55,"Pr-Rh":-53,"Pr-Ru":-32,"Pr-Sb":-69,"Pr-Sc":1,"Pr-Si":-73,"Pr-Sn":-52,"Pr-Sr":16,"Pr-Tc":-27,"Pr-Ti":17,"Pr-V":18,"Pr-Y":0,"Pr-Zn":-31,"Pr-Zr":10,"Ag-Pt":-1,"Al-Pt":-44,"As-Pt":-31,"B-Pt":-28,"Ba-Pt":-50,"Be-Pt":-10,"C-Pt":-30,"Ca-Pt":-55,"Cd-Pt":-18,"Ce-Pt":-81,"Co-Pt":-7,"Cr-Pt":-24,"Cs-Pt":10,"Cu-Pt":-12,"Dy-Pt":-84,"Er-Pt":-86,"Eu-Pt":-51,"Fe-Pt":-13,"Ga-Pt":-38,"Gd-Pt":-83,"Ge-Pt":-37.5,"H-Pt":-24,"Hf-Pt":-90,"Ho-Pt":-83,"In-Pt":-21,"Ir-Pt":0,"K-Pt":9,"La-Pt":-80,"Li-Pt":-33,"Lu-Pt":-88,"Mg-Pt":-35,"Mn-Pt":-28,"Mo-Pt":-28,"N-Pt":-52,"Na-Pt":-1,"Nb-Pt":-67,"Nd-Pt":-82,"Ni-Pt":-5,"Os-Pt":0,"P-Pt":-34.5,"Pd-Pt":2,"Pm-Pt":-85,"Pr-Pt":-82,"Pt-Rb":9,"Pt-Re":-4,"Pt-Rh":-2,"Pt-Ru":-1,"Pt-Sb":-17,"Pt-Sc":-89,"Pt-Si":-53,"Pt-Sm":-84,"Pt-Sn":-25,"Pt-Sr":-50,"Pt-Ta":-66,"Pt-Tb":-85,"Pt-Tc":-3,"Pt-Ti":-74,"Pt-Tm":-85,"Pt-V":-45,"Pt-W":-20,"Pt-Y":-83,"Pt-Yb":-54,"Pt-Zn":-29,"Pt-Zr":-100,"Al-Rb":25,"As-Rb":-12,"B-Rb":28,"Be-Rb":28,"C-Rb":-44,"Ca-Rb":15,"Co-Rb":57,"Cr-Rb":94,"Cu-Rb":27,"Fe-Rb":83,"Ga-Rb":13,"Ge-Rb":-19.5,"H-Rb":-16,"K-Rb":0,"Li-Rb":13,"Mg-Rb":23,"Mn-Rb":69,"N-Rb":-154,"Na-Rb":2,"Ni-Rb":47,"P-Rb":-24.5,"Rb-Sc":64,"Rb-Si":-4,"Rb-Ti":100,"Rb-V":100,"Rb-Zn":14,"Ag-Re":38,"Al-Re":-9,"As-Re":-6,"B-Re":-25,"Ba-Re":42,"Be-Re":0,"C-Re":-42,"Ca-Re":28,"Cd-Re":25,"Ce-Re":0,"Co-Re":2,"Cr-Re":-4,"Cs-Re":101,"Cu-Re":18,"Dy-Re":-7,"Er-Re":-9,"Eu-Re":34,"Fe-Re":0,"Ga-Re":3,"Gd-Re":-4,"Ge-Re":-7.5,"H-Re":-18,"Hf-Re":-30,"Ho-Re":-5,"In-Re":29,"K-Re":95,"La-Re":3,"Li-Re":29,"Lu-Re":-12,"Mg-Re":21,"Mn-Re":-1,"Mo-Re":-7,"N-Re":-72,"Na-Re":73,"Nb-Re":-26,"Nd-Re":-2,"Ni-Re":2,"P-Re":-32.5,"Pd-Re":6,"Pm-Re":-5,"Pr-Re":-2,"Rb-Re":98,"Re-Rh":1,"Re-Ru":-1,"Re-Sb":23,"Re-Sc":-17,"Re-Si":-31,"Re-Sm":-4,"Re-Sn":20,"Re-Sr":39,"Re-Ta":-24,"Re-Tb":-7,"Re-Tc":0,"Re-Ti":-25,"Re-Tm":-9,"Re-V":-13,"Re-W":-4,"Re-Y":-4,"Re-Yb":28,"Re-Zn":8,"Re-Zr":-35,"Al-Rh":-32,"As-Rh":-24,"B-Rh":-25,"Be-Rh":-6,"C-Rh":-35,"Ca-Rh":-28,"Co-Rh":-2,"Cr-Rh":-13,"Cu-Rh":-2,"Fe-Rh":-5,"Ga-Rh":-25,"Ge-Rh":-29.5,"H-Rh":-23,"K-Rh":31,"Li-Rh":-14,"Mg-Rh":-17,"Mn-Rh":-16,"Mo-Rh":-15,"N-Rh":-63,"Na-Rh":19,"Nb-Rh":-46,"Ni-Rh":-1,"P-Rh":-34.5,"Rb-Rh":33,"Rh-Ru":1,"Rh-Sc":-61,"Rh-Si":-46,"Rh-Sr":-22,"Rh-Tc":0,"Rh-Ti":-52,"Rh-V":-29,"Rh-Y":-54,"Rh-Zn":-17,"Rh-Zr":-72,"Al-Ru":-21,"As-Ru":-14,"B-Ru":-24,"Be-Ru":-3,"C-Ru":-35,"Ca-Ru":-4,"Co-Ru":-1,"Cr-Ru":-12,"Cu-Ru":7,"Fe-Ru":-5,"Ga-Ru":-11,"Ge-Ru":-18.5,"H-Ru":-20,"K-Ru":60,"Li-Ru":5,"Mg-Ru":0,"Mn-Ru":-11,"Mo-Ru":-14,"N-Ru":-61,"Na-Ru":44,"Nb-Ru":-41,"Ni-Ru":0,"P-Ru":-30.5,"Rb-Ru":62,"Ru-Sc":-44,"Ru-Si":-38,"Ru-Sr":5,"Ru-Tc":0,"Ru-Ti":-43,"Ru-V":-25,"Ru-Y":-34,"Ru-Zn":-5,"Ru-Zr":-59,"Ag-Sb":-4,"Al-Sb":2,"As-Sb":3,"B-Sb":23,"Be-Sb":18,"C-Sb":-13,"Ca-Sb":-62,"Cd-Sb":-2,"Co-Sb":2,"Cr-Sb":7,"Cu-Sb":7,"Fe-Sb":10,"Ga-Sb":-1,"Ge-Sb":-10.5,"H-Sb":-1,"In-Sb":-4,"K-Sb":-22,"Li-Sb":-28,"Mg-Sb":-16,"Mn-Sb":-11,"Mo-Sb":17,"N-Sb":-74,"Na-Sb":-20,"Nb-Sb":-11,"Ni-Sb":-1,"P-Sb":2.5,"Pd-Sb":-28,"Rb-Sb":-24,"Rh-Sb":-8,"Ru-Sb":9,"Sb-Sc":-61,"Sb-Si":-8,"Sb-Sn":-1,"Sb-Sr":-66,"Sb-Tc":8,"Sb-Ti":-33,"Sb-V":-8,"Sb-Y":-68,"Sb-Zn":-1,"Sb-Zr":-60,"Al-Sc":-38,"B-Sc":-55,"Be-Sc":-36,"C-Sc":-118,"Ca-Sc":17,"H-Sc":-60,"K-Sc":58,"Li-Sc":12,"Mg-Sc":-3,"N-Sc":-224,"Na-Sc":34,"P-Sc":-112.5,"Sc-Si":-74,"Al-Si":-19,"B-Si":-14,"Be-Si":-15,"C-Si":-39,"H-Si":-19,"Li-Si":-30,"Mg-Si":-26,"N-Si":-81,"Na-Si":-11,"Ag-Sm":-30,"Al-Sm":-38,"As-Sm":-80,"B-Sm":-50,"Ba-Sm":20,"Be-Sm":-32,"C-Sm":-117,"Ca-Sm":11,"Cd-Sm":-35,"Ce-Sm":0,"Co-Sm":-22,"Cr-Sm":11,"Cs-Sm":62,"Cu-Sm":-22,"Fe-Sm":-1,"Ga-Sm":-40,"Ge-Sm":-72.5,"H-Sm":-61,"In-Sm":-36,"K-Sm":50,"La-Sm":0,"Li-Sm":8,"Mg-Sm":-6,"Mn-Sm":-1,"Mo-Sm":24,"N-Sm":-202,"Na-Sm":28,"Nb-Sm":30,"Nd-Sm":0,"Ni-Sm":-31,"P-Sm":-113.5,"Pd-Sm":-84,"Pm-Sm":0,"Pr-Sm":0,"Rb-Sm":56,"Rh-Sm":-54,"Ru-Sm":-34,"Sb-Sm":-68,"Sc-Sm":1,"Si-Sm":-74,"Sm-Sn":-51,"Sm-Sr":17,"Sm-Tc":-29,"Sm-Ti":15,"Sm-V":17,"Sm-Y":0,"Sm-Zn":-31,"Sm-Zr":9,"Ag-Sn":-3,"Al-Sn":4,"As-Sn":-1,"B-Sn":18,"Be-Sn":15,"C-Sn":-23,"Ca-Sn":-45,"Cd-Sn":0,"Co-Sn":0,"Cr-Sn":10,"Cu-Sn":7,"Fe-Sn":11,"Ga-Sn":1,"Ge-Sn":-12.5,"H-Sn":-4,"In-Sn":0,"K-Sn":-7,"Li-Sn":-18,"Mg-Sn":-9,"Mn-Sn":-7,"Mo-Sn":20,"N-Sn":-90,"Na-Sn":-8,"Nb-Sn":-1,"Ni-Sn":-4,"P-Sn":-7.5,"Pd-Sn":-34,"Rb-Sn":-7,"Rh-Sn":-13,"Ru-Sn":4,"Sc-Sn":-45,"Si-Sn":-11,"Sn-Sr":-46,"Sn-Tc":5,"Sn-Ti":-21,"Sn-V":-1,"Sn-Y":-51,"Sn-Zn":1,"Sn-Zr":-43,"Al-Sr":-18,"As-Sr":-61,"B-Sr":-18,"Be-Sr":-10,"C-Sr":-87,"Ca-Sr":1,"Co-Sr":10,"Cr-Sr":47,"Cu-Sr":-9,"Fe-Sr":34,"Ga-Sr":-27,"Ge-Sr":-59.5,"H-Sr":-45,"K-Sr":7,"Li-Sr":0,"Mg-Sr":-4,"Mn-Sr":27,"N-Sr":-206,"Na-Sr":-2,"Ni-Sr":-1,"P-Sr":-81.5,"Rb-Sr":10,"Sc-Sr":25,"Si-Sr":-49,"Sr-Ti":53,"Sr-V":54,"Sr-Zn":-21,"Ag-Ta":15,"Al-Ta":-19,"As-Ta":-45,"B-Ta":-54,"Ba-Ta":77,"Be-Ta":-24,"C-Ta":-101,"Ca-Ta":60,"Cd-Ta":9,"Ce-Ta":31,"Co-Ta":-24,"Cr-Ta":-7,"Cs-Ta":130,"Cu-Ta":2,"Dy-Ta":25,"Er-Ta":23,"Eu-Ta":66,"Fe-Ta":-15,"Ga-Ta":-10,"Gd-Ta":27,"Ge-Ta":-37.5,"H-Ta":-46,"Hf-Ta":3,"Ho-Ta":26,"In-Ta":13,"K-Ta":119,"La-Ta":33,"Li-Ta":48,"Lu-Ta":21,"Mg-Ta":30,"Mn-Ta":-4,"Mo-Ta":-5,"N-Ta":-173,"Na-Ta":89,"Nb-Ta":0,"Nd-Ta":29,"Ni-Ta":-29,"P-Ta":-89.5,"Pd-Ta":-52,"Pm-Ta":27,"Pr-Ta":29,"Rb-Ta":125,"Rh-Ta":-45,"Ru-Ta":-39,"Sb-Ta":-13,"Sc-Ta":16,"Si-Ta":-56,"Sm-Ta":27,"Sn-Ta":-3,"Sr-Ta":73,"Ta-Tb":25,"Ta-Tc":-35,"Ta-Ti":1,"Ta-Tm":23,"Ta-V":-1,"Ta-Y":27,"Ta-Yb":58,"Ta-Zn":-3,"Ta-Zr":3,"Ag-Tb":-29,"Al-Tb":-39,"As-Tb":-80,"B-Tb":-51,"Ba-Tb":21,"Be-Tb":-33,"C-Tb":-118,"Ca-Tb":12,"Cd-Tb":-34,"Ce-Tb":0,"Co-Tb":-23,"Cr-Tb":9,"Cs-Tb":64,"Cu-Tb":-23,"Eu-Tb":15,"Fe-Tb":-3,"Ga-Tb":-40,"Gd-Tb":0,"Ge-Tb":-72.5,"H-Tb":-61,"In-Tb":-35,"K-Tb":52,"La-Tb":0,"Li-Tb":9,"Mg-Tb":-6,"Mn-Tb":-3,"Mo-Tb":22,"N-Tb":-232,"Na-Tb":29,"Nb-Tb":28,"Nd-Tb":0,"Ni-Tb":-32,"P-Tb":-113.5,"Pd-Tb":-85,"Pm-Tb":0,"Pr-Tb":0,"Rb-Tb":58,"Rh-Tb":-56,"Ru-Tb":-35,"Sb-Tb":-67,"Sc-Tb":1,"Si-Tb":-74,"Sm-Tb":0,"Sn-Tb":-50,"Sr-Tb":18,"Tb-Tc":-30,"Tb-Ti":14,"Tb-V":15,"Tb-Y":0,"Tb-Zn":-31,"Tb-Zr":8,"Al-Tc":-20,"As-Tc":-15,"B-Tc":-25,"Be-Tc":-3,"C-Tc":-39,"Ca-Tc":1,"Co-Tc":0,"Cr-Tc":-9,"Cu-Tc":8,"Fe-Tc":-3,"Ga-Tc":-10,"Ge-Tc":-18.5,"H-Tc":-21,"K-Tc":65,"Li-Tc":8,"Mg-Tc":3,"Mn-Tc":-8,"Mo-Tc":-11,"N-Tc":-68,"Na-Tc":47,"Nb-Tc":-36,"Ni-Tc":1,"P-Tc":-33.5,"Rb-Tc":67,"Sc-Tc":-39,"Si-Tc":-38,"Sr-Tc":10,"Tc-Ti":-39,"Tc-V":-21,"Tc-Y":-29,"Tc-Zn":-4,"Tc-Zr":-53,"Ag-Th":-29,"Al-Th":-40,"As-Th":-82,"Au-Th":-78,"B-Th":-57,"Ba-Th":30,"Be-Th":-37,"Bi-Th":-48,"C-Th":-123,"Ca-Th":19,"Cd-Th":-32,"Ce-Th":2,"Co-Th":-30,"Cr-Th":2,"Cs-Th":78,"Cu-Th":-24,"Dy-Th":1,"Er-Th":1,"Eu-Th":23,"Fe-Th":-11,"Ga-Th":-39,"Gd-Th":1,"Ge-Th":-72.5,"H-Th":-61,"Hf-Th":6,"Hg-Th":-39,"Ho-Th":1,"In-Th":-31,"Ir-Th":-64,"K-Th":65,"La-Th":3,"Li-Th":14,"Lu-Th":0,"Mg-Th":-3,"Mn-Th":-8,"Mo-Th":13,"N-Th":-237,"Na-Th":39,"Nb-Th":20,"Nd-Th":2,"Ni-Th":-39,"Os-Th":-39,"P-Th":-119.5,"Pb-Th":-41,"Pd-Th":-91,"Pm-Th":1,"Pr-Th":2,"Pt-Th":-94,"Rb-Th":72,"Re-Th":-16,"Rh-Th":-63,"Ru-Th":-45,"Sb-Th":-65,"Sc-Th":0,"Si-Th":-77,"Sm-Th":1,"Sn-Th":-48,"Sr-Th":27,"Ta-Th":18,"Tb-Th":1,"Tc-Th":-39,"Th-Ti":8,"Th-Tl":-28,"Th-Tm":1,"Th-V":9,"Th-W":12,"Th-Y":1,"Th-Yb":18,"Th-Zn":-30,"Th-Zr":4,"Al-Ti":-30,"B-Ti":-58,"Be-Ti":-30,"C-Ti":-109,"Ca-Ti":43,"H-Ti":-54,"K-Ti":94,"Li-Ti":34,"Mg-Ti":16,"N-Ti":-190,"Na-Ti":68,"P-Ti":-100.5,"Sc-Ti":8,"Si-Ti":-66,"Ag-Tl":3,"Al-Tl":11,"As-Tl":3,"Au-Tl":-2,"B-Tl":27,"Ba-Tl":-49,"Be-Tl":23,"C-Tl":-19,"Ca-Tl":-40,"Cd-Tl":2,"Ce-Tl":-37,"Co-Tl":18,"Cr-Tl":31,"Cs-Tl":-15,"Cu-Tl":15,"Dy-Tl":-34,"Er-Tl":-33,"Eu-Tl":-41,"Fe-Tl":31,"Ga-Tl":6,"Gd-Tl":-35,"Ge-Tl":-9.5,"H-Tl":-3,"Hf-Tl":-11,"Hg-Tl":1,"Ho-Tl":-33,"In-Tl":0,"Ir-Tl":14,"K-Tl":-13,"La-Tl":-38,"Li-Tl":-15,"Lu-Tl":-32,"Mg-Tl":-3,"Mn-Tl":11,"Mo-Tl":46,"N-Tl":-91,"Na-Tl":-11,"Nb-Tl":26,"Nd-Tl":-36,"Ni-Tl":13,"Os-Tl":30,"P-Tl":-1.5,"Pd-Tl":-21,"Pm-Tl":-35,"Pr-Tl":-36,"Pt-Tl":-8,"Rb-Tl":-14,"Re-Tl":44,"Rh-Tl":5,"Ru-Tl":24,"Sb-Tl":-1,"Sc-Tl":-28,"Si-Tl":-4,"Sm-Tl":-35,"Sn-Tl":2,"Sr-Tl":-44,"Ta-Tl":24,"Tb-Tl":-34,"Tc-Tl":25,"Ti-Tl":2,"Tl-Tm":-32,"Tl-V":22,"Tl-W":52,"Tl-Y":-35,"Tl-Yb":-39,"Tl-Zn":6,"Tl-Zr":-19,"Ag-Tm":-29,"Al-Tm":-38,"As-Tm":-79,"B-Tm":-52,"Ba-Tm":22,"Be-Tm":-33,"C-Tm":-117,"Ca-Tm":13,"Cd-Tm":-33,"Ce-Tm":0,"Co-Tm":-24,"Cr-Tm":8,"Cs-Tm":65,"Cu-Tm":-23,"Dy-Tm":0,"Er-Tm":0,"Eu-Tm":16,"Fe-Tm":-5,"Ga-Tm":-39,"Gd-Tm":0,"Ge-Tm":-71.5,"H-Tm":-61,"Ho-Tm":0,"In-Tm":-34,"K-Tm":52,"La-Tm":1,"Li-Tm":9,"Mg-Tm":-5,"Mn-Tm":-4,"Mo-Tm":19,"N-Tm":-229,"Na-Tm":30,"Nb-Tm":25,"Nd-Tm":0,"Ni-Tm":-34,"P-Tm":-112.5,"Pd-Tm":-85,"Pm-Tm":0,"Pr-Tm":0,"Rb-Tm":59,"Rh-Tm":-56,"Ru-Tm":-37,"Sb-Tm":-66,"Sc-Tm":0,"Si-Tm":-74,"Sm-Tm":0,"Sn-Tm":-49,"Sr-Tm":20,"Tb-Tm":0,"Tc-Tm":-32,"Ti-Tm":12,"Tm-V":13,"Tm-Y":0,"Tm-Zn":-30,"Tm-Zr":7,"Ag-U":-6,"Al-U":-33,"As-U":-62,"At-U":1,"Au-U":-45,"B-U":-50,"Ba-U":36,"Be-U":-25,"Bi-U":-26,"C-U":-102,"Ca-U":24,"Cd-U":-16,"Ce-U":6,"Co-U":-19,"Cr-U":2,"Cs-U":81,"Cu-U":-9,"Dy-U":3,"Er-U":2,"Eu-U":29,"Fe-U":-6,"Ga-U":-29,"Gd-U":4,"Ge-U":-56.5,"H-U":-54,"Hf-U":-1,"Hg-U":-18,"Ho-U":3,"In-U":-16,"Ir-U":-44,"K-U":72,"La-U":7,"Li-U":21,"Lu-U":1,"Mg-U":6,"Mn-U":-4,"Mo-U":8,"N-U":-188,"Na-U":49,"Nb-U":9,"Nd-U":5,"Ni-U":-25,"Os-U":-26,"P-U":-95.5,"Pb-U":-20,"Pd-U":-58,"Pm-U":4,"Po-U":0,"Pr-U":5,"Pt-U":-63,"Rb-U":77,"Re-U":-10,"Rh-U":-42,"Ru-U":-30,"Sb-U":-42,"Sc-U":-1,"Si-U":-66,"Sm-U":4,"Sn-U":-30,"Sr-U":33,"Ta-U":8,"Tb-U":3,"Tc-U":-26,"Ti-U":2,"Tl-U":-10,"Tm-U":2,"U-V":4,"U-W":8,"U-Y":4,"U-Yb":24,"U-Zn":-20,"U-Zr":-3,"Al-V":-16,"B-V":-42,"Be-V":-16,"C-V":-82,"Ca-V":44,"H-V":-39,"K-V":96,"Li-V":37,"Mg-V":23,"N-V":-143,"Na-V":73,"P-V":-70.5,"Sc-V":7,"Si-V":-48,"Ti-V":-2,"Ag-W":43,"Al-W":-2,"As-W":-9,"B-W":-31,"Ba-W":74,"Be-W":-3,"C-W":-60,"Ca-W":57,"Cd-W":33,"Ce-W":29,"Co-W":-1,"Cr-W":1,"Cs-W":132,"Cu-W":22,"Dy-W":21,"Er-W":19,"Eu-W":64,"Fe-W":0,"Ga-W":11,"Gd-W":24,"Ge-W":-7.5,"H-W":-24,"Hf-W":-6,"Ho-W":22,"In-W":38,"K-W":124,"La-W":32,"Li-W":50,"Lu-W":16,"Mg-W":38,"Mn-W":6,"Mo-W":0,"N-W":-103,"Na-W":97,"Nb-W":-8,"Nd-W":26,"Ni-W":-3,"P-W":-46.5,"Pd-W":-6,"Pm-W":23,"Pr-W":26,"Rb-W":129,"Rh-W":-9,"Ru-W":-10,"Sb-W":25,"Sc-W":9,"Si-W":-31,"Sm-W":24,"Sn-W":27,"Sr-W":70,"Ta-W":-7,"Tb-W":21,"Tc-W":-7,"Ti-W":-6,"Tm-W":19,"V-W":-1,"W-Y":24,"W-Yb":56,"W-Zn":15,"W-Zr":-9,"Al-Y":-38,"As-Y":-80,"B-Y":-50,"Be-Y":-32,"C-Y":-117,"Ca-Y":11,"Co-Y":-22,"Cr-Y":11,"Cu-Y":-22,"Fe-Y":-1,"Ga-Y":-40,"Ge-Y":-72.5,"H-Y":-61,"K-Y":50,"Li-Y":8,"Mg-Y":-6,"Mn-Y":-1,"N-Y":-232,"Na-Y":28,"Ni-Y":-31,"P-Y":-113.5,"Rb-Y":56,"Sc-Y":1,"Si-Y":-73,"Sr-Y":17,"Ti-Y":15,"V-Y":17,"Y-Zn":-31,"Ag-Yb":-28,"Al-Yb":-20,"As-Yb":-59,"B-Yb":-22,"Ba-Yb":1,"Be-Yb":-14,"C-Yb":-88,"Ca-Yb":0,"Cd-Yb":-31,"Ce-Yb":8,"Co-Yb":2,"Cr-Yb":37,"Cs-Yb":19,"Cu-Yb":-12,"Dy-Yb":11,"Er-Yb":12,"Eu-Yb":0,"Fe-Yb":25,"Ga-Yb":-27,"Gd-Yb":10,"Ge-Yb":-58.5,"H-Yb":-45,"Ho-Yb":11,"In-Yb":-34,"K-Yb":12,"La-Yb":8,"Li-Yb":-1,"Mg-Yb":-6,"Mn-Yb":19,"Mo-Yb":55,"N-Yb":-199,"Na-Yb":2,"Nb-Yb":61,"Nd-Yb":9,"Ni-Yb":-7,"P-Yb":-80.5,"Pd-Yb":-62,"Pm-Yb":11,"Pr-Yb":9,"Rb-Yb":16,"Rh-Yb":-28,"Ru-Yb":-4,"Sb-Yb":-61,"Sc-Yb":16,"Si-Yb":-51,"Sm-Yb":10,"Sn-Yb":-43,"Sr-Yb":1,"Tb-Yb":11,"Tc-Yb":1,"Ti-Yb":41,"Tm-Yb":12,"V-Yb":43,"Y-Yb":10,"Yb-Zn":-21,"Yb-Zr":36,"Al-Zn":1,"B-Zn":4,"Be-Zn":4,"C-Zn":-32,"Ca-Zn":-22,"Co-Zn":-5,"Cr-Zn":5,"Cu-Zn":1,"Fe-Zn":4,"H-Zn":-8,"K-Zn":13,"Li-Zn":-7,"Mg-Zn":-4,"Mn-Zn":-6,"N-Zn":-88,"Na-Zn":6,"Ni-Zn":-9,"P-Zn":-17.5,"Sc-Zn":-29,"Si-Zn":-18,"Ti-Zn":-15,"V-Zn":-2,"Al-Zr":-44,"As-Zr":-85,"B-Zr":-71,"Be-Zr":-43,"C-Zr":-131,"Ca-Zr":37,"Co-Zr":-41,"Cr-Zr":-12,"Cu-Zr":-23,"Fe-Zr":-25,"Ga-Zr":-40,"Ge-Zr":-72.5,"H-Zr":-69,"K-Zr":88,"Li-Zr":27,"Mg-Zr":6,"Mn-Zr":-15,"N-Zr":-233,"Na-Zr":59,"Ni-Zr":-49,"P-Zr":-127.5,"Rb-Zr":95,"Sc-Zr":4,"Si-Zr":-84,"Sr-Zr":48,"Ti-Zr":0,"V-Zr":-4,"Y-Zr":9,"Zn-Zr":-29};
+const PROPS={"H":[0.53,2.2,1],"Li":[1.519,0.98,1],"Be":[1.128,1.57,2],"B":[0.82,2.04,3],"C":[0.773,2.55,4],"N":[0.75,3.04,5],"O":[0.73,3.44,6],"Na":[1.857,0.93,1],"Mg":[1.601,1.31,2],"Al":[1.432,1.61,3],"Si":[1.153,1.9,4],"P":[1.06,2.19,5],"S":[1.02,2.58,6],"K":[2.31,0.82,1],"Ca":[1.976,1,2],"Sc":[1.641,1.36,3],"Ti":[1.462,1.54,4],"V":[1.316,1.63,5],"Cr":[1.249,1.66,6],"Mn":[1.35,1.55,7],"Fe":[1.241,1.83,8],"Co":[1.251,1.88,9],"Ni":[1.246,1.91,10],"Cu":[1.278,1.9,11],"Zn":[1.395,1.65,12],"Ga":[1.392,1.81,3],"Ge":[1.24,2.01,4],"Se":[1.4,2.55,6],"Rb":[2.44,0.82,1],"Sr":[2.152,0.95,2],"Y":[1.802,1.22,3],"Zr":[1.603,1.33,4],"Nb":[1.429,1.6,5],"Mo":[1.363,2.16,6],"Tc":[1.36,1.9,7],"Ru":[1.338,2.2,8],"Rh":[1.345,2.28,9],"Pd":[1.375,2.2,10],"Ag":[1.445,1.93,11],"Cd":[1.568,1.69,12],"In":[1.659,1.78,3],"Sn":[1.62,1.96,4],"Te":[1.452,2.1,6],"Cs":[2.65,0.79,1],"Ba":[2.176,0.89,2],"La":[1.879,1.1,3],"Ce":[1.825,1.12,3],"Pr":[1.65,1.13,3],"Nd":[1.64,1.14,3],"Pm":[1.63,1.13,3],"Sm":[1.81,1.17,3],"Eu":[1.984,1.2,3],"Gd":[1.801,1.2,3],"Tb":[1.781,1.1,3],"Dy":[1.774,1.22,3],"Ho":[1.766,1.23,3],"Er":[1.756,1.24,3],"Tm":[1.56,1.25,3],"Yb":[1.7,1.1,3],"Lu":[1.735,1.27,3],"Hf":[1.578,1.3,4],"Ta":[1.43,1.5,5],"W":[1.367,2.36,6],"Re":[1.375,1.9,7],"Os":[1.352,2.2,8],"Ir":[1.357,2.2,9],"Pt":[1.387,2.28,10],"Au":[1.442,2.54,11],"Tl":[1.716,1.62,3],"Pb":[1.75,2.33,4],"Po":[1.53,2,6],"Th":[1.8,1.3,3],"Pa":[1.61,1.5,3],"U":[1.42,1.38,3]};
+
+
+const L = {
+ tr:{title:"HEA Alaşım Hesaplayıcı",formula:"Bileşim (örnek: Fe29Mn33Al15Ni14Cu9 veya CoCrFeMnNi):",
+  override:"Elle entalpi girişi (veri tabanında olmayan çiftler için, isteğe bağlı):",
+  calc:"Hesapla",delta:"δ — atomik boyut farkı (%)",dchi:"Δχ — elektronegatiflik farkı",
+  vec:"VEC — valans elektron konsantrasyonu",dh:"ΔH_mix (kJ/mol)",ds:"ΔS_mix (J/(mol·K))",
+  pairs:"Kullanılan ikili entalpiler (kJ/mol)",frac:"Atomik kesirler: ",
+  src:"ΔH verisi: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema modeli, 75 element, 2628 çift). Hesap: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
+  e_parse:"Bileşim çözümlenemedi.",e_empty:"Bileşim alanı boş — soluk yazı sadece örnektir, kutuya kendi bileşiminizi yazın (örnek: CoCrFeMnNi).",e_unknown:"Özellik tablosunda olmayan element(ler): ",
+  e_missing:"Entalpi verisi olmayan çift(ler): ",e_missing2:" — elle giriş alanından tanımlayabilirsiniz (örnek: Fe-O=-15).",
+  e_override:"Elle giriş çözümlenemedi: "},
+ en:{title:"HEA Alloy Calculator",formula:"Composition (e.g. Fe29Mn33Al15Ni14Cu9 or CoCrFeMnNi):",
+  override:"Manual enthalpy input (for pairs missing from database, optional):",
+  calc:"Calculate",delta:"δ — atomic size difference (%)",dchi:"Δχ — electronegativity difference",
+  vec:"VEC — valence electron concentration",dh:"ΔH_mix (kJ/mol)",ds:"ΔS_mix (J/(mol·K))",
+  pairs:"Binary enthalpies used (kJ/mol)",frac:"Atomic fractions: ",
+  src:"ΔH data: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema model, 75 elements, 2628 pairs). Calculation: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
+  e_parse:"Could not parse composition.",e_empty:"Composition field is empty — the faint text is only an example; type your own composition (e.g. CoCrFeMnNi).",e_unknown:"Element(s) missing from property table: ",
+  e_missing:"Pair(s) with no enthalpy data: ",e_missing2:" — you can define them in the manual input field (e.g. Fe-O=-15).",
+  e_override:"Could not parse manual input: "}
+};
+let lang = "tr";
+const R = 8.3145;
+
+function setLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.getElementById("btn_tr").className = l==="tr"?"on":"";
+  document.getElementById("btn_en").className = l==="en"?"on":"";
+  const t = L[l];
+  for (const id of ["title","formula","override","calc","delta","dchi","vec","dh","ds","pairs","src"])
+    document.getElementById("t_"+id).textContent = t[id];
+  document.title = t.title + " — Magnetelligence Lab";
+  if (lastRes) render(lastRes);
+}
+
+function parseFormula(s){
+  s = s.replace(/,/g," ").trim();
+  const comp = {};
+  const re = /([A-Z][a-z]?)\s*([0-9]*\.?[0-9]*)/g;
+  let m2, found=false;
+  while ((m2 = re.exec(s)) !== null){
+    if (!m2[1]) continue;
+    found = true;
+    const v = m2[2] ? parseFloat(m2[2]) : 1.0;
+    comp[m2[1]] = (comp[m2[1]]||0) + v;
+    if (m2.index === re.lastIndex) re.lastIndex++;
+  }
+  return found ? comp : null;
+}
+
+function parseOverrides(s){
+  const out = {};
+  if (!s.trim()) return out;
+  for (const chunk of s.split(/[;\n]+/)){
+    const c = chunk.trim();
+    if (!c) continue;
+    const m2 = c.match(/^([A-Z][a-z]?)\s*-\s*([A-Z][a-z]?)\s*=\s*(-?[0-9]*\.?[0-9]+)$/);
+    if (!m2) throw L[lang].e_override + "'" + c + "'";
+    out[[m2[1],m2[2]].sort().join("-")] = parseFloat(m2[3]);
+  }
+  return out;
+}
+
+function getDH(a,b,ov){
+  const k = [a,b].sort().join("-");
+  if (k in ov) return ov[k];
+  if (k in DHMIX) return DHMIX[k];
+  return null;
+}
+
+let lastRes = null;
+
+function calc(){
+  const errbox = document.getElementById("errbox");
+  errbox.style.display = "none";
+  document.getElementById("results").style.display = "none";
+  const t = L[lang];
+  try{
+    const raw = document.getElementById("formula").value;
+    if (!raw.trim()) throw t.e_empty;
+    const comp = parseFormula(raw);
+    if (!comp) throw t.e_parse;
+    const ov = parseOverrides(document.getElementById("override").value);
+    const unknown = Object.keys(comp).filter(e => !(e in PROPS));
+    if (unknown.length) throw t.e_unknown + unknown.join(", ");
+    let total = 0;
+    for (const e in comp) total += comp[e];
+    if (total <= 0) throw t.e_parse;
+    const c = {};
+    for (const e in comp) if (comp[e] > 0) c[e] = comp[e]/total;
+    const els = Object.keys(c);
+
+    const missing = [];
+    for (let i=0;i<els.length;i++) for (let j=i+1;j<els.length;j++)
+      if (getDH(els[i],els[j],ov) === null) missing.push(els[i]+"-"+els[j]);
+    if (missing.length) throw t.e_missing + missing.join(", ") + t.e_missing2;
+
+    let chiAvg=0, vec=0, rAvg=0;
+    for (const e of els){ chiAvg += c[e]*PROPS[e][1]; vec += c[e]*PROPS[e][2]; rAvg += c[e]*PROPS[e][0]; }
+    let dchi=0, delta=0;
+    for (const e of els){ dchi += c[e]*Math.pow(PROPS[e][1]-chiAvg,2); delta += c[e]*Math.pow(1-PROPS[e][0]/rAvg,2); }
+    dchi = Math.sqrt(dchi); delta = 100*Math.sqrt(delta);
+    let dh=0;
+    const pairs=[];
+    for (let i=0;i<els.length;i++) for (let j=i+1;j<els.length;j++){
+      const v = getDH(els[i],els[j],ov);
+      dh += 4*v*c[els[i]]*c[els[j]];
+      pairs.push([els[i],els[j],v]);
+    }
+    let ds=0;
+    for (const e of els) ds += c[e]*Math.log(c[e]);
+    ds = -R*ds;
+
+    lastRes = {c, delta, dchi, vec, dh, ds, pairs,
+               name: document.getElementById("formula").value.trim()};
+    render(lastRes);
+  }catch(err){
+    errbox.textContent = typeof err === "string" ? err : String(err);
+    errbox.style.display = "block";
+  }
+}
+
+function render(r){
+  const t = L[lang];
+  document.getElementById("res_name").textContent = r.name;
+  document.getElementById("res_frac").textContent = t.frac +
+    Object.keys(r.c).sort().map(e => e+" "+r.c[e].toFixed(4)).join("  ");
+  document.getElementById("v_delta").textContent = r.delta.toFixed(4);
+  document.getElementById("v_dchi").textContent = r.dchi.toFixed(4);
+  document.getElementById("v_vec").textContent = r.vec.toFixed(4);
+  document.getElementById("v_dh").textContent = r.dh.toFixed(4);
+  document.getElementById("v_ds").textContent = r.ds.toFixed(4) + "  (" + (r.ds/R).toFixed(3) + " R)";
+  const pb = document.getElementById("pairbox");
+  pb.innerHTML = "";
+  for (const [a,b,v] of r.pairs){
+    const sp = document.createElement("span");
+    sp.className = "pair" + (v>0?" p":(Math.abs(v)<=2?" z":""));
+    sp.textContent = a+"–"+b+": "+v;
+    pb.appendChild(sp);
+  }
+  document.getElementById("results").style.display = "block";
+}
+
+document.getElementById("formula").addEventListener("keydown", e => { if (e.key==="Enter") calc(); });
+document.getElementById("override").addEventListener("keydown", e => { if (e.key==="Enter") calc(); });
+setLang("tr");
+</script>
+</body>
+</html>

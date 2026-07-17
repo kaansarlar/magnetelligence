@@ -3,25 +3,95 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tools | Element Percentage and Weighing Calculator</title>
+<title>Araçlar | Magnetelligence Lab</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f5f5f5;margin:24px;color:#222}.box{max-width:1080px;margin:auto;background:#fff;padding:22px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.15)}h1{margin-top:0}label{font-weight:bold;display:block;margin-top:14px}textarea,input{font-size:16px;padding:9px;width:100%;box-sizing:border-box;margin-top:5px}textarea{min-height:72px;font-family:Consolas,monospace}button{font-size:15px;padding:10px 14px;margin-top:14px;border:0;border-radius:8px;background:#245ec4;color:#fff;cursor:pointer}button.gray{background:#555;margin-left:8px}button.green{background:#177245;margin-left:8px}button.lang{background:#7b3fb5;margin-left:8px}table{border-collapse:collapse;width:100%;margin-top:18px}th,td{border:1px solid #ddd;padding:8px;text-align:center}th{background:#eee}.out{margin-top:16px;background:#f0f5ff;padding:12px;border-radius:8px}.warn{margin-top:12px;background:#fff5d6;padding:10px;border-radius:8px;color:#5b4300}.err{color:#b00020;font-weight:bold;margin-top:10px}.mono{font-family:Consolas,monospace;word-break:break-all;white-space:pre-wrap}.small{font-size:14px;color:#555;line-height:1.45}.flex{display:grid;grid-template-columns:2fr 1fr;gap:14px}.mode{background:#f8f8f8;border:1px solid #ddd;border-radius:8px;padding:12px;margin-top:12px}.mode label{display:inline;font-weight:normal;margin-right:22px}.footer{margin-top:18px;font-size:13px;color:#666;border-top:1px solid #ddd;padding-top:12px}@media(max-width:700px){.flex{grid-template-columns:1fr}button{display:block;margin-left:0!important;width:100%}}
+:root{--bg:#0a0f1e;--surface:#131c34;--border:rgba(148,163,184,.12);--border-hover:rgba(34,211,238,.4);
+--accent:#22d3ee;--accent-2:#818cf8;--text:#f1f5f9;--dim:#94a3b8;--radius:18px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Segoe UI",system-ui,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px;line-height:1.6;}
+.wrap{max-width:860px;margin:0 auto;}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+.home{color:var(--dim);text-decoration:none;font-size:.92rem;transition:color .2s;}
+.home:hover{color:var(--accent);}
+.lang button{border:1px solid var(--border);background:transparent;color:var(--dim);padding:5px 14px;cursor:pointer;font-size:.85rem;border-radius:8px 0 0 8px;}
+.lang button:last-child{border-radius:0 8px 8px 0;border-left:none;}
+.lang button.on{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:600;}
+h1{font-size:1.7rem;font-weight:700;margin-bottom:6px;
+background:linear-gradient(120deg,#22d3ee 0%,#818cf8 55%,#f472b6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sub{color:var(--dim);margin-bottom:30px;font-size:.98rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;}
+a.card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+padding:26px 24px;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s;}
+a.card:hover{border-color:var(--border-hover);transform:translateY(-3px);}
+.icon{font-size:2rem;margin-bottom:12px;}
+.card h2{font-size:1.15rem;margin-bottom:8px;color:var(--text);}
+.card p{color:var(--dim);font-size:.92rem;margin-bottom:14px;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{font-size:.75rem;padding:3px 10px;border-radius:999px;border:1px solid var(--border);color:var(--accent);}
+.open{display:inline-block;margin-top:16px;color:var(--accent);font-size:.9rem;font-weight:600;}
+footer{margin-top:36px;color:var(--dim);font-size:.8rem;border-top:1px solid var(--border);padding-top:16px;}
+.lang-en,.lang-tr{display:none;}
+html[lang="en"] .lang-en{display:inline;}
+html[lang="tr"] .lang-tr{display:inline;}
 </style>
 </head>
 <body>
-<div class="box">
-<div style="text-align:right"><button class="lang" onclick="setLang('tr')">Türkçe</button><button class="lang" onclick="setLang('en')">English</button></div>
-<h1 id="title">Element Yüzde ve Tartım Hesaplayıcı</h1>
-<p class="small" id="intro">Bu hesaplayıcı iki farklı hesaplama yapar: formül/mol oranından ağırlıkça yüzde ve tartım hesabı; veya literatürde verilen wt.% değerlerinden doğrudan tartım hesabı.</p>
-<div class="mode"><b id="modeTitle">Hesap modu:</b><br><label><input type="radio" name="mode" value="formula" checked onchange="updateExample()"> <span id="modeFormula">Formül / mol oranı → wt.% → gram</span></label><label><input type="radio" name="mode" value="wt" onchange="updateExample()"> <span id="modeWt">Literatür wt.% → gram</span></label></div>
-<div class="flex"><div><label id="inputLabel">Formül / mol oranı</label><textarea id="composition">Mn0.5Fe0.5Ni0.80Cu0.20Si</textarea></div><div><label id="massLabel">Üretilecek toplam kütle, g</label><input id="mass" value="3"></div></div>
-<button id="calcBtn" onclick="calc()">Hesapla</button><button id="copyCompBtn" class="gray" onclick="copyComp()">Kompozisyon string kopyala</button><button id="copyWeightsBtn" class="green" onclick="copyWeights()">Tartım listesini kopyala</button>
-<div class="warn" id="modeHelp">Formül modu: Sayılar mol oranı kabul edilir. Program atom kütleleriyle wt.% hesaplar.</div><div id="err" class="err"></div><div id="res"></div><div class="footer" id="footerText">Not: Bu araç genel hesaplama amaçlıdır. Saflık düzeltmesi yapılacaksa tartım miktarı ayrıca saflık oranına göre düzeltilmelidir.</div>
+<div class="wrap">
+<header>
+  <a class="home" href="index.html">← Magnetelligence Lab</a>
+  <div class="lang">
+    <button id="btn_tr" onclick="setLang('tr')">Türkçe</button>
+    <button id="btn_en" onclick="setLang('en')">English</button>
+  </div>
+</header>
+
+<h1><span class="lang-en">Lab Tools</span><span class="lang-tr">Laboratuvar Araçları</span></h1>
+<p class="sub">
+  <span class="lang-en">Open, browser-based calculators developed within the Magnetelligence Lab. No installation required — all computations run locally in your browser.</span>
+  <span class="lang-tr">Magnetelligence Lab bünyesinde geliştirilen açık, tarayıcı tabanlı hesaplayıcılar. Kurulum gerekmez — tüm hesaplamalar tarayıcınızda yerel olarak çalışır.</span>
+</p>
+
+<div class="grid">
+  <a class="card" href="hea_calculator.html">
+    <div class="icon">🧮</div>
+    <h2><span class="lang-en">HEA Alloy Calculator</span><span class="lang-tr">HEA Alaşım Hesaplayıcı</span></h2>
+    <p>
+      <span class="lang-en">Phase-formation parameters for high-entropy alloys from composition: δ, Δχ, VEC, ΔH<sub>mix</sub> and ΔS<sub>mix</sub>. 2628 binary enthalpy pairs (Takeuchi &amp; Inoue, 2005) embedded.</span>
+      <span class="lang-tr">Bileşimden yüksek entropili alaşımların faz oluşum parametreleri: δ, Δχ, VEC, ΔH<sub>mix</sub> ve ΔS<sub>mix</sub>. 2628 ikili entalpi çifti (Takeuchi &amp; Inoue, 2005) gömülü.</span>
+    </p>
+    <div class="tags"><span class="tag">ΔH_mix</span><span class="tag">δ</span><span class="tag">VEC</span><span class="tag">Miedema</span></div>
+    <span class="open"><span class="lang-en">Open tool →</span><span class="lang-tr">Aracı aç →</span></span>
+  </a>
+
+  <a class="card" href="weighing_calculator.html">
+    <div class="icon">⚖️</div>
+    <h2><span class="lang-en">Element Percentage &amp; Weighing Calculator</span><span class="lang-tr">Element Yüzde ve Tartım Hesaplayıcı</span></h2>
+    <p>
+      <span class="lang-en">Convert a formula or molar ratio into wt.% and weighing amounts for arc melting synthesis, or compute weighing amounts directly from literature wt.% values.</span>
+      <span class="lang-tr">Ark ergitme sentezi için formül veya mol oranını wt.% ve tartım miktarlarına dönüştürür; ya da literatürdeki wt.% değerlerinden doğrudan tartım hesaplar.</span>
+    </p>
+    <div class="tags"><span class="tag">wt.%</span><span class="tag">Arc melting</span><span class="tag">118 <span class="lang-en">elements</span><span class="lang-tr">element</span></span></div>
+    <span class="open"><span class="lang-en">Open tool →</span><span class="lang-tr">Aracı aç →</span></span>
+  </a>
 </div>
+
+<footer>
+  <span class="lang-en">Magnetelligence Lab · TÜBİTAK 3501 · Project 125F375 · Karamanoğlu Mehmetbey University</span>
+  <span class="lang-tr">Magnetelligence Lab · TÜBİTAK 3501 · Proje 125F375 · Karamanoğlu Mehmetbey Üniversitesi</span>
+</footer>
+</div>
+
 <script>
-const M={H:1.008,He:4.0026,Li:6.94,Be:9.0122,B:10.81,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.180,Na:22.990,Mg:24.305,Al:26.982,Si:28.085,P:30.974,S:32.06,Cl:35.45,Ar:39.948,K:39.098,Ca:40.078,Sc:44.956,Ti:47.867,V:50.942,Cr:51.996,Mn:54.938,Fe:55.845,Co:58.933,Ni:58.693,Cu:63.546,Zn:65.38,Ga:69.723,Ge:72.630,As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62,Y:88.906,Zr:91.224,Nb:92.906,Mo:95.95,Tc:98.0,Ru:101.07,Rh:102.91,Pd:106.42,Ag:107.87,Cd:112.41,In:114.82,Sn:118.71,Sb:121.76,Te:127.60,I:126.90,Xe:131.29,Cs:132.91,Ba:137.33,La:138.91,Ce:140.12,Pr:140.91,Nd:144.24,Pm:145.0,Sm:150.36,Eu:151.96,Gd:157.25,Tb:158.93,Dy:162.50,Ho:164.93,Er:167.26,Tm:168.93,Yb:173.05,Lu:174.97,Hf:178.49,Ta:180.95,W:183.84,Re:186.21,Os:190.23,Ir:192.22,Pt:195.08,Au:196.97,Hg:200.59,Tl:204.38,Pb:207.2,Bi:208.98,Po:209.0,At:210.0,Rn:222.0,Fr:223.0,Ra:226.0,Ac:227.0,Th:232.04,Pa:231.04,U:238.03,Np:237.0,Pu:244.0,Am:243.0,Cm:247.0,Bk:247.0,Cf:251.0,Es:252.0,Fm:257.0,Md:258.0,No:259.0,Lr:266.0,Rf:267.0,Db:268.0,Sg:269.0,Bh:270.0,Hs:270.0,Mt:278.0,Ds:281.0,Rg:282.0,Cn:285.0,Nh:286.0,Fl:289.0,Mc:290.0,Lv:293.0,Ts:294.0,Og:294.0};
-const texts={tr:{title:"Element Yüzde ve Tartım Hesaplayıcı",intro:"Bu hesaplayıcı iki farklı hesaplama yapar: formül/mol oranından ağırlıkça yüzde ve tartım hesabı; veya literatürde verilen wt.% değerlerinden doğrudan tartım hesabı.",modeTitle:"Hesap modu:",modeFormula:"Formül / mol oranı → wt.% → gram",modeWt:"Literatür wt.% → gram",inputFormula:"Formül / mol oranı",inputWt:"Literatür wt.% değerleri",massLabel:"Üretilecek toplam kütle, g",calc:"Hesapla",copyComp:"Kompozisyon string kopyala",copyWeights:"Tartım listesini kopyala",helpFormula:"Formül modu: Sayılar mol oranı kabul edilir. Program atom kütleleriyle wt.% hesaplar. Tanınmayan element sembolü girilirse hata mesajı verir.",helpWt:"Literatür wt.% modu: Sayılar zaten ağırlıkça yüzde kabul edilir. Atom kütleleri kullanılmaz. Yine de yanlış element sembolü/typo kontrolü için element sembolleri doğrulanır.",thElement:"Element",thInput:"Giriş",thWt:"Normalize wt.%",thGram:"Tartılacak kütle, g",thMg:"Tartılacak kütle, mg",thTotal:"Toplam",outputComp:"Normalize kompozisyon string, wt.%",weighingSummary:"Tartım özeti:",formulaMode:"Formül/mol oranı",wtMode:"Literatür wt.%",totalMass:"Toplam üretim kütlesi",copiedComp:"Kompozisyon kopyalandı: ",copiedWeights:"Tartım listesi kopyalandı.",errMass:"Toplam kütle pozitif olmalı. Örnek: 2, 3, 4.5 veya 5",errAtomic:"Element sembolü tanınmadı veya atom kütlesi listede yok: ",errFormula:"Formül okunamadı. Örnek: Mn0.5Fe0.5Ni0.80Cu0.20Si",errWt:"Girdi okunamadı. Örnek: Mn19.19Fe19.51Ni32.80 veya satır satır Mn 19.19",noteWt:"Not: Literatür wt.% toplamı 100'den küçük/büyük girilirse program normalize eder. Örneğin toplam 99.8 ise oranları 100'e ölçekler.",footer:"Not: Bu araç genel hesaplama amaçlıdır. Saflık düzeltmesi yapılacaksa tartım miktarı ayrıca saflık oranına göre düzeltilmelidir. Tüm 118 element sembolü tanınır; sentetik/radyoaktif elementlerde yaklaşık kütle numaraları kullanılmıştır."},en:{title:"Element Percentage and Weighing Calculator",intro:"This calculator performs two workflows: converting a formula/molar ratio into weight percent and weighing amounts; or directly converting literature wt.% values into weighing amounts.",modeTitle:"Calculation mode:",modeFormula:"Formula / molar ratio → wt.% → grams",modeWt:"Literature wt.% → grams",inputFormula:"Formula / molar ratio",inputWt:"Literature wt.% values",massLabel:"Target total sample mass, g",calc:"Calculate",copyComp:"Copy composition string",copyWeights:"Copy weighing list",helpFormula:"Formula mode: The numbers are interpreted as molar ratios. The program uses atomic masses to calculate wt.% values. If an unknown element symbol is entered, an error message is shown.",helpWt:"Literature wt.% mode: The numbers are already interpreted as weight percent values. Atomic masses are not used, but element symbols are still validated to catch typos.",thElement:"Element",thInput:"Input",thWt:"Normalized wt.%",thGram:"Mass to weigh, g",thMg:"Mass to weigh, mg",thTotal:"Total",outputComp:"Normalized composition string, wt.%",weighingSummary:"Weighing summary:",formulaMode:"Formula/molar ratio",wtMode:"Literature wt.%",totalMass:"Target total sample mass",copiedComp:"Composition copied: ",copiedWeights:"Weighing list copied.",errMass:"Total mass must be positive. Example: 2, 3, 4.5 or 5",errAtomic:"Element symbol is not recognized or atomic mass is missing: ",errFormula:"Formula could not be parsed. Example: Mn0.5Fe0.5Ni0.80Cu0.20Si",errWt:"Input could not be parsed. Example: Mn19.19Fe19.51Ni32.80 or line-by-line Mn 19.19",noteWt:"Note: If the entered literature wt.% values do not sum exactly to 100, the program normalizes them. For example, a sum of 99.8 is scaled to 100.",footer:"Note: This tool is intended for general calculation. If purity correction is required, the weighing amount should be additionally corrected according to the purity value. All 118 element symbols are recognized; approximate mass numbers are used for synthetic/radioactive elements."}};
-let lang="tr",compString="",weightString="";function t(k){return texts[lang][k]}function selectedMode(){return document.querySelector('input[name="mode"]:checked').value}function validateElement(el){if(!(el in M))throw new Error(t("errAtomic")+el)}function setLang(l){lang=l;document.documentElement.lang=l;["title","intro","modeTitle","modeFormula","modeWt","massLabel","calcBtn","copyCompBtn","copyWeightsBtn","footerText"].forEach(id=>{});document.getElementById("title").textContent=t("title");document.getElementById("intro").textContent=t("intro");document.getElementById("modeTitle").textContent=t("modeTitle");document.getElementById("modeFormula").textContent=t("modeFormula");document.getElementById("modeWt").textContent=t("modeWt");document.getElementById("massLabel").textContent=t("massLabel");document.getElementById("calcBtn").textContent=t("calc");document.getElementById("copyCompBtn").textContent=t("copyComp");document.getElementById("copyWeightsBtn").textContent=t("copyWeights");document.getElementById("footerText").textContent=t("footer");const mode=selectedMode();document.getElementById("inputLabel").textContent=mode==="formula"?t("inputFormula"):t("inputWt");document.getElementById("modeHelp").innerHTML=mode==="formula"?t("helpFormula"):t("helpWt");calc()}function updateExample(){const mode=selectedMode();if(mode==="formula"){document.getElementById("inputLabel").textContent=t("inputFormula");document.getElementById("composition").value="Mn0.5Fe0.5Ni0.80Cu0.20Si";document.getElementById("modeHelp").innerHTML=t("helpFormula")}else{document.getElementById("inputLabel").textContent=t("inputWt");document.getElementById("composition").value="Mn19.19Fe19.51Ni32.80Cu8.88Si19.62";document.getElementById("modeHelp").innerHTML=t("helpWt")}calc()}function parseElementNumbers(text){text=text.replace(/,/g,".").replace(/[=;:]/g," ");const compact=text.replace(/\s+/g,"");const re=/([A-Z][a-z]?)([0-9]*\.?[0-9]+)/g;let arr=[],rebuilt="",m;while((m=re.exec(compact))!==null){const el=m[1];validateElement(el);arr.push({el:el,n:parseFloat(m[2])});rebuilt+=m[1]+m[2]}if(arr.length===0||rebuilt!==compact){const parts=text.trim().split(/\s+/);arr=[];if(parts.length%2!==0)throw new Error(t("errWt"));for(let i=0;i<parts.length;i+=2){const el=parts[i],val=parseFloat(parts[i+1]);if(!/^[A-Z][a-z]?$/.test(el)||!(val>=0))throw new Error(t("errWt"));validateElement(el);arr.push({el:el,n:val})}}return arr}function parseFormula(f){f=f.replace(/\s+/g,"");const re=/([A-Z][a-z]?)([0-9]*\.?[0-9]*)/g;let arr=[],rebuilt="",m;while((m=re.exec(f))!==null){const el=m[1],n=m[2]?parseFloat(m[2]):1;validateElement(el);arr.push({el:el,n:n,am:M[el]});rebuilt+=el+m[2]}if(rebuilt!==f)throw new Error(t("errFormula"));return arr}function calc(){document.getElementById("err").textContent="";document.getElementById("res").innerHTML="";compString="";weightString="";try{const mode=selectedMode(),input=document.getElementById("composition").value.trim(),totalMass=parseFloat(document.getElementById("mass").value.replace(",","."));if(!(totalMass>0))throw new Error(t("errMass"));let rows=[];if(mode==="formula"){const arr=parseFormula(input),denom=arr.reduce((s,x)=>s+x.n*x.am,0);rows=arr.map(x=>{const wt=100*x.n*x.am/denom;return{el:x.el,wt:wt,note:`${x.n} molar ratio`}})}else{const arr=parseElementNumbers(input),sum=arr.reduce((s,x)=>s+x.n,0);if(!(sum>0))throw new Error(t("errWt"));rows=arr.map(x=>({el:x.el,wt:100*x.n/sum,note:`wt.% = ${x.n}`}))}let sumWt=rows.reduce((s,x)=>s+x.wt,0),sumG=0,html=`<table><tr><th>${t("thElement")}</th><th>${t("thInput")}</th><th>${t("thWt")}</th><th>${t("thGram")}</th><th>${t("thMg")}</th></tr>`,parts=[],weightLines=[`Input: ${input}`,`Mode: ${mode==="formula"?t("formulaMode"):t("wtMode")}`,`${t("totalMass")}: ${totalMass.toFixed(4)} g`,""];rows.forEach(x=>{const g=totalMass*x.wt/100,mg=g*1000;sumG+=g;parts.push(x.el+x.wt.toFixed(2));weightLines.push(`${x.el}: ${g.toFixed(5)} g  (${mg.toFixed(2)} mg)`);html+=`<tr><td>${x.el}</td><td>${x.note}</td><td>${x.wt.toFixed(4)}</td><td><b>${g.toFixed(5)}</b></td><td>${mg.toFixed(2)}</td></tr>`});html+=`<tr><th colspan="2">${t("thTotal")}</th><th>${sumWt.toFixed(4)}</th><th>${sumG.toFixed(5)}</th><th>${(sumG*1000).toFixed(2)}</th></tr></table>`;compString=parts.join("");weightString=weightLines.join("\n");html+=`<div class="out"><b>${t("outputComp")}:</b><br><span class="mono">${compString}</span><br><br><b>${t("weighingSummary")}</b><br><pre class="mono">${weightString}</pre></div>`;if(mode==="wt")html+=`<div class="warn">${t("noteWt")}</div>`;document.getElementById("res").innerHTML=html}catch(e){document.getElementById("err").textContent=e.message}}function copyComp(){if(!compString)calc();if(compString)navigator.clipboard.writeText(compString).then(()=>alert(t("copiedComp")+compString))}function copyWeights(){if(!weightString)calc();if(weightString)navigator.clipboard.writeText(weightString).then(()=>alert(t("copiedWeights")))}setLang("tr");
+function setLang(l){
+  document.documentElement.lang = l;
+  document.getElementById("btn_tr").className = l==="tr"?"on":"";
+  document.getElementById("btn_en").className = l==="en"?"on":"";
+  document.title = (l==="tr"?"Araçlar":"Tools") + " | Magnetelligence Lab";
+  try{ localStorage.setItem("preferred-lang", l); }catch(e){}
+}
+let saved = "tr";
+try{ saved = localStorage.getItem("preferred-lang") || "tr"; }catch(e){}
+setLang(saved === "en" ? "en" : "tr");
 </script>
 </body>
 </html>
