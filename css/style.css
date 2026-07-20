@@ -673,3 +673,14 @@ footer {
     section { padding: 4.5rem 1.3rem 1.5rem; }
     .pub-card { flex-direction: column; gap: 0.6rem; }
 }
+
+/* ============ PRESENTATION PHOTOS ============ */
+.pres-desc { margin-top: 10px; }
+.pres-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.pres-photos a { display: block; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+.pres-photos img { width: 100%; height: 190px; object-fit: cover; display: block; transition: transform .3s ease; }
+.pres-photos a:hover img { transform: scale(1.05); }
+@media (max-width: 640px) {
+    .pres-photos { grid-template-columns: 1fr; }
+    .pres-photos img { height: 230px; }
+}
