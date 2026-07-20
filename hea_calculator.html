@@ -181,11 +181,15 @@ function calc(){
     // Nominal atomik kesirler (her zaman raporlanir)
     const nom = {};
     for (const e in positive) nom[e] = positive[e]/total;
-    // Otomatik taban secimi (HEA_TcRuler.choose_descriptor_composition ile ayni):
-    // toplam ~1 (kesir), ~100 (at.%) veya tum katsayilar 1 (esatomlu) -> dogrudan atomik;
-    // aksi halde nominal katsayilar atom kutlesiyle normalize edilir (makale-uyumlu, wt.%).
-    const allOne = Object.values(positive).every(v => Math.abs(v-1) < 1e-9);
-    const direct = allOne || Math.abs(total-1) <= 0.01 || Math.abs(total-100) <= 0.5;
+    // Otomatik taban secimi (HEA_TcRuler.choose_descriptor_composition genisletilmis hali):
+    // - tum katsayilar esit (esatomlu, orn. CoCrFeMnNi, Al5Fe5Cu5) -> dogrudan atomik
+    // - toplam ~1 (kesir) -> dogrudan atomik
+    // - toplam >= 20 (yuzde tarzi alt indisler; at.% 100'e tamamlanmasa da, orn. Er20Gd20Dy20Co20Al2) -> dogrudan atomik
+    // - aksi halde (kucuk katsayili stokiyometrik formul, orn. Mn0.6Ni0.55Si0.62..., Gd5Si2Ge2)
+    //   nominal katsayilar atom kutlesiyle normalize edilir (makale-uyumlu, wt.%).
+    const vals = Object.values(positive);
+    const allEqual = vals.every(v => Math.abs(v - vals[0]) < 1e-9);
+    const direct = allEqual || Math.abs(total-1) <= 0.01 || total >= 20;
     let c;
     if (direct){
       c = nom;
