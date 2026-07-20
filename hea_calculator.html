@@ -19,11 +19,6 @@ label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px;}
 input[type=text]{width:100%;padding:9px 11px;font-size:1rem;border:1px solid var(--line);border-radius:7px;font-family:Consolas,monospace;}
 input[type=text]:focus{outline:2px solid var(--acc);border-color:var(--acc);}
 input[type=text]::placeholder{color:#b8b8b2;font-style:italic;}
-.mode-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:8px;font-size:.9rem;}
-.mode-row>span{color:var(--muted);}
-.mode-opt{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:.9rem;color:inherit;cursor:pointer;}
-.mode-opt input{accent-color:var(--acc);cursor:pointer;}
-.mode-help{font-size:.8rem;color:var(--muted);margin-top:5px;font-style:italic;}
 .row{display:flex;gap:12px;flex-wrap:wrap;}
 .row>div{flex:1;min-width:200px;}
 button.go{margin-top:14px;background:var(--acc);color:#fff;border:none;padding:10px 26px;font-size:1rem;border-radius:7px;cursor:pointer;}
@@ -55,12 +50,6 @@ h2{font-size:1rem;font-weight:600;margin-bottom:6px;}
 <div class="card">
   <label id="t_formula" for="formula"></label>
   <input type="text" id="formula" placeholder="Fe29Mn33Al15Ni14Cu9" autocomplete="off">
-  <div class="mode-row">
-    <span id="t_mode"></span>
-    <label class="mode-opt"><input type="radio" name="cmode" value="at" checked> <span id="t_mode_at"></span></label>
-    <label class="mode-opt"><input type="radio" name="cmode" value="wt"> <span id="t_mode_wt"></span></label>
-  </div>
-  <div class="mode-help" id="t_mode_help"></div>
   <label id="t_override" for="override"></label>
   <input type="text" id="override" placeholder="Fe-O=-15; Ni-O=-20" autocomplete="off">
   <button class="go" id="t_calc" onclick="calc()"></button>
@@ -69,6 +58,8 @@ h2{font-size:1rem;font-weight:600;margin-bottom:6px;}
 
 <div class="card" id="results">
   <h2 id="res_name"></h2>
+  <div class="frac" id="res_basis"></div>
+  <div class="frac" id="res_nominal"></div>
   <div class="frac" id="res_frac"></div>
   <table class="res">
     <tr><td id="t_delta"></td><td id="v_delta"></td></tr>
@@ -94,11 +85,10 @@ const L = {
   override:"Elle entalpi girişi (veri tabanında olmayan çiftler için, isteğe bağlı):",
   calc:"Hesapla",delta:"δ — atomik boyut farkı (%)",dchi:"Δχ — elektronegatiflik farkı",
   vec:"VEC — valans elektron konsantrasyonu",dh:"ΔH_mix (kJ/mol)",ds:"ΔS_mix (J/(mol·K))",
-  pairs:"Kullanılan ikili entalpiler (kJ/mol)",frac:"Atomik kesirler: ",
-  mode:"Sayıların anlamı:",mode_at:"Mol oranı / at.%",mode_wt:"Ağırlıkça yüzde (wt.%)",
-  help_at:"Alt indisler mol oranı / at.% kabul edilir (örn. CoCrFeMnNi, Fe29Mn33Al15Ni14Cu9).",
-  help_wt:"Alt indisler wt.% kabul edilir; hesaptan önce atom kütleleri kullanılarak atomik kesre çevrilir (örn. Mn20.72Ni20.29Si10.94Fe14.04Co16.67Ge17.35).",
-  wtnote:"wt.% girişi atomik kesre dönüştürüldü — xᵢ = (wᵢ/Mᵢ)/Σ(wⱼ/Mⱼ). ",
+  pairs:"Kullanılan ikili entalpiler (kJ/mol)",frac:"HEA hesap kesirleri: ",
+  basis_direct:"Otomatik hesap modu: DOĞRUDAN ATOMİK — girdi zaten kesir/at.% veya eşatomlu formül.",
+  basis_paper:"Otomatik hesap modu: MAKALE-UYUMLU — nominal katsayılar atom kütleleriyle normalize edildi (wt.%).",
+  nomfrac:"Nominal atomik kesirler: ",
   e_mass:"Atom kütlesi tablosunda olmayan element(ler): ",
   src:"ΔH verisi: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema modeli, 75 element, 2628 çift). Hesap: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
   e_parse:"Bileşim çözümlenemedi.",e_empty:"Bileşim alanı boş — soluk yazı sadece örnektir, kutuya kendi bileşiminizi yazın (örnek: CoCrFeMnNi).",e_unknown:"Özellik tablosunda olmayan element(ler): ",
@@ -108,11 +98,10 @@ const L = {
   override:"Manual enthalpy input (for pairs missing from database, optional):",
   calc:"Calculate",delta:"δ — atomic size difference (%)",dchi:"Δχ — electronegativity difference",
   vec:"VEC — valence electron concentration",dh:"ΔH_mix (kJ/mol)",ds:"ΔS_mix (J/(mol·K))",
-  pairs:"Binary enthalpies used (kJ/mol)",frac:"Atomic fractions: ",
-  mode:"Numbers are:",mode_at:"Molar ratio / at.%",mode_wt:"Weight percent (wt.%)",
-  help_at:"Subscripts are interpreted as molar ratios / at.% (e.g. CoCrFeMnNi, Fe29Mn33Al15Ni14Cu9).",
-  help_wt:"Subscripts are interpreted as wt.%; they are converted to atomic fractions using atomic masses before computing (e.g. Mn20.72Ni20.29Si10.94Fe14.04Co16.67Ge17.35).",
-  wtnote:"wt.% input converted to atomic fractions — xᵢ = (wᵢ/Mᵢ)/Σ(wⱼ/Mⱼ). ",
+  pairs:"Binary enthalpies used (kJ/mol)",frac:"HEA calculation fractions: ",
+  basis_direct:"Automatic calculation mode: DIRECT ATOMIC — input is already a fraction/at.% or an equiatomic formula.",
+  basis_paper:"Automatic calculation mode: PAPER-COMPATIBLE — nominal coefficients were normalized by atomic mass (wt.%).",
+  nomfrac:"Nominal atomic fractions: ",
   e_mass:"Element(s) missing from atomic mass table: ",
   src:"ΔH data: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema model, 75 elements, 2628 pairs). Calculation: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
   e_parse:"Could not parse composition.",e_empty:"Composition field is empty — the faint text is only an example; type your own composition (e.g. CoCrFeMnNi).",e_unknown:"Element(s) missing from property table: ",
@@ -128,22 +117,11 @@ function setLang(l){
   document.getElementById("btn_tr").className = l==="tr"?"on":"";
   document.getElementById("btn_en").className = l==="en"?"on":"";
   const t = L[l];
-  for (const id of ["title","formula","override","calc","delta","dchi","vec","dh","ds","pairs","src","mode","mode_at","mode_wt"])
+  for (const id of ["title","formula","override","calc","delta","dchi","vec","dh","ds","pairs","src"])
     document.getElementById("t_"+id).textContent = t[id];
-  updateModeHelp();
   document.title = t.title + " — Magnetelligence Lab";
   if (lastRes) render(lastRes);
 }
-
-function getMode(){
-  return document.querySelector('input[name="cmode"]:checked').value;
-}
-function updateModeHelp(){
-  const t = L[lang];
-  document.getElementById("t_mode_help").textContent = getMode()==="wt" ? t.help_wt : t.help_at;
-}
-for (const r of document.querySelectorAll('input[name="cmode"]'))
-  r.addEventListener("change", updateModeHelp);
 
 function parseFormula(s){
   s = s.replace(/,/g," ").trim();
@@ -195,17 +173,30 @@ function calc(){
     const ov = parseOverrides(document.getElementById("override").value);
     const unknown = Object.keys(comp).filter(e => !(e in PROPS));
     if (unknown.length) throw t.e_unknown + unknown.join(", ");
-    const wtMode = getMode()==="wt";
-    if (wtMode){
-      const noMass = Object.keys(comp).filter(e => !(e in MASS));
-      if (noMass.length) throw t.e_mass + noMass.join(", ");
-      for (const e in comp) comp[e] = comp[e]/MASS[e];
-    }
+    const positive = {};
+    for (const e in comp) if (comp[e] > 0) positive[e] = comp[e];
     let total = 0;
-    for (const e in comp) total += comp[e];
+    for (const e in positive) total += positive[e];
     if (total <= 0) throw t.e_parse;
-    const c = {};
-    for (const e in comp) if (comp[e] > 0) c[e] = comp[e]/total;
+    // Nominal atomik kesirler (her zaman raporlanir)
+    const nom = {};
+    for (const e in positive) nom[e] = positive[e]/total;
+    // Otomatik taban secimi (HEA_TcRuler.choose_descriptor_composition ile ayni):
+    // toplam ~1 (kesir), ~100 (at.%) veya tum katsayilar 1 (esatomlu) -> dogrudan atomik;
+    // aksi halde nominal katsayilar atom kutlesiyle normalize edilir (makale-uyumlu, wt.%).
+    const allOne = Object.values(positive).every(v => Math.abs(v-1) < 1e-9);
+    const direct = allOne || Math.abs(total-1) <= 0.01 || Math.abs(total-100) <= 0.5;
+    let c;
+    if (direct){
+      c = nom;
+    } else {
+      const noMass = Object.keys(positive).filter(e => !(e in MASS));
+      if (noMass.length) throw t.e_mass + noMass.join(", ");
+      const w = {}; let tw = 0;
+      for (const e in positive){ w[e] = positive[e]*MASS[e]; tw += w[e]; }
+      c = {};
+      for (const e in w) c[e] = w[e]/tw;
+    }
     const els = Object.keys(c);
 
     const missing = [];
@@ -229,7 +220,7 @@ function calc(){
     for (const e of els) ds += c[e]*Math.log(c[e]);
     ds = -R*ds;
 
-    lastRes = {c, delta, dchi, vec, dh, ds, pairs, wtMode,
+    lastRes = {c, nom, basis: direct ? "direct" : "paper", delta, dchi, vec, dh, ds, pairs,
                name: document.getElementById("formula").value.trim()};
     render(lastRes);
   }catch(err){
@@ -241,8 +232,10 @@ function calc(){
 function render(r){
   const t = L[lang];
   document.getElementById("res_name").textContent = r.name;
-  document.getElementById("res_frac").textContent = (r.wtMode ? t.wtnote : "") + t.frac +
-    Object.keys(r.c).sort().map(e => e+" "+r.c[e].toFixed(4)).join("  ");
+  const fmt = o => Object.keys(o).sort().map(e => e+" "+o[e].toFixed(4)).join("  ");
+  document.getElementById("res_basis").textContent = r.basis==="direct" ? t.basis_direct : t.basis_paper;
+  document.getElementById("res_nominal").textContent = t.nomfrac + fmt(r.nom);
+  document.getElementById("res_frac").textContent = t.frac + fmt(r.c);
   document.getElementById("v_delta").textContent = r.delta.toFixed(4);
   document.getElementById("v_dchi").textContent = r.dchi.toFixed(4);
   document.getElementById("v_vec").textContent = r.vec.toFixed(4);
