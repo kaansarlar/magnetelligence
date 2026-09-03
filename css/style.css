@@ -373,6 +373,7 @@ section { max-width: 1280px; margin: 0 auto; padding: 6rem 2rem 2rem; }
     padding: 0.25rem 0.9rem; border-radius: 999px; margin-bottom: 0.9rem;
 }
 .team-role-badge.badge-alt { background: rgba(129, 140, 248, 0.9); color: #0b1120; }
+.team-role-badge.badge-student { background: rgba(52, 211, 153, 0.9); color: #06121f; }
 .team-name { font-size: 1.08rem; margin-bottom: 0.5rem; }
 .team-affiliation { color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.2rem; }
 .team-links { display: flex; justify-content: center; gap: 0.7rem; }
@@ -550,6 +551,11 @@ section { max-width: 1280px; margin: 0 auto; padding: 6rem 2rem 2rem; }
 .position-meta {
     display: flex; flex-wrap: wrap; gap: 1.5rem;
     color: var(--text-dim); font-size: 0.92rem; margin-bottom: 1.5rem;
+}
+.position-card.position-closed { border-color: rgba(148, 163, 184, 0.28); }
+.position-badge.badge-closed {
+    color: var(--text-dim); background: rgba(148, 163, 184, 0.14);
+    border: 1px solid rgba(148, 163, 184, 0.35);
 }
 .position-card > p { color: var(--text-dim); margin-bottom: 1rem; }
 .position-columns {
