@@ -86,11 +86,11 @@ const L = {
   calc:"Hesapla",delta:"δ — atomik boyut farkı (%)",dchi:"Δχ — elektronegatiflik farkı",
   vec:"VEC — valans elektron konsantrasyonu",dh:"ΔH_mix (kJ/mol)",ds:"ΔS_mix (J/(mol·K))",
   pairs:"Kullanılan ikili entalpiler (kJ/mol)",frac:"HEA hesap kesirleri: ",
-  basis_direct:"Otomatik hesap modu: DOĞRUDAN ATOMİK — girdi zaten kesir/at.% veya eşatomlu formül.",
+  basis_direct:"Hesap tabanı: ATOMİK KESİR — formüldeki katsayılar mol oranı olarak normalize edilir (Guo ve Liu, 2011 ile aynı).",
   basis_paper:"Otomatik hesap modu: MAKALE-UYUMLU — nominal katsayılar atom kütleleriyle normalize edildi (wt.%).",
   nomfrac:"Nominal atomik kesirler: ",
   e_mass:"Atom kütlesi tablosunda olmayan element(ler): ",
-  src:"ΔH verisi: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema modeli, 75 element, 2628 çift). Hesap: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
+  src:"ΔH verisi: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema modeli, 75 element, 2628 çift). Yarıçap, χ ve VEC: S. Guo ve ark., J. Appl. Phys. 109 (2011) 103505. Hesap yöntemi: S. Guo, C.T. Liu, Prog. Nat. Sci. 21 (2011) 433–446; c_i atomik kesirdir. Hesap: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
   e_parse:"Bileşim çözümlenemedi.",e_empty:"Bileşim alanı boş — soluk yazı sadece örnektir, kutuya kendi bileşiminizi yazın (örnek: CoCrFeMnNi).",e_unknown:"Özellik tablosunda olmayan element(ler): ",
   e_missing:"Entalpi verisi olmayan çift(ler): ",e_missing2:" — elle giriş alanından tanımlayabilirsiniz (örnek: Fe-O=-15).",
   e_override:"Elle giriş çözümlenemedi: "},
@@ -99,11 +99,11 @@ const L = {
   calc:"Calculate",delta:"δ — atomic size difference (%)",dchi:"Δχ — electronegativity difference",
   vec:"VEC — valence electron concentration",dh:"ΔH_mix (kJ/mol)",ds:"ΔS_mix (J/(mol·K))",
   pairs:"Binary enthalpies used (kJ/mol)",frac:"HEA calculation fractions: ",
-  basis_direct:"Automatic calculation mode: DIRECT ATOMIC — input is already a fraction/at.% or an equiatomic formula.",
+  basis_direct:"Calculation basis: ATOMIC FRACTION — formula coefficients are normalized as mole ratios (same as Guo & Liu, 2011).",
   basis_paper:"Automatic calculation mode: PAPER-COMPATIBLE — nominal coefficients were normalized by atomic mass (wt.%).",
   nomfrac:"Nominal atomic fractions: ",
   e_mass:"Element(s) missing from atomic mass table: ",
-  src:"ΔH data: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema model, 75 elements, 2628 pairs). Calculation: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
+  src:"ΔH data: A. Takeuchi, A. Inoue, Mater. Trans. 46 (2005) 2817–2829 (Miedema model, 75 elements, 2628 pairs). Radii, χ and VEC: S. Guo et al., J. Appl. Phys. 109 (2011) 103505. Method: S. Guo, C.T. Liu, Prog. Nat. Sci. 21 (2011) 433–446; c_i is the atomic fraction. Calculation: ΔH_mix = Σ 4·c_i·c_j·ΔH_ij, ΔS_mix = −R·Σ c_i·ln c_i.",
   e_parse:"Could not parse composition.",e_empty:"Composition field is empty — the faint text is only an example; type your own composition (e.g. CoCrFeMnNi).",e_unknown:"Element(s) missing from property table: ",
   e_missing:"Pair(s) with no enthalpy data: ",e_missing2:" — you can define them in the manual input field (e.g. Fe-O=-15).",
   e_override:"Could not parse manual input: "}
@@ -189,7 +189,9 @@ function calc(){
     //   nominal katsayilar atom kutlesiyle normalize edilir (makale-uyumlu, wt.%).
     const vals = Object.values(positive);
     const allEqual = vals.every(v => Math.abs(v - vals[0]) < 1e-9);
-    const direct = allEqual || Math.abs(total-1) <= 0.01 || total >= 20;
+    // HEA parametreleri atomik kesirle tanimlidir (Guo & Liu 2011). Kutle agirlikli eski mod kaldirildi:
+    // Guo 2011 Tablo 2 ile kiyasta yalnizca atomik kesir dogru sonuc veriyor.
+    const direct = true;
     let c;
     if (direct){
       c = nom;
