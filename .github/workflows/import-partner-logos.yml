@@ -1,0 +1,53 @@
+name: Import partner logos
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/import-partner-logos.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install Pillow
+      - name: Download and validate image files
+        shell: python
+        run: |
+          import pathlib, urllib.request, io
+          from PIL import Image
+          urls = {
+            'tubitak': 'https://m2lab.com.tr/img/tubitak.jpg',
+            'kmu': 'https://kmu.edu.tr/Content/AltSayfaCalismasiCssleri/HTML/assets/img/logos/kmu_logo.png',
+            'uludag': 'https://uludag.edu.tr/dosyalar/anasayfa/50_yil_logolar/buu_logo_uludag_png.png',
+            'bilkent': 'https://w3.bilkent.edu.tr/logo/tr-amblem.png',
+            'pamukkale': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Pamukkale_University_logo.svg/1024px-Pamukkale_University_logo.svg.png',
+            'hacettepe': 'https://seekvectors.com/files/download/71a9d79bb508ccc3ba02218b7b903ff6.jpg',
+            'akdeniz': 'https://webis.akdeniz.edu.tr/uploads/1169/kurumsal/Akdeniz_Universitesi.png',
+            'gurbag': 'https://www.ostimsavunma.org/public/images/company/image-0070170.jpg?format=webp',
+          }
+          dst = pathlib.Path('assets/logos')
+          dst.mkdir(parents=True, exist_ok=True)
+          for name, url in urls.items():
+              try:
+                  req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Magnetelligence Lab logo import)'})
+                  with urllib.request.urlopen(req, timeout=15) as response:
+                      data = response.read(5000001)
+                  if len(data)>5000000: raise ValueError('Image too large')
+                  with Image.open(io.BytesIO(data)) as im:
+                      im.load()
+                      im = im.convert('RGBA')
+                      im.thumbnail((512,512))
+                      im.save(dst / (name + '.png'))
+                  print('OK',name)
+              except Exception as exc:
+                  print('FAILED',name,str(exc))
+      - name: Save validated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/logos
+          if git diff --cached --quiet; then echo "No new logo files"; exit 1; fi
+          git commit -m "Store validated partner logo images locally"
+          git push
